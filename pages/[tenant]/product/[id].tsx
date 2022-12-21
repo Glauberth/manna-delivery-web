@@ -75,7 +75,7 @@ const Product = (data: Props) => {
             min={1}
             //small
             //max={10}
-            //iconLixeira
+            iconLixeira
           />
         </div>
         <div
