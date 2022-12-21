@@ -1,0 +1,70 @@
+.container {
+  background-color: #fff;
+}
+
+.header {
+  background-color: #f9f9fb;
+  padding: 50px 24px 30px 24px;
+}
+
+.headerTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 27px;
+}
+
+.imgLogo {
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+  /* margin-right: 15px; */
+  /* width: auto; */
+  /* flex: 1; */
+  /* border: 1px solid #000; */
+  margin-bottom: 25px;
+}
+
+.imgLogo img {
+  max-width: 250px;
+  width: 50%;
+  height: auto;
+}
+
+.headerTitle {
+  font-weight: 500;
+  font-size: 24px;
+  color: #1b1b1b;
+  margin-bottom: 8px;
+}
+
+.headerSubTitle {
+  font-weight: 400;
+  font-size: 16px;
+  color: rgba(151, 151, 151, 0.8);
+}
+
+.menuButtom {
+  width: 18px;
+  height: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.menuButtomLine {
+  background-color: #1b1b1b;
+  height: 2px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin: 0px 24px 0px 24px;
+}
+
+.gridProduct2 {
+  gap: 24px;
+  margin: 0px 24px 0px 24px;
+}
