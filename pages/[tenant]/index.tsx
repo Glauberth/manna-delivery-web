@@ -1,4 +1,5 @@
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../contexts/app";
 import { UseApi } from "../../libs/useApi";
@@ -12,6 +13,8 @@ import styles from "../../styles/Home.module.css";
 const Home = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
 
+  const [dados, setDados] = useState<Product[]>(data.products);
+
   const [products, setProducts] = useState<Product[]>(data.products);
 
   useEffect(() => {
@@ -19,11 +22,21 @@ const Home = (data: Props) => {
   }, []);
 
   function handlerClick(searchValue: string) {
-    alert(`Você está esperando esse valor: ${searchValue}`);
+    let prodFiltrado = dados;
+
+    const results = prodFiltrado.filter((itens) =>
+      itens.name.toLowerCase().includes(searchValue)
+    );
+
+    results ? setProducts(results) : setProducts(dados);
   }
 
   return (
     <div className={styles.container}>
+      <Head>
+        <title>Produtos | {data.tenant.name} </title>
+      </Head>
+
       <header className={styles.header}>
         <div className={styles.imgLogo}>
           <img src={data.tenant.logo} alt="" />
