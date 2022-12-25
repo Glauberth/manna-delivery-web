@@ -18,8 +18,8 @@ export const UseApi = (tenantSlug: string) => ({
       case "manna_glauberth":
         return {
           logo: "https://s.jpimg.com.br/wp-content/themes/jovempan/assets/build/images/favicons/apple-touch-icon.png",
-          slug: "mannaburguer",
-          name: "Manna Burger",
+          slug: "manna_glauberth",
+          name: "manna_glauberth Burger",
           mainColor: "#fcb103",
           secondColor: "#00FFFF",
         };
@@ -59,8 +59,9 @@ export const UseApi = (tenantSlug: string) => ({
             image: "/tmp/burguer.png",
             categoryName: item.NOME,
             name: item.DESCRICAO,
-            description:
-              "O Hamburguer Mais suculento do Brasil, com duas carnes, queijo, cebola, picles e pão com gergelim",
+            description: item.OBSERVACAO
+              ? item.OBSERVACAO
+              : "Preencha a Observação e irá aparecer aqui",
             price: item.PRECOVENDA,
           });
         });
@@ -68,13 +69,13 @@ export const UseApi = (tenantSlug: string) => ({
       .catch((err) => {
         console.log(err);
         console.log("CHEVOU NO CATCH");
-      })
-      .finally(() => {
         for (let q = 0; q < 10; q++) {
           prods.push(TEMPORARYonProduct);
         }
-        console.log("CHEVOU NO FINALLY");
         return prods;
+      })
+      .finally(() => {
+        console.log("CHEVOU NO FINALLY");
       });
     console.log("CHEVOU NO FINAL DO FINAL");
     return prods;
@@ -98,15 +99,15 @@ export const UseApi = (tenantSlug: string) => ({
     let prod: Product[] = [];
 
     await api.get(`/products/${tenantSlug}/${id}`).then((res) => {
-      const { CODPRODUTO, DESCRICAO, PRECOVENDA, NOME } = res.data[0];
+      const { CODPRODUTO, DESCRICAO, PRECOVENDA, NOME, OBSERVACAO } =
+        res.data[0];
 
       prod = [
         {
           id: CODPRODUTO,
           image: "/tmp/burguer.png",
           categoryName: NOME,
-          description:
-            "O Hamburguer Mais suculento do Brasil, com duas carnes, queijo, cebola, picles e pão com gergelim",
+          description: OBSERVACAO,
           name: DESCRICAO,
           price: PRECOVENDA,
         },
