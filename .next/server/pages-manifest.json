@@ -1,15 +1,6 @@
 {
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
-  "/[tenant]/pedidos": "pages/[tenant]/pedidos.html",
-  "/api/hello": "pages/api/hello.js",
-  "/": "pages/index.html",
-  "/[tenant]/forget-success": "pages/[tenant]/forget-success.js",
-  "/[tenant]": "pages/[tenant].js",
-  "/[tenant]/forget": "pages/[tenant]/forget.js",
-  "/[tenant]/login": "pages/[tenant]/login.js",
-  "/[tenant]/signup": "pages/[tenant]/signup.js",
-  "/[tenant]/product/[id]": "pages/[tenant]/product/[id].js",
   "/_document": "pages/_document.js",
-  "/404": "pages/404.html"
+  "/[tenant]": "pages/[tenant].js"
 }

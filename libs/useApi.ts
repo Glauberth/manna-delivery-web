@@ -50,19 +50,33 @@ export const UseApi = (tenantSlug: string) => ({
   getallProducts: async () => {
     let prods: Product[] = [];
 
-    await api.get(`/products/${tenantSlug}`).then((res) => {
-      res.data.forEach((item: any) => {
-        prods.push({
-          id: item.CODPRODUTO,
-          image: "/tmp/burguer.png",
-          categoryName: item.NOME,
-          name: item.DESCRICAO,
-          description:
-            "O Hamburguer Mais suculento do Brasil, com duas carnes, queijo, cebola, picles e pão com gergelim",
-          price: item.PRECOVENDA,
+    await api
+      .get(`/products/${tenantSlug}`)
+      .then((res) => {
+        res.data.forEach((item: any) => {
+          prods.push({
+            id: item.CODPRODUTO,
+            image: "/tmp/burguer.png",
+            categoryName: item.NOME,
+            name: item.DESCRICAO,
+            description:
+              "O Hamburguer Mais suculento do Brasil, com duas carnes, queijo, cebola, picles e pão com gergelim",
+            price: item.PRECOVENDA,
+          });
         });
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("CHEVOU NO CATCH");
+      })
+      .finally(() => {
+        for (let q = 0; q < 10; q++) {
+          prods.push(TEMPORARYonProduct);
+        }
+        console.log("CHEVOU NO FINALLY");
+        return prods;
       });
-    });
+    console.log("CHEVOU NO FINAL DO FINAL");
     return prods;
 
     //Versão antiga
