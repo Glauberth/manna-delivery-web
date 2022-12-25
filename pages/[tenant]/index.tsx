@@ -25,7 +25,7 @@ const Home = (data: Props) => {
     let prodFiltrado = dados;
 
     const results = prodFiltrado.filter((itens) =>
-      itens.name.toLowerCase().includes(searchValue)
+      itens.name.toLowerCase().includes(searchValue.toLowerCase())
     );
 
     results ? setProducts(results) : setProducts(dados);
