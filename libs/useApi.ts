@@ -51,7 +51,7 @@ export const UseApi = (tenantSlug: string) => ({
     let prods: Product[] = [];
 
     await api.get(`/products/${tenantSlug}`).then((res) => {
-      res.data.forEach((item) => {
+      res.data.forEach((item: any) => {
         prods.push({
           id: item.CODPRODUTO,
           image: "/tmp/burguer.png",
