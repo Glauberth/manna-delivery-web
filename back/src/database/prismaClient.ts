@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
 const prisma = (sql: string, nomeBanco?: string) => {
-  const prisma = new PrismaClient({
+  const requestprisma = new PrismaClient({
     datasources: {
       db: {
         url: `mysql://sistema:gsap@manna@web.mannatech.com.br:3306/${nomeBanco}?schema=public`,
@@ -9,6 +9,11 @@ const prisma = (sql: string, nomeBanco?: string) => {
     },
   });
 
-  return prisma.$queryRawUnsafe(sql);
+  try {
+    return requestprisma.$queryRawUnsafe(sql);
+  } catch (error) {
+    console.log(error);
+  }
 };
+
 export { prisma };
