@@ -52,6 +52,15 @@ export const UseApi = (tenantSlug: string) => ({
           secondColor: "#gg0000",
         };
         break;
+      case "adacoley":
+        return {
+          logo: "https://lh3.googleusercontent.com/p/AF1QipNispLOtrASt4ffMfisunFGE5G1eHlRM3pzxQ0o=w1080-h608-p-no-v0",
+          slug: "adacoley",
+          name: "AdaColey",
+          mainColor: "#000",
+          secondColor: "#gg0000",
+        };
+        break;
       default:
         return false;
     }
