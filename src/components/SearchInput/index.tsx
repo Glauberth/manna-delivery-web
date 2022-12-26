@@ -24,11 +24,10 @@ export default function SearchInput({ onSearch }: Props) {
       className={styles.container}
       style={{ borderColor: focused ? tenant?.mainColor : "#FFFFFF" }}
     >
-      <a href="#grid">
-        <div className={styles.button} onClick={() => onSearch(searchValue)}>
-          <SearchIcon color={tenant?.mainColor} />
-        </div>
-      </a>
+      <div className={styles.button} onClick={() => onSearch(searchValue)}>
+        <SearchIcon color={tenant?.mainColor} />
+      </div>
+
       <input
         type="text"
         placeholder="Digte para pesquisar"

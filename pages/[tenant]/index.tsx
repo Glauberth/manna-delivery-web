@@ -71,7 +71,7 @@ const Home = (data: Props) => {
 
       <Banner />
 
-      <div className={styles.gridProduct2} id="grid">
+      <div className={styles.gridProduct2}>
         {products.map((item, index) => (
           <ProductItem key={index} data={item} />
         ))}

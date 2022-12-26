@@ -42,6 +42,16 @@ export const UseApi = (tenantSlug: string) => ({
           mainColor: "#000",
           secondColor: "#gg0000",
         };
+        break;
+      case "biel":
+        return {
+          logo: "https://scontent.fslz5-1.fna.fbcdn.net/v/t39.30808-6/301667940_504591118336270_5938668438966005122_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=EnTxJaCutl8AX_6fv3e&_nc_ht=scontent.fslz5-1.fna&oh=00_AfCYO6pJ9_HRZi4n7HPLnJpJShLMF3__tNSnCp0GbyPW5A&oe=63AE8C62",
+          slug: "biel",
+          name: "Açai Biel",
+          mainColor: "#000",
+          secondColor: "#gg0000",
+        };
+        break;
       default:
         return false;
     }
@@ -68,7 +78,7 @@ export const UseApi = (tenantSlug: string) => ({
       })
       .catch((err) => {
         console.log(err);
-        console.log("CHEVOU NO CATCH");
+        console.log("erro -> catch");
         for (let q = 0; q < 10; q++) {
           prods.push(TEMPORARYonProduct);
         }
@@ -77,7 +87,7 @@ export const UseApi = (tenantSlug: string) => ({
       .finally(() => {
         console.log("CHEVOU NO FINALLY");
       });
-    console.log("CHEVOU NO FINAL DO FINAL");
+
     return prods;
 
     //Versão antiga
