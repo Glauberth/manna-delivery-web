@@ -7,6 +7,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//sempre que modificar o model, precisa executar esse comando:
+//yarn prisma generate
+
 model produto {
   codproduto Int     @id @default(autoincrement())
   codgrupo   Int?
