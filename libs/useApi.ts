@@ -1,4 +1,5 @@
 //import { PHASE_PRODUCTION_SERVER } from "next/dist/shared/lib/constants";
+import { imageConfigDefault } from "next/dist/shared/lib/image-config";
 import { api } from "../services/api";
 import { Product } from "../src/types/Products";
 
@@ -75,7 +76,10 @@ export const UseApi = (tenantSlug: string) => ({
         res.data.forEach((item: any) => {
           prods.push({
             id: item.CODPRODUTO,
-            image: "/tmp/burguer.png",
+            //image: item.URLIMAGE ? item.URLIMAGE : "/assets/img/sem-foto.png",
+            image: item.URLIMAGE ? item.URLIMAGE : "/assets/img/no-foto.svg",
+            //image: "/tmp/burguer.png",
+            //image: url,
             categoryName: item.NOME,
             name: item.DESCRICAO,
             description: item.OBSERVACAO
@@ -86,15 +90,14 @@ export const UseApi = (tenantSlug: string) => ({
         });
       })
       .catch((err) => {
-        console.log(err);
-        console.log("erro -> catch");
+        console.log(`Msg by Manná: ${err}`);
         for (let q = 0; q < 10; q++) {
           prods.push(TEMPORARYonProduct);
         }
         return prods;
       })
       .finally(() => {
-        console.log("CHEVOU NO FINALLY");
+        console.log(`Msg by Manná: Finally`);
       });
 
     return prods;
@@ -118,13 +121,21 @@ export const UseApi = (tenantSlug: string) => ({
     let prod: Product[] = [];
 
     await api.get(`/products/${tenantSlug}/${id}`).then((res) => {
-      const { CODPRODUTO, DESCRICAO, PRECOVENDA, NOME, OBSERVACAO } =
-        res.data[0];
+      const {
+        CODPRODUTO,
+        CODBARRA,
+        DESCRICAO,
+        PRECOVENDA,
+        NOME,
+        OBSERVACAO,
+        URLIMAGE,
+      } = res.data[0];
 
       prod = [
         {
           id: CODPRODUTO,
-          image: "/tmp/burguer.png",
+          //image: URLIMAGE ? URLIMAGE : "/assets/img/sem-foto-color.png",
+          image: URLIMAGE ? URLIMAGE : "/assets/img/no-foto.svg",
           categoryName: NOME,
           description: OBSERVACAO,
           name: DESCRICAO,

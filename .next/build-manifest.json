@@ -20,6 +20,11 @@
       "static/chunks/main.js",
       "static/chunks/pages/[tenant].js"
     ],
+    "/[tenant]/product/[id]": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/[tenant]/product/[id].js"
+    ],
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",

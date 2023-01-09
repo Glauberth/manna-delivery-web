@@ -19,7 +19,7 @@ const Product = (data: Props) => {
   const formatter = useFormatter();
 
   const handleAddToCart = () => {
-    alert("Lançado com Sucesso!");
+    alert("Função bloqueada temporariamente!");
   };
 
   const handleUpdateQt = (newCount: number) => {

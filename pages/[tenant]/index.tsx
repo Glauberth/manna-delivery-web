@@ -69,7 +69,7 @@ const Home = (data: Props) => {
         </div>
       </header>
 
-      <Banner />
+      {/* <Banner /> */}
 
       <div className={styles.gridProduct2}>
         {products.map((item, index) => (

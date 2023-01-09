@@ -20,7 +20,9 @@ export default function ProductItem({ data }: Props) {
           <div className={styles.info}>
             <div className={styles.catName}>{data.categoryName}</div>
             <div className={styles.name}>{data.name}</div>
-            <div className={styles.description}>{data.description}</div>
+            <div className={styles.description}>
+              {data.description?.slice(0, 80)}...
+            </div>
             <div className={styles.price} style={{ color: tenant?.mainColor }}>
               {formatter.formatPrice(data.price)}
             </div>

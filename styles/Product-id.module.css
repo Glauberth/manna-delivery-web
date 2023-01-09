@@ -23,8 +23,15 @@
 }
 
 .productImage img {
-  width: auto;
+  /* width: auto;
+  height: 350px; */
+  /* max-width: 250px; */
+  border-radius: 50px;
+  max-width: 350px;
+  width: 90%;
   height: 350px;
+  object-fit: cover;
+  object-position: center;
 }
 
 .category {
