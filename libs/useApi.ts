@@ -37,7 +37,7 @@ export const UseApi = (tenantSlug: string) => ({
 
       case "velhojohn":
         return {
-          logo: "https://scontent.fslz5-1.fna.fbcdn.net/v/t39.30808-6/310384121_795279774784930_5823022780957123001_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=QD3ORmScI3oAX8QlpV-&_nc_ht=scontent.fslz5-1.fna&oh=00_AfBAAF4O5VKJVo41CX2dBewy6fWxk9O9sRpVu2JYvDBGXQ&oe=63AC9684",
+          logo: "https://www.mannatech.com.br/velhojohn/logo/logo.jpg",
           slug: "velhojohn",
           name: "Velho John",
           mainColor: "#000",
