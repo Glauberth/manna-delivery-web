@@ -32,6 +32,10 @@
   height: 350px;
   object-fit: cover;
   object-position: center;
+
+  -webkit-box-shadow: 7px 7px 51px -9px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 7px 7px 51px -9px rgba(0, 0, 0, 0.75);
+  box-shadow: 7px 7px 51px -9px rgba(0, 0, 0, 0.75);
 }
 
 .category {
