@@ -13,6 +13,15 @@ const TEMPORARYonProduct: Product = {
   price: 25.5,
 };
 
+type Retorno = {
+  CODPRODUTO: number;
+  URLIMAGE: string;
+  NOME: string;
+  DESCRICAO: string;
+  OBSERVACAO: string;
+  PRECOVENDA: number;
+};
+
 export const UseApi = (tenantSlug: string) => ({
   getTenant: async () => {
     switch (tenantSlug) {
@@ -76,10 +85,9 @@ export const UseApi = (tenantSlug: string) => ({
         res.data.forEach((item: any) => {
           prods.push({
             id: item.CODPRODUTO,
-            //image: item.URLIMAGE ? item.URLIMAGE : "/assets/img/sem-foto.png",
-            image: item.URLIMAGE ? item.URLIMAGE : "/assets/img/no-foto.svg",
-            //image: "/tmp/burguer.png",
-            //image: url,
+            image: item.URLIMAGE,
+            //image: item.URLIMAGE ? item.URLIMAGE : "/assets/img/no-foto.svg",
+            //image: imgValid,
             categoryName: item.NOME,
             name: item.DESCRICAO,
             description: item.OBSERVACAO
@@ -97,7 +105,7 @@ export const UseApi = (tenantSlug: string) => ({
         return prods;
       })
       .finally(() => {
-        console.log(`Msg by Manná: Finally`);
+        // console.log(`Msg by Manná: Finally`);
       });
 
     return prods;
@@ -134,8 +142,8 @@ export const UseApi = (tenantSlug: string) => ({
       prod = [
         {
           id: CODPRODUTO,
-          //image: URLIMAGE ? URLIMAGE : "/assets/img/sem-foto-color.png",
-          image: URLIMAGE ? URLIMAGE : "/assets/img/no-foto.svg",
+          image: URLIMAGE ? URLIMAGE : "",
+          // image: URLIMAGE ? URLIMAGE : "/assets/img/no-foto.svg",
           categoryName: NOME,
           description: OBSERVACAO,
           name: DESCRICAO,

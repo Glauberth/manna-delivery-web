@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { ReactElement, useState } from "react";
 import { useAppContext } from "../../../contexts/app";
 import { useFormatter } from "../../../libs/useFormatter";
+import { useUtils } from "../../../libs/useUtils";
 import { Product } from "../../types/Products";
 import styles from "./styles.module.css";
 
@@ -8,10 +10,29 @@ type Props = {
   data: Product;
 };
 
+type ProductImg = {
+  src: string;
+  alt: string;
+  fallback: ReactElement;
+};
+
+const Image = ({ src, alt, fallback }: ProductImg) => {
+  const [error, setError] = useState(false);
+
+  const onError = () => {
+    setError(true);
+  };
+
+  return error ? fallback : <img src={src} alt={alt} onError={onError} />;
+};
+
 export default function ProductItem({ data }: Props) {
   const { tenant } = useAppContext();
 
   const formatter = useFormatter();
+
+  // const isimg = useUtils();
+  // isimg.isImg(data.image);
 
   return (
     <Link href={`/${tenant?.slug}/product/${data.id}`}>
@@ -28,7 +49,12 @@ export default function ProductItem({ data }: Props) {
             </div>
           </div>
           <div className={styles.img}>
-            <img src={data.image} alt="" />
+            {/* <img src={data.image} alt="" /> */}
+            <Image
+              src={data.image}
+              alt="imagemproduto"
+              fallback={<span>this one exists</span>}
+            />
           </div>
         </div>
       </a>
