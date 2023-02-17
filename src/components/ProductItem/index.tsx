@@ -36,7 +36,7 @@ export default function ProductItem({ data }: Props) {
 
   return (
     <Link href={`/${tenant?.slug}/product/${data.id}`}>
-      <a>
+      <a id={"l" + data.categoryId.toString()}>
         <div className={styles.container}>
           <div className={styles.info}>
             <div className={styles.catName}>{data.categoryName}</div>

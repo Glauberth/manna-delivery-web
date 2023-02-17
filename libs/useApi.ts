@@ -1,11 +1,13 @@
 //import { PHASE_PRODUCTION_SERVER } from "next/dist/shared/lib/constants";
 import { imageConfigDefault } from "next/dist/shared/lib/image-config";
 import { api } from "../services/api";
+import { Group } from "../src/types/Group";
 import { Product } from "../src/types/Products";
 
 const TEMPORARYonProduct: Product = {
   id: 1,
   image: "/tmp/burguer.png",
+  categoryId: 0,
   categoryName: "Tradicional",
   description:
     "O Hamburguer Mais suculento do Brasil, com duas carnes, queijo, cebola, picles e pão com gegilin",
@@ -13,14 +15,14 @@ const TEMPORARYonProduct: Product = {
   price: 25.5,
 };
 
-type Retorno = {
-  CODPRODUTO: number;
-  URLIMAGE: string;
-  NOME: string;
-  DESCRICAO: string;
-  OBSERVACAO: string;
-  PRECOVENDA: number;
-};
+// type Retorno = {
+//   CODPRODUTO: number;
+//   URLIMAGE: string;
+//   NOME: string;
+//   DESCRICAO: string;
+//   OBSERVACAO: string;
+//   PRECOVENDA: number;
+// };
 
 export const UseApi = (tenantSlug: string) => ({
   getTenant: async () => {
@@ -85,9 +87,12 @@ export const UseApi = (tenantSlug: string) => ({
         res.data.forEach((item: any) => {
           prods.push({
             id: item.CODPRODUTO,
-            image: item.URLIMAGE,
-            //image: item.URLIMAGE ? item.URLIMAGE : "/assets/img/no-foto.svg",
+            // image: item.URLIMAGE,
+            image: item.URLIMAGE
+              ? item.URLIMAGE
+              : "https://www.mannatech.com.br/velhojohn/imgappdelivery/sem-foto.png",
             //image: imgValid,
+            categoryId: item.CODGRUPO,
             categoryName: item.NOME,
             name: item.DESCRICAO,
             description: item.OBSERVACAO
@@ -134,6 +139,7 @@ export const UseApi = (tenantSlug: string) => ({
         CODBARRA,
         DESCRICAO,
         PRECOVENDA,
+        CODGRUPO,
         NOME,
         OBSERVACAO,
         URLIMAGE,
@@ -144,6 +150,7 @@ export const UseApi = (tenantSlug: string) => ({
           id: CODPRODUTO,
           image: URLIMAGE ? URLIMAGE : "",
           // image: URLIMAGE ? URLIMAGE : "/assets/img/no-foto.svg",
+          categoryId: CODGRUPO,
           categoryName: NOME,
           description: OBSERVACAO,
           name: DESCRICAO,
@@ -153,5 +160,26 @@ export const UseApi = (tenantSlug: string) => ({
     });
 
     return prod[0];
+  },
+
+  getGrupo: async () => {
+    let grupo: Group[] = [];
+    // console.log(tenantSlug);
+
+    await api
+      .get(`/grupo/${tenantSlug}`)
+      .then((res) => {
+        res.data.forEach((item: Group) => {
+          grupo.push({
+            CODGRUPO: item.CODGRUPO,
+            NOME: item.NOME,
+          });
+        });
+      })
+      .catch((err) => {
+        // console.log(err);
+      });
+
+    return grupo;
   },
 });

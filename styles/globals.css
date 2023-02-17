@@ -7,6 +7,15 @@
   text-decoration: none;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+:target {
+  /* Aqui Define a margem que a anncoragem vai rolar */
+  scroll-margin-top: 5.5em;
+}
+
 body {
   font-family: "Inter", sans-serif;
 }

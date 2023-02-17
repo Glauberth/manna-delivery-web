@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import { useAppContext } from "../../contexts/app";
 import { UseApi } from "../../libs/useApi";
 import Banner from "../../src/components/Banner";
+import Grupo from "../../src/components/Grupo";
 import ProductItem from "../../src/components/ProductItem";
 import SearchInput from "../../src/components/SearchInput";
+import { Group } from "../../src/types/Group";
 import { Product } from "../../src/types/Products";
 import { Tenant } from "../../src/types/Tenent";
 import styles from "../../styles/Home.module.css";
@@ -16,6 +18,14 @@ const Home = (data: Props) => {
   const [dados, setDados] = useState<Product[]>(data.products);
 
   const [products, setProducts] = useState<Product[]>(data.products);
+
+  const [grupos, setGrupos] = useState<Group[]>(data.grupos);
+
+  function getProducts(category: string) {
+    const prodCategory = products.filter((res) => res.categoryName == category);
+    // setProducts(prodCategory);
+    return prodCategory;
+  }
 
   useEffect(() => {
     setTenant(data.tenant);
@@ -64,16 +74,29 @@ const Home = (data: Props) => {
             </div>
           </div>
         </div>
-        <div className={styles.headerBottom}>
+        {/* <div className={styles.headerBottom}>
           <SearchInput onSearch={handlerClick} />
-        </div>
+        </div> */}
       </header>
 
       {/* <Banner /> */}
 
-      <div className={styles.gridProduct2}>
-        {products.map((item, index) => (
-          <ProductItem key={index} data={item} />
+      <Grupo data={grupos} />
+
+      <div className={styles.grid2}>
+        {grupos.map((item, index) => (
+          <>
+            <div
+              className={styles.categoryName}
+              style={{ backgroundColor: tenant?.mainColor }}
+            >
+              {item.NOME}
+            </div>
+
+            {getProducts(item.NOME).map((item, index) => (
+              <ProductItem key={index} data={item} />
+            ))}
+          </>
         ))}
       </div>
     </div>
@@ -85,6 +108,7 @@ export default Home;
 type Props = {
   tenant: Tenant;
   products: Product[];
+  grupos: Group[];
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -104,9 +128,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
+  //GET PRODUTOS
   const products = await api.getallProducts();
+  const grupos = await api.getGrupo();
 
   return {
-    props: { tenant, products },
+    props: { tenant, products, grupos },
   };
 };
