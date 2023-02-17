@@ -13,7 +13,7 @@ html {
 
 :target {
   /* Aqui Define a margem que a anncoragem vai rolar */
-  scroll-margin-top: 5.5em;
+  scroll-margin-top: 6.5em;
 }
 
 body {
