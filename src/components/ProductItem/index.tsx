@@ -30,7 +30,7 @@ export default function ProductItem({ data }: Props) {
   const { tenant } = useAppContext();
 
   const formatter = useFormatter();
-
+  // console.log(data.image);
   // const isimg = useUtils();
   // isimg.isImg(data.image);
 
@@ -48,7 +48,16 @@ export default function ProductItem({ data }: Props) {
               {formatter.formatPrice(data.price)}
             </div>
           </div>
-          <div className={styles.img}>
+          <div
+            className={styles.img}
+            style={{
+              opacity:
+                data.image ==
+                "https://www.mannatech.com.br/velhojohn/imgappdelivery/sem-foto.png"
+                  ? "0.1"
+                  : "1",
+            }}
+          >
             {/* <img src={data.image} alt="" /> */}
             <Image
               src={data.image}

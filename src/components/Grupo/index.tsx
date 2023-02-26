@@ -13,11 +13,11 @@ export default function Grupo({ data }: Props) {
   return (
     <div className={styles.container}>
       <Swiper
-        slidesPerView={2}
-        loop={true}
+        slidesPerView={3}
+        loop={false}
         autoplay={{
           delay: 2500,
-          disableOnInteraction: false,
+          disableOnInteraction: true,
         }}
         modules={[Autoplay]}
         className={styles.swiper}
