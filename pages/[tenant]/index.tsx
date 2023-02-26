@@ -11,6 +11,7 @@ import { Group } from "../../src/types/Group";
 import { Product } from "../../src/types/Products";
 import { Tenant } from "../../src/types/Tenent";
 import styles from "../../styles/Home.module.css";
+
 const Home = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
 
@@ -90,7 +91,7 @@ const Home = (data: Props) => {
               className={styles.categoryName}
               style={{ backgroundColor: tenant?.mainColor }}
             >
-              {item.NOME}
+              {item.NOMEGRUPOAPP}
             </div>
 
             {getProducts(item.NOME).map((item, index) => (

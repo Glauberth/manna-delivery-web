@@ -173,6 +173,7 @@ export const UseApi = (tenantSlug: string) => ({
           grupo.push({
             CODGRUPO: item.CODGRUPO,
             NOME: item.NOME,
+            NOMEGRUPOAPP: item.NOMEGRUPOAPP,
           });
         });
       })
