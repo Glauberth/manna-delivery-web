@@ -13,9 +13,7 @@ import styles from "../../../styles/Product-id.module.css";
 
 const Product = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
-
   const [qtCount, setQtCount] = useState(1);
-
   const formatter = useFormatter();
 
   const handleAddToCart = () => {

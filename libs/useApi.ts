@@ -58,10 +58,10 @@ export const UseApi = (tenantSlug: string) => ({
         break;
       case "biel":
         return {
-          logo: "https://scontent.fslz5-1.fna.fbcdn.net/v/t39.30808-6/301667940_504591118336270_5938668438966005122_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=EnTxJaCutl8AX_6fv3e&_nc_ht=scontent.fslz5-1.fna&oh=00_AfCYO6pJ9_HRZi4n7HPLnJpJShLMF3__tNSnCp0GbyPW5A&oe=63AE8C62",
+          logo: "https://ccmpedidoonline.com.br/cdn/logoacaibielburguer.png",
           slug: "biel",
           name: "Açai Biel",
-          mainColor: "#000",
+          mainColor: "#aa28a5",
           secondColor: "#gg0000",
         };
         break;
