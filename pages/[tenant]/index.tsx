@@ -1,21 +1,36 @@
+import { getCookie } from "cookies-next";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import { networkInterfaces } from "os";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../contexts/app";
+import { useAuthContext } from "../../contexts/auth";
 import { UseApi } from "../../libs/useApi";
 import Banner from "../../src/components/Banner";
 import Grupo from "../../src/components/Grupo";
 import ProductItem from "../../src/components/ProductItem";
 import SearchInput from "../../src/components/SearchInput";
+import { Sidebar } from "../../src/components/Sidebar";
 import { Group } from "../../src/types/Group";
 import { Product } from "../../src/types/Products";
 import { Tenant } from "../../src/types/Tenent";
+import { User } from "../../src/types/User";
 import styles from "../../styles/Home.module.css";
+import NoItemsIcon from "./../../public/assets/noitems.svg";
 
 const Home = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
+  const { user, setToken, setUser } = useAuthContext();
+
+  useEffect(() => {
+    setTenant(data.tenant);
+    setToken(data.token);
+    if (data.user) setUser(data.user);
+  }, []);
 
   const [dados, setDados] = useState<Product[]>(data.products);
+
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const [products, setProducts] = useState<Product[]>(data.products);
 
@@ -27,9 +42,25 @@ const Home = (data: Props) => {
     return prodCategory;
   }
 
+  //Search New   --------------------------------------------------------------->
+  const [searchText, setSearchText] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const handleSearch = (value: string) => setSearchText(value);
   useEffect(() => {
-    setTenant(data.tenant);
-  }, []);
+    let newFilteredProducts: Product[] = [];
+    for (let product of data.products) {
+      if (
+        product.name
+          .toLocaleLowerCase()
+          .indexOf(searchText.toLocaleLowerCase()) > -1
+      ) {
+        newFilteredProducts.push(product);
+      }
+    }
+
+    setFilteredProducts(newFilteredProducts);
+  }, [searchText]);
+  //Fim Search new <---------------------------------------------------------------
 
   function handlerClick(searchValue: string) {
     let prodFiltrado = dados;
@@ -54,11 +85,17 @@ const Home = (data: Props) => {
         <div className={styles.headerTop}>
           <div className={styles.headerTopLeft}>
             <div className={styles.headerTitle}>Seja Bem-Vindo (a) 👋</div>
-            <div className={styles.headerSubTitle}>O que deseja pra hoje?</div>
+            <div className={styles.headerSubTitle}>
+              O que deseja pra hoje
+              <strong> {user?.name.toUpperCase()}</strong>?
+            </div>
           </div>
 
           <div className={styles.headerTopRight}>
-            <div className={styles.menuButtom}>
+            <div
+              className={styles.menuButtom}
+              onClick={() => setSidebarOpen(true)}
+            >
               <div
                 className={styles.menuButtomLine}
                 style={{ backgroundColor: tenant?.mainColor }}
@@ -72,34 +109,69 @@ const Home = (data: Props) => {
                 style={{ backgroundColor: tenant?.mainColor }}
               ></div>
             </div>
+
+            <Sidebar
+              tenant={data.tenant}
+              open={sidebarOpen}
+              onClose={() => setSidebarOpen(false)}
+            />
           </div>
         </div>
-        {/* <div className={styles.headerBottom}>
-          <SearchInput onSearch={handlerClick} />
-        </div> */}
+        <div className={styles.headerBottom}>
+          <SearchInput onSearch={handleSearch} />
+        </div>
       </header>
 
       {/* <Banner /> */}
 
-      <Grupo data={grupos} />
+      {searchText && (
+        <>
+          <div className={styles.searchText}>
+            Procurando por: <strong>{searchText}</strong>
+          </div>
 
-      <div className={styles.grid2}>
-        {grupos.map((item, index) => (
-          <>
-            <div
-              key={index}
-              className={styles.categoryName}
-              style={{ backgroundColor: tenant?.mainColor }}
-            >
-              {item.NOMEGRUPOAPP}
+          {filteredProducts.length > 0 && (
+            <div className={styles.grid2}>
+              {filteredProducts.map((item, index) => (
+                <ProductItem key={index} data={item} />
+              ))}
             </div>
+          )}
 
-            {getProducts(item.NOME).map((item, index) => (
-              <ProductItem key={index} data={item} />
+          {filteredProducts.length === 0 && (
+            <div className={styles.noProducts}>
+              <NoItemsIcon color="#e0e0e0" />
+              <div className={styles.noProductsText}>
+                Ops! Não há itens com este nome!
+              </div>
+            </div>
+          )}
+        </>
+      )}
+
+      {!searchText && (
+        <>
+          <Grupo data={grupos} />
+
+          <div className={styles.grid2}>
+            {grupos.map((item, index) => (
+              <>
+                <div
+                  key={index}
+                  className={styles.categoryName}
+                  style={{ backgroundColor: tenant?.mainColor }}
+                >
+                  {item.NOMEGRUPOAPP}
+                </div>
+
+                {getProducts(item.NOME).map((item, index) => (
+                  <ProductItem key={index} data={item} />
+                ))}
+              </>
             ))}
-          </>
-        ))}
-      </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
@@ -110,6 +182,8 @@ type Props = {
   tenant: Tenant;
   products: Product[];
   grupos: Group[];
+  token: string;
+  user: User | null;
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -129,11 +203,22 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
+  //GET LOGGED USER
+  //const token = context.req.cookies.token; //Também posso usar assim pra pegar o cookie
+
+  let token = getCookie("token", context);
+  if (token === undefined) {
+    token = null;
+  }
+
+  // console.log("Token: " + token);
+  const user = await api.authorizeToken(token as string);
+
   //GET PRODUTOS
   const products = await api.getallProducts();
   const grupos = await api.getGrupo();
 
   return {
-    props: { tenant, products, grupos },
+    props: { tenant, products, grupos, user, token },
   };
 };

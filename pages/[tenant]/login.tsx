@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../contexts/app";
+import { useAuthContext } from "../../contexts/auth";
 import { UseApi } from "../../libs/useApi";
 import { Button } from "../../src/components/Button";
 import { Header } from "../../src/components/Header";
@@ -12,22 +13,30 @@ import { Tenant } from "../../src/types/Tenent";
 import styles from "../../styles/Login.module.css";
 
 const Login = (data: Props) => {
+  const { setToken, setUser } = useAuthContext();
+
   const { tenant, setTenant } = useAppContext();
+  useEffect(() => {
+    setTenant(data.tenant);
+  }, []);
+
+  const router = useRouter();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const router = useRouter();
-
-  function handleSubmit() {}
+  function handleSubmit() {
+    setToken("1234");
+    setUser({
+      name: "Glauberth",
+      email: "glauberth.sampaio@hotmail.com",
+    });
+    router.push(`/${data.tenant.slug}`);
+  }
 
   function handleSignUp() {
     router.push(`/${data.tenant.slug}/signup`);
   }
-
-  useEffect(() => {
-    setTenant(data.tenant);
-  }, []);
 
   return (
     <div className={styles.container}>

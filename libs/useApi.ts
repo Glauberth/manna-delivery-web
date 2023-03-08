@@ -3,6 +3,7 @@ import { imageConfigDefault } from "next/dist/shared/lib/image-config";
 import { api } from "../services/api";
 import { Group } from "../src/types/Group";
 import { Product } from "../src/types/Products";
+import { User } from "../src/types/User";
 
 const TEMPORARYonProduct: Product = {
   id: 1,
@@ -52,7 +53,7 @@ export const UseApi = (tenantSlug: string) => ({
           slug: "velhojohn",
           name: "Velho John",
           mainColor: "#000",
-          secondColor: "#gg0000",
+          secondColor: "#gg0100",
         };
         break;
       case "biel":
@@ -182,5 +183,16 @@ export const UseApi = (tenantSlug: string) => ({
       });
 
     return grupo;
+  },
+
+  authorizeToken: async (token: string): Promise<User | false> => {
+    if (!token) return false;
+
+    //Aqui falta ir la na API de fato e verificar se o token recebido é válido, se não for tem que devolvier null
+
+    return {
+      name: "Glauberth",
+      email: "glauberth.sampaio@hotmail.com",
+    };
   },
 });
