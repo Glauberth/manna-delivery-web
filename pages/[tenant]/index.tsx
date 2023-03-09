@@ -78,7 +78,10 @@ const Home = (data: Props) => {
         <title>Produtos | {data.tenant.name} </title>
       </Head>
 
-      <header className={styles.header}>
+      <header
+        className={styles.header}
+        style={{ backgroundColor: data.tenant.secondColor }}
+      >
         <div className={styles.imgLogo}>
           <img src={data.tenant.logo} alt="" />
         </div>

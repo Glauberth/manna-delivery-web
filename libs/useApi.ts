@@ -67,11 +67,11 @@ export const UseApi = (tenantSlug: string) => ({
         break;
       case "adacoley":
         return {
-          logo: "https://lh3.googleusercontent.com/p/AF1QipNispLOtrASt4ffMfisunFGE5G1eHlRM3pzxQ0o=w1080-h608-p-no-v0",
+          logo: "http://www.mannatech.com.br/deliveryapp/clientes/adacoley/logo/logo.png",
           slug: "adacoley",
           name: "AdaColey",
-          mainColor: "#000",
-          secondColor: "#gg0000",
+          mainColor: "#bd8631",
+          secondColor: "#1b1e23",
         };
         break;
       default:
