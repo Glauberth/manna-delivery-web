@@ -96,9 +96,7 @@ export const UseApi = (tenantSlug: string) => ({
             categoryId: item.CODGRUPO,
             categoryName: item.NOME,
             name: item.DESCRICAO,
-            description: item.OBSERVACAO
-              ? item.OBSERVACAO
-              : "Preencha a Observação e irá aparecer aqui",
+            description: item.OBSERVACAO,
             price: item.PRECOVENDA,
           });
         });

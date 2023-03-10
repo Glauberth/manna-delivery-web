@@ -16,9 +16,7 @@ const Product = (data: Props) => {
   const [qtCount, setQtCount] = useState(1);
   const formatter = useFormatter();
 
-  const handleAddToCart = () => {
-    alert("Função bloqueada temporariamente!");
-  };
+  const handleAddToCart = () => {};
 
   const handleUpdateQt = (newCount: number) => {
     setQtCount(newCount);
