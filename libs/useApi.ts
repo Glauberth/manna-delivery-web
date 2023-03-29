@@ -1,6 +1,7 @@
 //import { PHASE_PRODUCTION_SERVER } from "next/dist/shared/lib/constants";
-import { imageConfigDefault } from "next/dist/shared/lib/image-config";
+//import { imageConfigDefault } from "next/dist/shared/lib/image-config";
 import { api } from "../services/api";
+import { CartItem } from "../src/types/CartItem";
 import { Group } from "../src/types/Group";
 import { Product } from "../src/types/Products";
 import { User } from "../src/types/User";
@@ -124,7 +125,7 @@ export const UseApi = (tenantSlug: string) => ({
     // return prods;
   },
 
-  getProduct: async (id: string) => {
+  getProduct: async (id: number) => {
     //Versão Antiga
     // return TEMPORARYonProduct;
 
@@ -192,5 +193,57 @@ export const UseApi = (tenantSlug: string) => ({
       name: "Glauberth",
       email: "glauberth.sampaio@hotmail.com",
     };
+  },
+
+  getCartProducts: async (cartCookie: string) => {
+    let cart: CartItem[] = [];
+
+    if (!cartCookie) return cart;
+
+    const cartJson = JSON.parse(cartCookie);
+
+    for (let i in cartJson) {
+      if (cartJson[i].id && cartJson[i].id) {
+        // const product = {
+        //   ...TEMPORARYonProduct,
+        //   id: cartJson[i].id,
+        // };
+
+        let productbd: Product;
+
+        await api
+          .get(`/products/${tenantSlug}/${cartJson[i].id}`)
+          .then((res) => {
+            const {
+              CODPRODUTO,
+              CODBARRA,
+              DESCRICAO,
+              PRECOVENDA,
+              CODGRUPO,
+              NOME,
+              OBSERVACAO,
+              URLIMAGE,
+            } = res.data[0];
+
+            productbd = {
+              id: CODPRODUTO,
+              image: URLIMAGE ? URLIMAGE : "",
+              // image: URLIMAGE ? URLIMAGE : "/assets/img/no-foto.svg",
+              categoryId: CODGRUPO,
+              categoryName: NOME,
+              description: OBSERVACAO,
+              name: DESCRICAO,
+              price: PRECOVENDA,
+            };
+
+            cart.push({
+              qt: cartJson[i].qt,
+              product: productbd,
+            });
+          });
+      }
+    }
+
+    return cart;
   },
 });

@@ -75,7 +75,7 @@ const Home = (data: Props) => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Produtos | {data.tenant.name} </title>
+        <title>{`Produtos | ${data.tenant.name}`}</title>
       </Head>
 
       <header
@@ -158,9 +158,8 @@ const Home = (data: Props) => {
 
           <div className={styles.grid2}>
             {grupos.map((item, index) => (
-              <>
+              <div key={index}>
                 <div
-                  key={index}
                   className={styles.categoryName}
                   style={{ backgroundColor: tenant?.mainColor }}
                 >
@@ -170,7 +169,7 @@ const Home = (data: Props) => {
                 {getProducts(item.NOME).map((item, index) => (
                   <ProductItem key={index} data={item} />
                 ))}
-              </>
+              </div>
             ))}
           </div>
         </>
