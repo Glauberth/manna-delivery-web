@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../contexts/app";
 import { useAuthContext } from "../../contexts/auth";
-import { UseApi } from "../../libs/useApi";
+import { useApi } from "../../libs/useApi";
 import { useFormatter } from "../../libs/useFormatter";
 import { Button } from "../../src/components/Button";
 import { CartProductItem } from "../../src/components/CartProductItem";
@@ -199,7 +199,7 @@ type Props = {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug } = context.query;
 
-  const api = UseApi(tenantSlug as string);
+  const api = useApi(tenantSlug as string);
 
   //GET Tenant
   const tenant = await api.getTenant();

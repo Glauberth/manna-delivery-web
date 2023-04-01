@@ -52,6 +52,7 @@
 }
 
 .description {
+  flex: 1;
   color: #ccc;
   font-size: 12px;
 }

@@ -1,32 +1,62 @@
 //import { PHASE_PRODUCTION_SERVER } from "next/dist/shared/lib/constants";
 //import { imageConfigDefault } from "next/dist/shared/lib/image-config";
 import { api } from "../services/api";
+import { Address } from "../src/types/Address";
 import { CartItem } from "../src/types/CartItem";
 import { Group } from "../src/types/Group";
+import { Order } from "../src/types/Order";
 import { Product } from "../src/types/Products";
 import { User } from "../src/types/User";
 
 const TEMPORARYonProduct: Product = {
   id: 1,
-  image: "/tmp/burguer.png",
+  image: "https://www.mannatech.com.br/velhojohn/imgappdelivery/58.png", //"/tmp/burguer.png",
   categoryId: 0,
-  categoryName: "Tradicional",
+  categoryName: "HAMBURGUER",
   description:
     "O Hamburguer Mais suculento do Brasil, com duas carnes, queijo, cebola, picles e pão com gegilin",
   name: "BURGUER AC/DC",
   price: 25.5,
 };
 
-// type Retorno = {
-//   CODPRODUTO: number;
-//   URLIMAGE: string;
-//   NOME: string;
-//   DESCRICAO: string;
-//   OBSERVACAO: string;
-//   PRECOVENDA: number;
-// };
+const TEMPORARYorder: Order = {
+  codvenda: 101,
+  status: "delivered",
+  orderDate: "2023-03-31",
+  codcliente: "1",
+  shippingAddress: {
+    id: 1,
+    cep: "65110000",
+    endereco: "Rua 123",
+    numero: "123",
+    bairro: "Liberdade",
+    complemento: "",
+    estado: "SP",
+    cidade: "São Luís",
+  },
+  shippingPrice: 9.14,
+  paymentType: "card",
+  cupom: "CHAMA",
+  cupomDiscount: 14.3,
+  products: [
+    {
+      product: {
+        ...TEMPORARYonProduct,
+        id: 1,
+        image: "https://www.mannatech.com.br/velhojohn/imgappdelivery/101.png",
+        name: "CHOPP PILSEN/ 475 ML",
+        price: 13,
+      },
+      qt: 1,
+    },
+    { product: { ...TEMPORARYonProduct, id: 2 }, qt: 2 },
+    // { product: { ...TEMPORARYonProduct, id: 3 }, qt: 1 },
+  ],
+  subtotal: 204,
+  total: 198.84,
+};
 
-export const UseApi = (tenantSlug: string) => ({
+export const useApi = (tenantSlug: string) => ({
   getTenant: async () => {
     switch (tenantSlug) {
       case "manna_glauberth":
@@ -103,7 +133,7 @@ export const UseApi = (tenantSlug: string) => ({
         });
       })
       .catch((err) => {
-        console.log(`Msg by Manná: ${err}`);
+        console.log(`Erro Get Products by Manná: ${err}`);
         for (let q = 0; q < 10; q++) {
           prods.push(TEMPORARYonProduct);
         }
@@ -214,6 +244,7 @@ export const UseApi = (tenantSlug: string) => ({
         await api
           .get(`/products/${tenantSlug}/${cartJson[i].id}`)
           .then((res) => {
+            console.log(res.data);
             const {
               CODPRODUTO,
               CODBARRA,
@@ -245,5 +276,70 @@ export const UseApi = (tenantSlug: string) => ({
     }
 
     return cart;
+  },
+
+  getUserAddresses: async (email: string) => {
+    const addresses: Address[] = [];
+
+    for (let i = 0; i < 1; i++) {
+      addresses.push({
+        id: i + 1,
+        endereco: "VELHO JOHN",
+        numero: `${i + 1}0`,
+        bairro: "CALHAU",
+        cep: "65052000",
+        cidade: "São Luís",
+        estado: "MA",
+        complemento: "",
+      });
+    }
+
+    return addresses;
+  },
+
+  getUserAddress: async (addressid: number) => {
+    let address = {
+      id: addressid,
+      endereco: "rua 14, quadra 23",
+      numero: `${addressid}0`,
+      bairro: "Calhau",
+      cep: "65110000",
+      cidade: "São Luís",
+      estado: "MA",
+      complemento: "Próx a Padaria",
+    };
+
+    return address;
+  },
+
+  addUserAddress: async (address: Address) => {
+    //console.log(address);
+    return { ...address, id: 9 };
+  },
+
+  editUserAddress: async (newAddressData: Address) => {
+    return true;
+  },
+
+  deleteUserAddress: async (addressid: number) => {
+    return true;
+  },
+
+  getShippingPrice: async (address: Address) => {
+    return 7;
+  },
+
+  setOrder: async (
+    address: Address,
+    paymentType: "money" | "card",
+    paymentChange: number,
+    cupom: string,
+    cart: CartItem[]
+  ) => {
+    return TEMPORARYorder;
+  },
+
+  getOrder: async (orderid: number) => {
+    return TEMPORARYorder;
   },
 });

@@ -8,6 +8,7 @@ export const reducer = (state: DataType, action: ActionType) => {
     case Actions.SET_USER:
       if (!action.payload.user) return { ...state, user: null, token: "" };
       return { ...state, user: action.payload.user };
+
     default:
       return state;
   }

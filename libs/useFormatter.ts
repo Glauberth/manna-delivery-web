@@ -13,4 +13,8 @@ export const useFormatter = () => ({
 
     return `${"0".repeat(sobra)}${quantity}`;
   },
+  formatDate: (date: string) => {
+    let currentDate = new Date(`${date} 00:00:00`);
+    return new Intl.DateTimeFormat("pt-BR").format(currentDate);
+  },
 });

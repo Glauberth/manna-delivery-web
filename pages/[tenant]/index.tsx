@@ -5,7 +5,7 @@ import { networkInterfaces } from "os";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../contexts/app";
 import { useAuthContext } from "../../contexts/auth";
-import { UseApi } from "../../libs/useApi";
+import { useApi } from "../../libs/useApi";
 import Banner from "../../src/components/Banner";
 import Grupo from "../../src/components/Grupo";
 import ProductItem from "../../src/components/ProductItem";
@@ -19,8 +19,10 @@ import styles from "../../styles/Home.module.css";
 import NoItemsIcon from "./../../public/assets/noitems.svg";
 
 const Home = (data: Props) => {
-  const { tenant, setTenant } = useAppContext();
+  const { tenant, comanda, setTenant } = useAppContext();
   const { user, setToken, setUser } = useAuthContext();
+
+  console.log(comanda);
 
   useEffect(() => {
     setTenant(data.tenant);
@@ -91,6 +93,9 @@ const Home = (data: Props) => {
             <div className={styles.headerSubTitle}>
               O que deseja pra hoje
               <strong> {user?.name.toUpperCase()}</strong>?
+            </div>
+            <div>
+              {comanda !== null || comanda !== null ? "#" + comanda : ""}
             </div>
           </div>
 
@@ -186,12 +191,13 @@ type Props = {
   grupos: Group[];
   token: string;
   user: User | null;
+  comanda: string | null;
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug } = context.query;
 
-  const api = UseApi(tenantSlug as string);
+  const api = useApi(tenantSlug as string);
 
   //GET Tenant
   const tenant = await api.getTenant();

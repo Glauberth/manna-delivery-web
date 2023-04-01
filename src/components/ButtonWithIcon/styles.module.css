@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  border-radius: 4px;
+}
+
+.leftSide {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.centerSide {
+  flex: 1;
+  padding: 0 16px;
+  font-weight: 400;
+  font-size: 15px;
+
+  /* Isso aqui serve pra colocar 3 pontinhos no final do texto, serve pra limitar a quantidade de caracteres conforme o tamanho do campo... TOP */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /*aqui ele coloca a retissencia */
+}
+
+.rightSide {
+  padding: 0 12px;
+}

@@ -4,7 +4,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../../contexts/app";
-import { UseApi } from "../../../libs/useApi";
+import { useApi } from "../../../libs/useApi";
 import { useFormatter } from "../../../libs/useFormatter";
 import { Button } from "../../../src/components/Button";
 import { Header } from "../../../src/components/Header";
@@ -51,13 +51,13 @@ const Product = (data: Props) => {
     } else {
       // adicionando o produto ao carrinho
 
-      const api = UseApi(data.tenant.slug);
+      const api = useApi(data.tenant.slug);
 
       //GET Tenant
       const codvenda = api.getTenant();
 
       cart.push({
-        codvenda: 1,
+        //codvenda: 1,
         id: data.product.id,
         qt: qtCount,
       });
@@ -160,7 +160,7 @@ type Props = {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug, id } = context.query;
 
-  const api = UseApi(tenantSlug as string);
+  const api = useApi(tenantSlug as string);
 
   //GET Tenant
   const tenant = await api.getTenant();
