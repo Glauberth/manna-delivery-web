@@ -95,7 +95,9 @@ const Home = (data: Props) => {
               <strong> {user?.name.toUpperCase()}</strong>?
             </div>
             <div>
-              {comanda !== null || comanda !== null ? "#" + comanda : ""}
+              {comanda !== null || comanda !== null
+                ? "Comanda Nº #" + comanda
+                : ""}
             </div>
           </div>
 

@@ -21,7 +21,7 @@ const TEMPORARYonProduct: Product = {
 
 const TEMPORARYorder: Order = {
   codvenda: 101,
-  status: "delivered",
+  status: "sent",
   orderDate: "2023-03-31",
   codcliente: "1",
   shippingAddress: {

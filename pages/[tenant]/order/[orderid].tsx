@@ -36,7 +36,7 @@ const OrderID = (data: Props) => {
       setTimeout(() => {
         console.log("recarregou");
         router.reload();
-      }, 5000); //5seconds
+      }, 10000); //5seconds
     }
   }, []);
 
