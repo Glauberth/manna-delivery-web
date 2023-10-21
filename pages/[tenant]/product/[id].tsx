@@ -146,6 +146,7 @@ const Product = (data: Props) => {
       </div>
       <div className={styles.buttonArea}>
         <Button
+          disabled
           color={data.tenant.mainColor}
           label="Adicionar a Sacola"
           onClick={handleAddToCart}
