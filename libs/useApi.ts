@@ -105,6 +105,15 @@ export const useApi = (tenantSlug: string) => ({
           secondColor: "#1b1e23",
         };
         break;
+      case "jordansantoamaro":
+        return {
+          logo: "https://www.mannatech.com.br/deliveryapp/clientes/jordanburgersto/logo/logo.jpg",
+          slug: "jordansantoamaro",
+          name: "Jordar Burger Santo Amaro",
+          mainColor: "#bd8631",
+          secondColor: "#1b1e23",
+        };
+        break;
       default:
         return false;
     }
@@ -116,6 +125,7 @@ export const useApi = (tenantSlug: string) => ({
     await api
       .get(`/products/${tenantSlug}`)
       .then((res) => {
+        console.log(res.data);
         res.data.forEach((item: any) => {
           prods.push({
             id: item.CODPRODUTO,
