@@ -13,6 +13,7 @@ import { CartCookie } from "../../../src/types/CartCookie";
 import { Product } from "../../../src/types/Products";
 import { Tenant } from "../../../src/types/Tenent";
 import styles from "../../../styles/Product-id.module.css";
+import Image from "next/image";
 
 const Product = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
@@ -97,7 +98,12 @@ const Product = (data: Props) => {
       ></div>
 
       <div className={styles.productImage}>
-        <img src={data.product.image} alt="" />
+        <img
+          src={
+            data.product.image ? data.product.image : "/assets/img/sem-foto.png"
+          }
+          alt=""
+        />
       </div>
 
       <div className={styles.category}>{data.product.categoryName}</div>

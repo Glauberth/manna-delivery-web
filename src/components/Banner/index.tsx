@@ -1,5 +1,6 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper";
+import NextImage from "next/image";
 
 import styles from "./styles.module.css";
 import "swiper/css";
@@ -19,13 +20,13 @@ export default function Banner() {
         modules={[Autoplay]}
       >
         <SwiperSlide className={styles.slide}>
-          <img src="/tmp/banner1.png" alt="banner" />
+          <NextImage src="/tmp/banner1.png" alt="banner" />
         </SwiperSlide>
         <SwiperSlide className={styles.slide}>
-          <img src="/tmp/banner1.png" alt="banner" />
+          <NextImage src="/tmp/banner1.png" alt="banner" />
         </SwiperSlide>
         <SwiperSlide className={styles.slide}>
-          <img src="/tmp/banner1.png" alt="banner" />
+          <NextImage src="/tmp/banner1.png" alt="banner" />
         </SwiperSlide>
       </Swiper>
     </div>

@@ -2,6 +2,7 @@ import { useFormatter } from "../../../libs/useFormatter";
 import { Product } from "../../types/Products";
 import { Quantity } from "../Quantity";
 import styles from "./styles.module.css";
+import NextImage from "next/image";
 
 type Props = {
   color: string;
@@ -23,7 +24,7 @@ export const CartProductItem = ({
   return (
     <div className={styles.container}>
       <div className={styles.productImage}>
-        <img src={product.image} alt="" />
+        <NextImage src={product.image} alt="" />
       </div>
       <div className={styles.productInfo}>
         <div className={styles.productCategory}>{product.categoryName}</div>

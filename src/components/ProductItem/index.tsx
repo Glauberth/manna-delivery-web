@@ -6,6 +6,8 @@ import { useUtils } from "../../../libs/useUtils";
 import { Product } from "../../types/Products";
 import styles from "./styles.module.css";
 
+import NextImage from "next/image";
+
 type Props = {
   data: Product;
 };
@@ -23,7 +25,11 @@ const Image = ({ src, alt, fallback }: ProductImg) => {
     setError(true);
   };
 
-  return error ? fallback : <img src={src} alt={alt} onError={onError} />;
+  return error ? (
+    fallback
+  ) : (
+    <NextImage src={src} alt={alt} onError={onError} width={30} height={30} />
+  );
 };
 
 export default function ProductItem({ data }: Props) {
@@ -51,11 +57,7 @@ export default function ProductItem({ data }: Props) {
           <div
             className={styles.img}
             style={{
-              opacity:
-                data.image ==
-                "https://www.mannatech.com.br/velhojohn/imgappdelivery/sem-foto.png"
-                  ? "0.1"
-                  : "1",
+              opacity: data.image == "/assets/img/sem-foto.png" ? "0.5" : "1",
             }}
           >
             {/* <img src={data.image} alt="" /> */}

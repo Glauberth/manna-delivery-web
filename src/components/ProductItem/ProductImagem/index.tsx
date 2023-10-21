@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "./styles.module.css";
+import NextImage from "next/image";
 
 type ProductImg = {
   src: string;
@@ -14,13 +15,13 @@ const Image = ({ src, alt, fallback }: ProductImg) => {
     setError(true);
   };
 
-  return error ? fallback : <img src={src} alt={alt} onError={onError} />;
+  return error ? fallback : <NextImage src={src} alt={alt} onError={onError} />;
 };
 
 export default function ProductImage(url: string) {
   return (
     <div className={styles.img}>
-      <img src={url} alt="" />
+      <NextImage src={url} alt="" />
     </div>
   );
 }

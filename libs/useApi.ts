@@ -132,7 +132,8 @@ export const useApi = (tenantSlug: string) => ({
             // image: item.URLIMAGE,
             image: item.URLIMAGE
               ? item.URLIMAGE
-              : "https://www.mannatech.com.br/velhojohn/imgappdelivery/sem-foto.png",
+              : //: "https://www.mannatech.com.br/deliveryapp/assets/sem-foto.png",
+                "/assets/img/sem-foto.png",
             //image: imgValid,
             categoryId: item.CODGRUPO,
             categoryName: item.NOME,
