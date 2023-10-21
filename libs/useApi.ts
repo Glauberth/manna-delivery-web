@@ -107,7 +107,7 @@ export const useApi = (tenantSlug: string) => ({
         break;
       case "jordansantoamaro":
         return {
-          logo: "https://www.mannatech.com.br/deliveryapp/clientes/jordanburgersto/logo/logo.jpg",
+          logo: "/assets/img/logo.jpg",
           slug: "jordansantoamaro",
           name: "Jordar Burger Santo Amaro",
           mainColor: "#bd8631",
@@ -115,7 +115,7 @@ export const useApi = (tenantSlug: string) => ({
         };
         break;
       default:
-        return false;
+        return;
     }
   },
 

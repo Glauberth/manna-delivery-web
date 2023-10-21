@@ -13,7 +13,7 @@ import { CartCookie } from "../../../src/types/CartCookie";
 import { Product } from "../../../src/types/Products";
 import { Tenant } from "../../../src/types/Tenent";
 import styles from "../../../styles/Product-id.module.css";
-import Image from "next/image";
+import NextImage from "next/image";
 
 const Product = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
@@ -25,7 +25,7 @@ const Product = (data: Props) => {
   const formatter = useFormatter();
 
   const [qtCount, setQtCount] = useState(1);
-
+  const api = useApi(data.tenant.slug);
   const handleAddToCart = () => {
     let cart: CartCookie[] = [];
 
@@ -51,8 +51,6 @@ const Product = (data: Props) => {
       cart[cartIndex].qt += qtCount;
     } else {
       // adicionando o produto ao carrinho
-
-      const api = useApi(data.tenant.slug);
 
       //GET Tenant
       const codvenda = api.getTenant();
@@ -98,7 +96,9 @@ const Product = (data: Props) => {
       ></div>
 
       <div className={styles.productImage}>
-        <img
+        <NextImage
+          width={350}
+          height={350}
           src={
             data.product.image ? data.product.image : "/assets/img/sem-foto.png"
           }
@@ -185,5 +185,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: { tenant, product },
+    // revalidate: 1,
+    // fallback: true,
   };
 };

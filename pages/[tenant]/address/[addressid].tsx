@@ -39,7 +39,7 @@ const EditAddress = (data: Props) => {
   //o valor de field agora é uma das chaves do address
   const changeAddressField = (
     field: keyof Address,
-    value: typeof address[keyof Address]
+    value: (typeof address)[keyof Address]
   ) => {
     setAddress({
       ...address,

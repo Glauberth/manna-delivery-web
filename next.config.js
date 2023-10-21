@@ -20,6 +20,9 @@ const nextConfig = {
     });
     return config;
   },
+  // eslint: {
+  //   ignoreDuringBuilds: true,
+  // },
 };
 
 module.exports = nextConfig;

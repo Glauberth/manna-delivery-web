@@ -17,6 +17,7 @@ import { Tenant } from "../../src/types/Tenent";
 import { User } from "../../src/types/User";
 import styles from "../../styles/Home.module.css";
 import NoItemsIcon from "./../../public/assets/noitems.svg";
+import NextImage from "next/image";
 
 const Home = (data: Props) => {
   const { tenant, comanda, setTenant } = useAppContext();
@@ -85,7 +86,7 @@ const Home = (data: Props) => {
         style={{ backgroundColor: data.tenant.secondColor }}
       >
         <div className={styles.imgLogo}>
-          <img src={data.tenant.logo} alt="" />
+          <NextImage width={150} height={150} src={data.tenant.logo} alt="" />
         </div>
         <div className={styles.headerTop}>
           <div className={styles.headerTopLeft}>
@@ -203,6 +204,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   //GET Tenant
   const tenant = await api.getTenant();
+  console.log(tenant);
 
   if (!tenant) {
     return {
