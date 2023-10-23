@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAppContext } from "../../../contexts/app";
 import { useAuthContext } from "../../../contexts/auth";
-import { useApi } from "../../../libs/useApi";
+import { UseApi } from "../../../libs/useApi";
 import { useFormatter } from "../../../libs/useFormatter";
 import { ButtonWithIcon } from "../../../src/components/ButtonWithIcon";
 import { CartProductItem } from "../../../src/components/CartProductItem";
@@ -17,7 +17,7 @@ import styles from "../../../styles/Order-id.module.css";
 import { Order } from "../../../src/types/Order";
 
 const OrderID = (data: Props) => {
-  const api = useApi(data.tenant.slug);
+  const api = UseApi(data.tenant.slug);
 
   const { user, setToken, setUser } = useAuthContext();
   const { tenant, setTenant } = useAppContext();
@@ -274,7 +274,7 @@ type Props = {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug, orderid } = context.query;
 
-  const api = useApi(tenantSlug as string);
+  const api = UseApi(tenantSlug as string);
 
   //GET Tenant
   const tenant = await api.getTenant();

@@ -2,7 +2,7 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { Tenant } from "../../src/types/Tenent";
-import { useApi } from "../../libs/useApi";
+import { UseApi } from "../../libs/useApi";
 import { useAppContext } from "../../contexts/app";
 
 const Comanda = (data: Props) => {
@@ -16,6 +16,7 @@ const Comanda = (data: Props) => {
     }
   }, [data]);
 };
+
 export default Comanda;
 
 type Props = {
@@ -26,7 +27,7 @@ type Props = {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug, comanda } = context.query;
 
-  const api = useApi(tenantSlug as string);
+  const api = UseApi(tenantSlug as string);
   //GET Tenant
   const tenant = await api.getTenant();
 

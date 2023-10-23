@@ -56,7 +56,7 @@ const TEMPORARYorder: Order = {
   total: 198.84,
 };
 
-export const useApi = (tenantSlug: string) => ({
+export const UseApi = (tenantSlug: string) => ({
   getTenant: async () => {
     switch (tenantSlug) {
       case "manna_glauberth":

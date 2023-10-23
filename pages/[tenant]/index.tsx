@@ -5,7 +5,7 @@ import { networkInterfaces } from "os";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../contexts/app";
 import { useAuthContext } from "../../contexts/auth";
-import { useApi } from "../../libs/useApi";
+import { UseApi } from "../../libs/useApi";
 import Banner from "../../src/components/Banner";
 import Grupo from "../../src/components/Grupo";
 import ProductItem from "../../src/components/ProductItem";
@@ -200,7 +200,7 @@ type Props = {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug } = context.query;
 
-  const api = useApi(tenantSlug as string);
+  const api = UseApi(tenantSlug as string);
 
   //GET Tenant
   const tenant = await api.getTenant();

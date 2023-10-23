@@ -4,7 +4,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../../contexts/app";
-import { useApi } from "../../../libs/useApi";
+import { UseApi } from "../../../libs/useApi";
 import { useFormatter } from "../../../libs/useFormatter";
 import { Button } from "../../../src/components/Button";
 import { Header } from "../../../src/components/Header";
@@ -25,7 +25,7 @@ const Product = (data: Props) => {
   const formatter = useFormatter();
 
   const [qtCount, setQtCount] = useState(1);
-  const api = useApi(data.tenant.slug);
+  const api = UseApi(data.tenant.slug);
   const handleAddToCart = () => {
     let cart: CartCookie[] = [];
 
@@ -167,7 +167,7 @@ type Props = {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug, id } = context.query;
 
-  const api = useApi(tenantSlug as string);
+  const api = UseApi(tenantSlug as string);
 
   //GET Tenant
   const tenant = await api.getTenant();

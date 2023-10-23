@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../contexts/app";
 import { useAuthContext } from "../../contexts/auth";
-import { useApi } from "../../libs/useApi";
+import { UseApi } from "../../libs/useApi";
 import { Button } from "../../src/components/Button";
 import { Header } from "../../src/components/Header";
 import { InputField } from "../../src/components/InputField";
@@ -126,7 +126,7 @@ type Props = {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug } = context.query;
 
-  const api = useApi(tenantSlug as string);
+  const api = UseApi(tenantSlug as string);
 
   //GET Tenant
   const tenant = await api.getTenant();
