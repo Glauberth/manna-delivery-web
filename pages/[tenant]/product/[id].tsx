@@ -95,7 +95,12 @@ const Product = (data: Props) => {
         style={{ backgroundColor: data.tenant.mainColor }}
       ></div>
 
-      <div className={styles.productImage}>
+      <div
+        className={styles.productImage}
+        style={{
+          opacity: data.product.image ? "1" : "0.2",
+        }}
+      >
         <NextImage
           width={350}
           height={350}
