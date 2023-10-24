@@ -21,7 +21,7 @@ const Image = ({ src, alt, fallback }: ProductImg) => {
 export default function ProductImage(url: string) {
   return (
     <div className={styles.img}>
-      <NextImage src={url} alt="" />
+      <NextImage src={url} alt="imgProduct" />
     </div>
   );
 }

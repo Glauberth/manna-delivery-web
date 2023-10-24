@@ -28,7 +28,14 @@ const Image = ({ src, alt, fallback }: ProductImg) => {
   return error ? (
     fallback
   ) : (
-    <NextImage src={src} alt={alt} onError={onError} width={30} height={30} />
+    <NextImage
+      src={src}
+      alt={alt}
+      onError={onError}
+      width={100}
+      height={100}
+      // sizes="(max-width: 100px) 100vw"
+    />
   );
 };
 
@@ -41,34 +48,34 @@ export default function ProductItem({ data }: Props) {
   // isimg.isImg(data.image);
 
   return (
-    // <Link href={`/${tenant?.slug}/product/${data.id}`}>
-    // <a id={"l" + data.categoryId.toString()}>
-    <div className={styles.container}>
-      <div className={styles.info}>
-        <div className={styles.catName}>{data.categoryName}</div>
-        <div className={styles.name}>{data.name}</div>
-        <div className={styles.description}>
-          {data.description?.slice(0, 80)}...
+    <Link href={`/${tenant?.slug}/product/${data.id}`}>
+      <a id={"l" + data.categoryId.toString()}>
+        <div className={styles.container}>
+          <div className={styles.info}>
+            <div className={styles.catName}>{data.categoryName}</div>
+            <div className={styles.name}>{data.name}</div>
+            <div className={styles.description}>
+              {data.description && `${data.description?.slice(0, 80)}...`}
+            </div>
+            <div className={styles.price} style={{ color: tenant?.mainColor }}>
+              {formatter.formatPrice(data.price)}
+            </div>
+          </div>
+          <div
+            className={styles.img}
+            style={{
+              opacity: data.image == "/assets/img/sem-foto.png" ? "0.5" : "1",
+            }}
+          >
+            {/* <img src={data.image} alt="" /> */}
+            <Image
+              src={data.image}
+              alt="imagemproduto"
+              fallback={<span>this one exists</span>}
+            />
+          </div>
         </div>
-        <div className={styles.price} style={{ color: tenant?.mainColor }}>
-          {formatter.formatPrice(data.price)}
-        </div>
-      </div>
-      <div
-        className={styles.img}
-        style={{
-          opacity: data.image == "/assets/img/sem-foto.png" ? "0.5" : "1",
-        }}
-      >
-        {/* <img src={data.image} alt="" /> */}
-        <Image
-          src={data.image}
-          alt="imagemproduto"
-          fallback={<span>this one exists</span>}
-        />
-      </div>
-    </div>
-    // </a>
-    // </Link>
+      </a>
+    </Link>
   );
 }

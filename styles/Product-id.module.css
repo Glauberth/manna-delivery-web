@@ -20,12 +20,10 @@
 .productImage {
   text-align: center;
   margin-top: -250px;
+  border-radius: 50px;
 }
 
 .productImage img {
-  /* width: auto;
-  height: 350px; */
-  /* max-width: 250px; */
   border-radius: 50px;
   max-width: 350px;
   width: 90%;
@@ -33,9 +31,9 @@
   object-fit: cover;
   object-position: center;
 
-  -webkit-box-shadow: 7px 7px 51px -9px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 7px 7px 51px -9px rgba(0, 0, 0, 0.75);
-  box-shadow: 7px 7px 51px -9px rgba(0, 0, 0, 0.75);
+  /* -webkit-box-shadow: 7px 7px 51px -9px rgba(0, 0, 0, 0.75); */
+  /* -moz-box-shadow: 7px 7px 51px -9px rgba(0, 0, 0, 0.75); */
+  /* box-shadow: 7px 7px 51px -9px rgba(0, 0, 0, 0.75); */
 }
 
 .category {

@@ -1,12 +1,12 @@
 import { getCookie } from "cookies-next";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import { networkInterfaces } from "os";
+// import { networkInterfaces } from "os";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../contexts/app";
 import { useAuthContext } from "../../contexts/auth";
 import { UseApi } from "../../libs/useApi";
-import Banner from "../../src/components/Banner";
+// import Banner from "../../src/components/Banner";
 import Grupo from "../../src/components/Grupo";
 import ProductItem from "../../src/components/ProductItem";
 import SearchInput from "../../src/components/SearchInput";

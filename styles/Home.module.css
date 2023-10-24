@@ -22,6 +22,7 @@
   /* width: auto; */
   /* flex: 1; */
   /* border: 1px solid #000; */
+
   margin-bottom: 25px;
 }
 
@@ -29,6 +30,7 @@
   max-width: 250px;
   width: 50%;
   height: auto;
+  border-radius: 30px;
 }
 
 .headerTitle {

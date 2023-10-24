@@ -3,12 +3,14 @@
   align-items: center;
   justify-content: flex-end;
   margin-right: 15px;
+  border-radius: 15px;
+  opacity: 0.5;
 }
 
-.img img {
+/* .img img {
   width: 50%;
   height: 100px;
   width: 100px;
   border-radius: 15px;
   opacity: 0.5;
-}
+} */
