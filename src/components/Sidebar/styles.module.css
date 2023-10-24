@@ -6,7 +6,8 @@
   /* width: 100vw; Tamanho inteiro da tela */
   width: 0;
   background-color: #fff;
-  z-index: 1;
+  /* O nº 1 é o slider... */
+  z-index: 2;
   transition: all ease 0.2s;
   overflow-x: hidden; /* Pra não gerar nenhum tipo de barra de rolagem */
 }

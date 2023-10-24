@@ -153,7 +153,7 @@ const Product = (data: Props) => {
         <Button
           disabled
           color={data.tenant.mainColor}
-          label="Adicionar a Sacola"
+          label="Adicionar ao Carrinho"
           onClick={handleAddToCart}
           fill
         />

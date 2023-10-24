@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ReactElement, useState } from "react";
 import { useAppContext } from "../../../contexts/app";
 import { useFormatter } from "../../../libs/useFormatter";
-import { useUtils } from "../../../libs/useUtils";
+// import { useUtils } from "../../../libs/useUtils";
 import { Product } from "../../types/Products";
 import styles from "./styles.module.css";
 
@@ -71,7 +71,7 @@ export default function ProductItem({ data }: Props) {
             <Image
               src={data.image}
               alt="imagemproduto"
-              fallback={<span>this one exists</span>}
+              fallback={<span>img não existe</span>}
             />
           </div>
         </div>
