@@ -89,7 +89,7 @@ export const UseApi = (tenantSlug: string) => ({
         break;
       case "biel":
         return {
-          logo: "https://ccmpedidoonline.com.br/cdn/logoacaibielburguer.png",
+          logo: "/assets/img/logobiel.jpeg",
           slug: "biel",
           name: "Açai Biel",
           mainColor: "#aa28a5",
@@ -107,7 +107,7 @@ export const UseApi = (tenantSlug: string) => ({
         break;
       case "jordansantoamaro":
         return {
-          logo: "/assets/img/logo.jpg",
+          logo: "/assets/img/logojordan.jpg",
           slug: "jordansantoamaro",
           name: "Jordar Burger Santo Amaro",
           mainColor: "#bd8631",
