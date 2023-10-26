@@ -49,6 +49,7 @@ const Home = (data: Props) => {
   const [searchText, setSearchText] = useState("");
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const handleSearch = (value: string) => setSearchText(value);
+
   useEffect(() => {
     let newFilteredProducts: Product[] = [];
     for (let product of data.products) {
