@@ -52,6 +52,7 @@ const Home = (data: Props) => {
 
   useEffect(() => {
     let newFilteredProducts: Product[] = [];
+
     for (let product of data.products) {
       if (
         product.name

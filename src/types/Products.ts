@@ -1,3 +1,5 @@
+import { Combo } from "./Combo";
+
 export type Product = {
   id: number;
   image: string;
@@ -6,4 +8,5 @@ export type Product = {
   name: string;
   description?: string;
   price: number;
+  combo?: Combo[];
 };

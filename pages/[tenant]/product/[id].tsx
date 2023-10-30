@@ -14,6 +14,7 @@ import { Product } from "../../../src/types/Products";
 import { Tenant } from "../../../src/types/Tenent";
 import styles from "../../../styles/Product-id.module.css";
 import NextImage from "next/image";
+import { Combo } from "../../../src/types/Combo";
 
 const Product = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
@@ -133,6 +134,7 @@ const Product = (data: Props) => {
             // iconLixeira
           />
         </div>
+
         <div
           className={styles.areaRight}
           style={{ color: data.tenant.mainColor }}
@@ -140,6 +142,44 @@ const Product = (data: Props) => {
           {formatter.formatPrice(data.product.price)}
         </div>
       </div>
+      {data.product.combo!.length > 0 && (
+        <div
+          style={{ marginTop: "20px", textAlign: "center", fontWeight: "bold" }}
+          className={styles.category}
+        >
+          ADICIONAIS
+        </div>
+      )}
+      {data.product.combo?.map(
+        (item, index) =>
+          item.TIPOCOMBO == 1 && (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "flex-start",
+                justifyContent: "space-between",
+                marginLeft: "20px",
+                marginTop: "20px",
+              }}
+            >
+              <div>
+                <input
+                  key={index}
+                  type="checkbox"
+                  id={item.DESCRICAO}
+                  name="scales"
+                />
+                <label style={{ marginLeft: "10px" }} htmlFor={item.DESCRICAO}>
+                  {item.DESCRICAO}
+                </label>
+              </div>
+              <label style={{ marginLeft: "10px", marginRight: "10px" }}>
+                {formatter.formatPrice(item.PRECOVENDA)}
+              </label>
+            </div>
+          )
+      )}
+
       <div className={styles.areaObs}>
         <textarea
           style={{ borderColor: data.tenant.mainColor, fontSize: 16 }}

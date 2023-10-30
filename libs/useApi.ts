@@ -184,7 +184,8 @@ export const UseApi = (tenantSlug: string) => ({
         NOME,
         OBSERVACAO,
         URLIMAGE,
-      } = res.data[0];
+        COMBO,
+      } = res.data;
 
       prod = [
         {
@@ -196,6 +197,7 @@ export const UseApi = (tenantSlug: string) => ({
           description: OBSERVACAO,
           name: DESCRICAO,
           price: PRECOVENDA,
+          combo: COMBO,
         },
       ];
     });
