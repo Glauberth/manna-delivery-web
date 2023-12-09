@@ -60,7 +60,7 @@ export const Sidebar = ({ tenant, open, onClose }: Props) => {
           <SidebarMenuItem
             color={"#6A7D8B"}
             icon="cart"
-            label="Sacola"
+            label="Carrinho"
             onClick={() => {
               router.push(`/${tenant.slug}/cart`);
             }}

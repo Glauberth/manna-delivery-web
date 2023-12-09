@@ -108,3 +108,7 @@
 .buttonArea {
   margin: 50px 24px;
 }
+
+.hrsolid {
+  border-top: 3px solid #bbb;
+}

@@ -206,7 +206,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   //GET Tenant
   const tenant = await api.getTenant();
-  console.log(tenant);
+  //console.log(tenant);
 
   if (!tenant) {
     return {

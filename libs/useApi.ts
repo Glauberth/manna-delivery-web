@@ -10,7 +10,7 @@ import { User } from "../src/types/User";
 
 const TEMPORARYonProduct: Product = {
   id: 1,
-  image: "https://www.mannatech.com.br/velhojohn/imgappdelivery/58.png", //"/tmp/burguer.png",
+  image: "", //"https://www.mannatech.com.br/velhojohn/imgappdelivery/58.png", //"/tmp/burguer.png",
   categoryId: 0,
   categoryName: "HAMBURGUER",
   description:
@@ -43,7 +43,7 @@ const TEMPORARYorder: Order = {
       product: {
         ...TEMPORARYonProduct,
         id: 1,
-        image: "https://www.mannatech.com.br/velhojohn/imgappdelivery/101.png",
+        image: "", //"https://www.mannatech.com.br/velhojohn/imgappdelivery/101.png",
         name: "CHOPP PILSEN/ 475 ML",
         price: 13,
       },
@@ -125,7 +125,7 @@ export const UseApi = (tenantSlug: string) => ({
     await api
       .get(`/products/${tenantSlug}`)
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         res.data.forEach((item: any) => {
           prods.push({
             id: item.CODPRODUTO,
@@ -257,7 +257,7 @@ export const UseApi = (tenantSlug: string) => ({
         await api
           .get(`/products/${tenantSlug}/${cartJson[i].id}`)
           .then((res) => {
-            console.log(res.data);
+            // console.log(res.data);
             const {
               CODPRODUTO,
               CODBARRA,
@@ -267,7 +267,7 @@ export const UseApi = (tenantSlug: string) => ({
               NOME,
               OBSERVACAO,
               URLIMAGE,
-            } = res.data[0];
+            } = res.data;
 
             productbd = {
               id: CODPRODUTO,

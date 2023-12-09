@@ -14,19 +14,25 @@ import { Product } from "../../../src/types/Products";
 import { Tenant } from "../../../src/types/Tenent";
 import styles from "../../../styles/Product-id.module.css";
 import NextImage from "next/image";
-import { Combo } from "../../../src/types/Combo";
+
+type Combo = {
+  idProdCombo: number;
+  qtdProdCombo: number;
+};
 
 const Product = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
+  const [qtCount, setQtCount] = useState(1);
+  const [qtdCombo, setQtdCombo] = useState(0);
+  const [combo, setCombo] = useState<Combo[]>([]);
+  const router = useRouter();
+  const formatter = useFormatter();
+  const api = UseApi(data.tenant.slug);
+
   useEffect(() => {
     setTenant(data.tenant);
   }, []);
 
-  const router = useRouter();
-  const formatter = useFormatter();
-
-  const [qtCount, setQtCount] = useState(1);
-  const api = UseApi(data.tenant.slug);
   const handleAddToCart = () => {
     let cart: CartCookie[] = [];
 
@@ -63,7 +69,7 @@ const Product = (data: Props) => {
       });
     }
 
-    //console.log(cart);
+    console.log(cart);
 
     //setar o cookie
     setCookie("cart", JSON.stringify(cart));
@@ -75,6 +81,28 @@ const Product = (data: Props) => {
   const handleUpdateQt = (newCount: number) => {
     setQtCount(newCount);
   };
+
+  const handleUpdateQtdCombo = (newCount: number) => {
+    setQtdCombo(newCount);
+  };
+
+  const handleAddCombo = (idCombo: number) => {
+    // let combos: Combo[] = [];
+
+    // combos.push({
+    //   idProdCombo: idCombo,
+    //   qtdProdCombo: 1,
+    // });
+
+    setCombo((prevCombo) => [
+      ...combo,
+      { idProdCombo: idCombo, qtdProdCombo: 1 },
+    ]);
+  };
+
+  useEffect(() => {
+    console.log(combo);
+  }, [combo]);
 
   return (
     <div className={styles.container}>
@@ -129,7 +157,7 @@ const Product = (data: Props) => {
             count={qtCount}
             onUpdateCount={handleUpdateQt}
             min={1}
-            //small
+            // small
             //max={10}
             // iconLixeira
           />
@@ -154,28 +182,49 @@ const Product = (data: Props) => {
         (item, index) =>
           item.TIPOCOMBO == 1 && (
             <div
+              key={index}
               style={{
                 display: "flex",
-                alignItems: "flex-start",
+                alignItems: "center",
                 justifyContent: "space-between",
                 marginLeft: "20px",
-                marginTop: "20px",
+                marginTop: "10px",
+                marginBottom: "10px",
+                borderBottom: "1px solid #bbb",
+                paddingBottom: "5px",
               }}
             >
               <div>
-                <input
-                  key={index}
+                {/* <input
                   type="checkbox"
-                  id={item.DESCRICAO}
+                  id={item.CODPRODUTOCOMBO.toString()}
                   name="scales"
-                />
+                  onChange={(e) => {
+                    handleAddCombo(item.CODPRODUTOCOMBO);
+                  }}
+                /> */}
                 <label style={{ marginLeft: "10px" }} htmlFor={item.DESCRICAO}>
                   {item.DESCRICAO}
                 </label>
+                <div style={{ marginLeft: 10, marginTop: 5, color: "#5d5d5d" }}>
+                  + {formatter.formatPrice(item.PRECOVENDA)}
+                </div>
               </div>
-              <label style={{ marginLeft: "10px", marginRight: "10px" }}>
-                {formatter.formatPrice(item.PRECOVENDA)}
-              </label>
+
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <Quantity
+                  color={data.tenant.mainColor}
+                  count={qtdCombo}
+                  onUpdateCount={() => {}}
+                  // onUpdateCount={(newCount: number) =>
+                  //   onChange(newCount, product.id)
+                  // }
+                  min={1}
+                  small
+                  //max={10}
+                  // iconLixeira
+                />
+              </div>
             </div>
           )
       )}
@@ -191,7 +240,7 @@ const Product = (data: Props) => {
       </div>
       <div className={styles.buttonArea}>
         <Button
-          disabled
+          // disabled
           color={data.tenant.mainColor}
           label="Adicionar ao Carrinho"
           onClick={handleAddToCart}

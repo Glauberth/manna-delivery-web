@@ -20,11 +20,14 @@ export const CartProductItem = ({
   noEdit,
 }: Props) => {
   const formatter = useFormatter();
+  console.log({ imagem: product.image });
 
   return (
     <div className={styles.container}>
       <div className={styles.productImage}>
-        <NextImage src={product.image} alt="" />
+        {product.image && (
+          <NextImage width={150} height={150} src={product.image} alt="" />
+        )}
       </div>
       <div className={styles.productInfo}>
         <div className={styles.productCategory}>{product.categoryName}</div>

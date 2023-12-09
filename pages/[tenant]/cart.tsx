@@ -100,8 +100,15 @@ const Cart = (data: Props) => {
         subTitle="Produtos"
       />
 
-      <div className={styles.productsQuantity}>
-        {cart.length} {cart.length === 1 ? "item" : "itens"}
+      <div className={styles.resumeButton}>
+        <Button
+          color={data.tenant.mainColor}
+          label="<- Adicionar mais Itens"
+          onClick={() => {
+            router.push(`/${data.tenant.slug}`);
+          }}
+          fill
+        />
       </div>
 
       <div className={styles.productsList}>
@@ -114,6 +121,10 @@ const Cart = (data: Props) => {
             onChange={handleCartChange}
           />
         ))}
+      </div>
+
+      <div className={styles.productsQuantity}>
+        {cart.length} {cart.length === 1 ? "item" : "itens"}
       </div>
 
       <div className={styles.shippingArea}>
