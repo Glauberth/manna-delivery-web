@@ -62,7 +62,7 @@ export default function ProductItem({ data }: Props) {
             </div>
           </div>
           <div
-            className={styles.img}
+            className={styles.productImage}
             style={{
               opacity: data.image == "/assets/img/sem-foto.png" ? "0.2" : "1",
             }}

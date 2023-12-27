@@ -36,6 +36,15 @@
   /* opacity: 5%; */
 }
 
+.productImage img {
+  border-radius: 15px;
+  max-width: 350px;
+  width: 90%;
+  height: 350px;
+  object-fit: cover;
+  object-position: center;
+}
+
 .info .catName {
   font-weight: 500;
   font-size: 8px;

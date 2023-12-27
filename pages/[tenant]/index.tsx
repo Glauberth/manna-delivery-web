@@ -176,7 +176,6 @@ const Home = (data: Props) => {
                 >
                   {item.NOMEGRUPOAPP}
                 </div>
-
                 {getProducts(item.NOME).map((item, index) => (
                   <ProductItem key={index} data={item} />
                 ))}
