@@ -61,11 +61,11 @@ export const UseApi = (tenantSlug: string) => ({
     switch (tenantSlug) {
       case "manna_glauberth":
         return {
-          logo: "https://s.jpimg.com.br/wp-content/themes/jovempan/assets/build/images/favicons/apple-touch-icon.png",
+          logo: "/assets/img/logojordan.jpg",
           slug: "manna_glauberth",
-          name: "manna_glauberth Burger",
-          mainColor: "#fcb103",
-          secondColor: "#00FFFF",
+          name: "Glau Burger",
+          mainColor: "#bd8631",
+          secondColor: "#1b1e23",
         };
         break;
       case "mannapizza":
@@ -119,52 +119,52 @@ export const UseApi = (tenantSlug: string) => ({
     }
   },
 
-  getallProducts: async () => {
-    let prods: Product[] = [];
+  // getallProducts: async () => {
+  //   let prods: Product[] = [];
 
-    await api
-      .get(`/products/${tenantSlug}`)
-      .then((res) => {
-        //console.log(res.data);
-        res.data.forEach((item: any) => {
-          prods.push({
-            id: item.CODPRODUTO,
-            // image: item.URLIMAGE,
-            image: item.URLIMAGE
-              ? item.URLIMAGE
-              : //: "https://www.mannatech.com.br/deliveryapp/assets/sem-foto.png",
-                "/assets/img/sem-foto.png",
-            //image: imgValid,
-            categoryId: item.CODGRUPO,
-            categoryName: item.NOME,
-            name: item.DESCRICAO,
-            description: item.OBSERVACAO,
-            price: item.PRECOVENDA,
-          });
-        });
-      })
-      .catch((err) => {
-        console.log(`Erro Get Products by Manná: ${err}`);
-        for (let q = 0; q < 10; q++) {
-          prods.push(TEMPORARYonProduct);
-        }
-        return prods;
-      })
-      .finally(() => {
-        // console.log(`Msg by Manná: Finally`);
-      });
+  //   await api
+  //     .get(`/products/${tenantSlug}`)
+  //     .then((res) => {
+  //       //console.log(res.data);
+  //       res.data.forEach((item: any) => {
+  //         prods.push({
+  //           id: item.CODPRODUTO,
+  //           // image: item.URLIMAGE,
+  //           image: item.URLIMAGE
+  //             ? item.URLIMAGE
+  //             : //: "https://www.mannatech.com.br/deliveryapp/assets/sem-foto.png",
+  //               "/assets/img/sem-foto.png",
+  //           //image: imgValid,
+  //           categoryId: item.CODGRUPO,
+  //           categoryName: item.NOME,
+  //           name: item.DESCRICAO,
+  //           description: item.OBSERVACAO,
+  //           price: item.PRECOVENDA,
+  //         });
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       console.log(`Erro Get Products by Manná: ${err}`);
+  //       for (let q = 0; q < 10; q++) {
+  //         prods.push(TEMPORARYonProduct);
+  //       }
+  //       return prods;
+  //     })
+  //     .finally(() => {
+  //       // console.log(`Msg by Manná: Finally`);
+  //     });
 
-    return prods;
+  //   return prods;
 
-    //Versão antiga
-    // let prods: Product[] = [];
+  //   //Versão antiga
+  //   // let prods: Product[] = [];
 
-    // for (let q = 0; q < 10; q++) {
-    //   products.push(TEMPORARYonProduct);
-    // }
+  //   // for (let q = 0; q < 10; q++) {
+  //   //   products.push(TEMPORARYonProduct);
+  //   // }
 
-    // return prods;
-  },
+  //   // return prods;
+  // },
 
   getProduct: async (id: number) => {
     //Versão Antiga

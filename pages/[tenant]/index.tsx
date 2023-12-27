@@ -18,6 +18,7 @@ import { User } from "../../src/types/User";
 import styles from "../../styles/Home.module.css";
 import NoItemsIcon from "./../../public/assets/noitems.svg";
 import NextImage from "next/image";
+import { getProdutos } from "../../services/hooks/useProduto";
 
 const Home = (data: Props) => {
   const { tenant, comanda, setTenant } = useAppContext();
@@ -229,8 +230,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const user = await api.authorizeToken(token as string);
 
   //GET PRODUTOS
-  const products = await api.getallProducts();
+  //const products = await api.getallProducts();
+  const products = await getProdutos(tenantSlug as string); //api.getallProducts();
   const grupos = await api.getGrupo();
+
+  console.log("Products: " + products);
 
   return {
     props: { tenant, products, grupos, user, token },
