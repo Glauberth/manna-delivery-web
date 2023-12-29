@@ -131,8 +131,8 @@ const Product = (data: Props) => {
         }}
       >
         <NextImage
-          width={350}
-          height={350}
+          width={300}
+          height={300}
           src={
             data.product.image ? data.product.image : "/assets/img/sem-foto.png"
           }

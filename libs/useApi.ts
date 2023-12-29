@@ -59,10 +59,10 @@ const TEMPORARYorder: Order = {
 export const UseApi = (tenantSlug: string) => ({
   getTenant: async () => {
     switch (tenantSlug) {
-      case "manna_glauberth":
+      case "ferreira":
         return {
           logo: "/assets/img/logojordan.jpg",
-          slug: "manna_glauberth",
+          slug: "ferreira",
           name: "Glau Burger",
           mainColor: "#bd8631",
           secondColor: "#1b1e23",
@@ -110,6 +110,15 @@ export const UseApi = (tenantSlug: string) => ({
           logo: "/assets/img/logojordan.jpg",
           slug: "jordansantoamaro",
           name: "Jordar Burger Santo Amaro",
+          mainColor: "#bd8631",
+          secondColor: "#1b1e23",
+        };
+        break;
+      case "srinverno":
+        return {
+          logo: "/assets/img/srinverno/logo/srinverno.jpg",
+          slug: "srinverno",
+          name: "Sr. Inverno ",
           mainColor: "#bd8631",
           secondColor: "#1b1e23",
         };

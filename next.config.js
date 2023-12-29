@@ -1,15 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // images: {
-  //   remotePatterns: [
-  //     {
-  //       protocol: "https",
-  //       hostname: "mannatech.com.br",
-  //       port: ``,
-  //       pathname: "/velhojohn",
-  //     },
-  //   ],
-  // },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "lgvhostapi.mannatech.com.br",
+        port: ``,
+        pathname: "/files/**",
+      },
+    ],
+  },
   reactStrictMode: true,
   swcMinify: true,
   webpack(config) {
