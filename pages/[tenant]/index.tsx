@@ -1,11 +1,11 @@
 import { getCookie } from "cookies-next";
 import { GetServerSideProps } from "next";
+
 import Head from "next/head";
 // import { networkInterfaces } from "os";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../contexts/app";
 import { useAuthContext } from "../../contexts/auth";
-import { UseApi } from "../../libs/useApi";
 // import Banner from "../../src/components/Banner";
 import Grupo from "../../src/components/Grupo";
 import ProductItem from "../../src/components/ProductItem";
@@ -15,16 +15,22 @@ import { Group } from "../../src/types/Group";
 import { Product } from "../../src/types/Products";
 import { Tenant } from "../../src/types/Tenent";
 import { User } from "../../src/types/User";
+import { getProdutos } from "../../services/hooks/useProduto";
+import { getAllGrupos } from "../../services/hooks/useGrupo";
+import { autorizeToken } from "../../services/hooks/useToken";
+import { getTenant } from "../../services/hooks/useTenant";
 import styles from "../../styles/Home.module.css";
 import NoItemsIcon from "./../../public/assets/noitems.svg";
 import NextImage from "next/image";
-import { getProdutos } from "../../services/hooks/useProduto";
+// import { FooterCart } from "../../src/components/FooterCart";
+import dynamic from "next/dynamic";
+const FooterCart = dynamic(() => import("../../src/components/FooterCart"), {
+  ssr: false,
+});
 
 const Home = (data: Props) => {
   const { tenant, comanda, setTenant } = useAppContext();
   const { user, setToken, setUser } = useAuthContext();
-
-  console.log(comanda);
 
   useEffect(() => {
     setTenant(data.tenant);
@@ -105,31 +111,36 @@ const Home = (data: Props) => {
             </div>
           </div>
 
-          <div className={styles.headerTopRight}>
-            <div
-              className={styles.menuButtom}
-              onClick={() => setSidebarOpen(true)}
-            >
+          {/* 
+                Não será exibido o icone do menu para o SR inverno, pois ele é só catalogo...
+                */}
+          {data.tenant.isCatalogo == false && (
+            <div className={styles.headerTopRight}>
               <div
-                className={styles.menuButtomLine}
-                style={{ backgroundColor: tenant?.mainColor }}
-              ></div>
-              <div
-                className={styles.menuButtomLine}
-                style={{ backgroundColor: tenant?.mainColor }}
-              ></div>
-              <div
-                className={styles.menuButtomLine}
-                style={{ backgroundColor: tenant?.mainColor }}
-              ></div>
-            </div>
+                className={styles.menuButtom}
+                onClick={() => setSidebarOpen(true)}
+              >
+                <div
+                  className={styles.menuButtomLine}
+                  style={{ backgroundColor: tenant?.mainColor }}
+                ></div>
+                <div
+                  className={styles.menuButtomLine}
+                  style={{ backgroundColor: tenant?.mainColor }}
+                ></div>
+                <div
+                  className={styles.menuButtomLine}
+                  style={{ backgroundColor: tenant?.mainColor }}
+                ></div>
+              </div>
 
-            <Sidebar
-              tenant={data.tenant}
-              open={sidebarOpen}
-              onClose={() => setSidebarOpen(false)}
-            />
-          </div>
+              <Sidebar
+                tenant={data.tenant}
+                open={sidebarOpen}
+                onClose={() => setSidebarOpen(false)}
+              />
+            </div>
+          )}
         </div>
         <div className={styles.headerBottom}>
           <SearchInput onSearch={handleSearch} />
@@ -184,6 +195,10 @@ const Home = (data: Props) => {
           </div>
         </>
       )}
+
+      {data.tenant.isCatalogo == false && (
+        <FooterCart tenantSlug={data.tenant.slug} />
+      )}
     </div>
   );
 };
@@ -202,10 +217,8 @@ type Props = {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug } = context.query;
 
-  const api = UseApi(tenantSlug as string);
-
   //GET Tenant
-  const tenant = await api.getTenant();
+  const tenant = await getTenant(tenantSlug as string);
   //console.log(tenant);
 
   if (!tenant) {
@@ -226,14 +239,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   // console.log("Token: " + token);
-  const user = await api.authorizeToken(token as string);
+  const user = await autorizeToken(token as string);
 
   //GET PRODUTOS
   //const products = await api.getallProducts();
   const products = await getProdutos(tenantSlug as string); //api.getallProducts();
-  const grupos = await api.getGrupo();
+  const grupos = await getAllGrupos(tenantSlug as string);
+  //const grupos = await api.getGrupo();
 
-  console.log("Products: " + products);
+  // console.log("Products: " + products);
 
   return {
     props: { tenant, products, grupos, user, token },

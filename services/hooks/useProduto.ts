@@ -1,16 +1,15 @@
+import { CartItem } from "../../src/types/CartItem";
 import { Product } from "../../src/types/Products";
 import { api } from "../api";
 
 export async function getProdutos(tenantSlug: string) {
-  const products = await api.get(`products/${tenantSlug}`);
+  //const products = await api.get(`products/${tenantSlug}`);
 
   let prods: Product[] = [];
 
   const produtos = await api
     .get(`/products/${tenantSlug}`)
     .then((res) => {
-      console.log(res.data);
-
       res.data.forEach((item: any) => {
         prods.push({
           id: item.CODPRODUTO,
@@ -66,4 +65,58 @@ export async function getOneProduct(tenantSlug: string, idProduct: number) {
   });
 
   return prod[0];
+}
+
+export async function getCartProducts(tenantSlug: string, cartCookie: string) {
+  let cart: CartItem[] = [];
+
+  if (!cartCookie) return cart;
+
+  const cartJson = JSON.parse(cartCookie);
+
+  // console.log(cartJson);
+
+  for (let i in cartJson) {
+    if (cartJson[i].id && cartJson[i].id) {
+      // const product = {
+      //   ...TEMPORARYonProduct,
+      //   id: cartJson[i].id,
+      // };
+
+      let productbd: Product;
+
+      await api.get(`/products/${tenantSlug}/${cartJson[i].id}`).then((res) => {
+        // console.log(res.data);
+        const {
+          CODPRODUTO,
+          CODBARRA,
+          DESCRICAO,
+          PRECOVENDA,
+          CODGRUPO,
+          NOME,
+          OBSERVACAO,
+          URLIMAGE,
+        } = res.data;
+
+        productbd = {
+          id: CODPRODUTO,
+          image: URLIMAGE ? URLIMAGE : "",
+          // image: URLIMAGE ? URLIMAGE : "/assets/img/no-foto.svg",
+          categoryId: CODGRUPO,
+          categoryName: NOME,
+          description: OBSERVACAO,
+          name: DESCRICAO,
+          price: PRECOVENDA,
+          combo: cartJson[i]?.combo,
+        };
+
+        cart.push({
+          qt: cartJson[i].qt,
+          product: productbd,
+        });
+      });
+    }
+  }
+
+  return cart;
 }

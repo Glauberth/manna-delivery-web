@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../../contexts/app";
 import { useAuthContext } from "../../../contexts/auth";
-import { UseApi } from "../../../libs/useApi";
 import { useFormatter } from "../../../libs/useFormatter";
 import { AddressItem } from "../../../src/components/AddressItem";
 import { Button } from "../../../src/components/Button";
@@ -16,6 +15,9 @@ import { CartItem } from "../../../src/types/CartItem";
 import { Tenant } from "../../../src/types/Tenent";
 import { User } from "../../../src/types/User";
 import styles from "../../../styles/NewAddress.module.css";
+import { autorizeToken } from "../../../services/hooks/useToken";
+import { getAllAddress, newAddress } from "../../../services/hooks/useAddress";
+import { getTenant } from "../../../services/hooks/useTenant";
 
 const NewAddress = (data: Props) => {
   const { user, setToken, setUser } = useAuthContext();
@@ -30,7 +32,7 @@ const NewAddress = (data: Props) => {
 
   const formatter = useFormatter();
   const router = useRouter();
-  const api = UseApi(data.tenant.slug);
+  // const api = UseApi(data.tenant.slug);
 
   const [errorFields, setErrorFields] = useState<string[]>([]);
 
@@ -89,9 +91,9 @@ const NewAddress = (data: Props) => {
         complemento: addressComplemento,
       };
 
-      let newAddress = await api.addUserAddress(address);
+      let newDadosAddress = await newAddress(address);
 
-      if (newAddress.id > 0) {
+      if (newDadosAddress.id > 0) {
         router.push(`/${data.tenant.slug}/myaddresses`);
       } else {
         alert("Ocorreu um erro! Tente mais tarde.");
@@ -224,10 +226,10 @@ type Props = {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug } = context.query;
 
-  const api = UseApi(tenantSlug as string);
+  // const api = UseApi(tenantSlug as string);
 
   //GET Tenant
-  const tenant = await api.getTenant();
+  const tenant = await getTenant(tenantSlug as string);
 
   if (!tenant) {
     return {
@@ -247,7 +249,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   // console.log("Token: " + token);
-  const user = await api.authorizeToken(token as string);
+  //const user = await api.authorizeToken(token as string);
+  const user = await autorizeToken(token as string);
   if (!user) {
     return {
       redirect: {
@@ -258,7 +261,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   //GET ADDRESSES FROM LOGGED USER
-  const addresses = await api.getUserAddresses(user.email);
+  const addresses = await getAllAddress(user.email);
 
   return {
     props: { tenant, user, token, addresses },

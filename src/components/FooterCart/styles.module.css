@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  align-items: center;
+
+  justify-content: space-between;
+  margin: 0;
+  height: 100%;
+}
+
+.rodape h1 {
+  /* text-decoration: none; */
+  /* text-decoration-color: black; */
+  font-weight: 500px;
+  font-size: 1rem;
+  color: white;
+}
+
+.rodape {
+  padding: 25px;
+  margin: 15px;
+
+  position: sticky;
+  bottom: 10px;
+
+  /* Define a altura do rodapé */
+  height: 60px;
+  border-radius: 5px;
+  background-color: red;
+}
+
+.cartIcon {
+  width: 2.5rem;
+}

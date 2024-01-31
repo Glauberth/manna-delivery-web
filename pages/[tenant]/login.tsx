@@ -5,12 +5,12 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../contexts/app";
 import { useAuthContext } from "../../contexts/auth";
-import { UseApi } from "../../libs/useApi";
 import { Button } from "../../src/components/Button";
 import { Header } from "../../src/components/Header";
 import { InputField } from "../../src/components/InputField";
 import { Tenant } from "../../src/types/Tenent";
 import styles from "../../styles/Login.module.css";
+import { getTenant } from "../../services/hooks/useTenant";
 
 const Login = (data: Props) => {
   const { setToken, setUser } = useAuthContext();
@@ -126,10 +126,8 @@ type Props = {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug } = context.query;
 
-  const api = UseApi(tenantSlug as string);
-
   //GET Tenant
-  const tenant = await api.getTenant();
+  const tenant = await getTenant(tenantSlug as string);
 
   if (!tenant) {
     return {

@@ -106,7 +106,10 @@
 }
 
 .buttonArea {
-  margin: 50px 24px;
+  padding-bottom: 5px;
+  margin: 50px 10px;
+  position: sticky;
+  bottom: 0;
 }
 
 .hrsolid {

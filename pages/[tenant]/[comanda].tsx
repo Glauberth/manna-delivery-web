@@ -2,8 +2,8 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { Tenant } from "../../src/types/Tenent";
-import { UseApi } from "../../libs/useApi";
 import { useAppContext } from "../../contexts/app";
+import { getTenant } from "../../services/hooks/useTenant";
 
 const Comanda = (data: Props) => {
   const router = useRouter();
@@ -27,9 +27,10 @@ type Props = {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug, comanda } = context.query;
 
-  const api = UseApi(tenantSlug as string);
+  //const api = UseApi(tenantSlug as string);
+
   //GET Tenant
-  const tenant = await api.getTenant();
+  const tenant = await getTenant(tenantSlug as string);
 
   if (!tenant) {
     return {

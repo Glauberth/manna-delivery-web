@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAppContext } from "../../../contexts/app";
 import { useAuthContext } from "../../../contexts/auth";
-import { UseApi } from "../../../libs/useApi";
 import { useFormatter } from "../../../libs/useFormatter";
 import { ButtonWithIcon } from "../../../src/components/ButtonWithIcon";
 import { CartProductItem } from "../../../src/components/CartProductItem";
@@ -15,10 +14,11 @@ import { Tenant } from "../../../src/types/Tenent";
 import { User } from "../../../src/types/User";
 import styles from "../../../styles/Order-id.module.css";
 import { Order } from "../../../src/types/Order";
+import { autorizeToken } from "../../../services/hooks/useToken";
+import { getTenant } from "../../../services/hooks/useTenant";
+import { getOneOrder } from "../../../services/hooks/useOrders";
 
 const OrderID = (data: Props) => {
-  const api = UseApi(data.tenant.slug);
-
   const { user, setToken, setUser } = useAuthContext();
   const { tenant, setTenant } = useAppContext();
 
@@ -274,10 +274,8 @@ type Props = {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug, orderid } = context.query;
 
-  const api = UseApi(tenantSlug as string);
-
   //GET Tenant
-  const tenant = await api.getTenant();
+  const tenant = await getTenant(tenantSlug as string);
 
   if (!tenant) {
     return {
@@ -297,10 +295,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   // console.log("Token: " + token);
-  const user = await api.authorizeToken(token as string);
+  const user = await autorizeToken(token as string);
 
   //Get Order
-  const order = await api.getOrder(parseInt(orderid as string));
+  const order = await getOneOrder(parseInt(orderid as string));
 
   return {
     props: { tenant, user, token, order },

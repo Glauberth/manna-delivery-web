@@ -1,38 +1,39 @@
+import { useState } from "react";
 import { useFormatter } from "../../../libs/useFormatter";
-import { Product } from "../../types/Products";
+import { Combo } from "../../types/Combo";
 import { Quantity } from "../Quantity";
 import styles from "./styles.module.css";
 import NextImage from "next/image";
 
 type Props = {
   color: string;
-  quantity: number;
-  product: Product;
-  onChange: (newCount: number, id: number) => void;
+  combo: Combo;
+  handleCombo: (combo: Combo) => void;
   noEdit?: boolean;
 };
 
-export const CartProductItem = ({
-  color,
-  product,
-  quantity,
-  onChange,
-  noEdit,
-}: Props) => {
+export const ComboItem = ({ color, combo, handleCombo, noEdit }: Props) => {
+  const [quantidade, setQuantidade] = useState(0);
   const formatter = useFormatter();
+
+  function handleUpdateQtdCombo(newCount: number) {
+    setQuantidade(newCount);
+    const updatedCombo = { ...combo, QUANTIDADE: newCount };
+    handleCombo(updatedCombo);
+  }
 
   return (
     <div className={styles.container}>
-      {product.image && (
+      {combo.URLIMAGE && (
         <div className={styles.productImage}>
-          <NextImage width={100} height={100} src={product.image} alt="" />
+          <NextImage width={150} height={150} src={combo.URLIMAGE} alt="" />
         </div>
       )}
       <div className={styles.productInfo}>
-        <div className={styles.productCategory}>{product.categoryName}</div>
-        <div className={styles.productName}>{product.name}</div>
+        <div className={styles.productCategory}>{combo.NOME}</div>
+        <div className={styles.productName}>{combo.DESCRICAO}</div>
         <div className={styles.productPrice} style={{ color: color }}>
-          {formatter.formatPrice(product.price)}
+          {formatter.formatPrice(combo.PRECOVENDA)}
         </div>
       </div>
       <div className={styles.qtControl}>
@@ -42,7 +43,7 @@ export const CartProductItem = ({
               Qtd.
             </div>
             <div style={{ color }} className={styles.qtCount}>
-              {quantity}
+              {quantidade}
             </div>
           </div>
         )}
@@ -50,9 +51,10 @@ export const CartProductItem = ({
         {!noEdit && (
           <Quantity
             color={color}
-            count={quantity}
-            onUpdateCount={(newCount: number) => onChange(newCount, product.id)}
+            count={quantidade}
+            onUpdateCount={handleUpdateQtdCombo}
             min={0}
+            max={3}
             // iconLixeira
             small
           />

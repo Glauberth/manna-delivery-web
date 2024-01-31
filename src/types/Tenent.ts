@@ -4,4 +4,5 @@ export type Tenant = {
   name: string;
   mainColor: string;
   secondColor: string;
+  isCatalogo?: boolean;
 };

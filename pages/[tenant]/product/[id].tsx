@@ -4,7 +4,6 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../../contexts/app";
-import { UseApi } from "../../../libs/useApi";
 import { useFormatter } from "../../../libs/useFormatter";
 import { Button } from "../../../src/components/Button";
 import { Header } from "../../../src/components/Header";
@@ -14,26 +13,28 @@ import { Product } from "../../../src/types/Products";
 import { Tenant } from "../../../src/types/Tenent";
 import styles from "../../../styles/Product-id.module.css";
 import NextImage from "next/image";
-
-type Combo = {
-  idProdCombo: number;
-  qtdProdCombo: number;
-};
+import { getOneProduct } from "../../../services/hooks/useProduto";
+import { getTenant } from "../../../services/hooks/useTenant";
+import { CartProductItem } from "../../../src/components/CartProductItem";
+import { ComboItem } from "../../../src/components/ComboItem";
+import { Combo } from "../../../src/types/Combo";
 
 const Product = (data: Props) => {
+  const [totalPriceProduct, setTotalPriceProdutct] = useState(
+    data.product.price
+  );
+
   const { tenant, setTenant } = useAppContext();
   const [qtCount, setQtCount] = useState(1);
-  const [qtdCombo, setQtdCombo] = useState(0);
   const [combo, setCombo] = useState<Combo[]>([]);
   const router = useRouter();
   const formatter = useFormatter();
-  const api = UseApi(data.tenant.slug);
 
   useEffect(() => {
     setTenant(data.tenant);
   }, []);
 
-  const handleAddToCart = () => {
+  function handleAddProductToCart() {
     let cart: CartCookie[] = [];
 
     // create or existing cart
@@ -46,8 +47,6 @@ const Product = (data: Props) => {
           cart.push(cartJson[i]);
         }
       }
-
-      //console.log(cart);
     }
 
     // procurando o produto em um carrinho
@@ -60,12 +59,14 @@ const Product = (data: Props) => {
       // adicionando o produto ao carrinho
 
       //GET Tenant
-      const codvenda = api.getTenant();
+      // const codvenda = getTenant(data.tenant.slug);
 
       cart.push({
         //codvenda: 1,
         id: data.product.id,
         qt: qtCount,
+        preco: data.product.price,
+        combo: combo,
       });
     }
 
@@ -75,34 +76,57 @@ const Product = (data: Props) => {
     setCookie("cart", JSON.stringify(cart));
 
     //Mandar para o carrinho
-    router.push(`/${data.tenant.slug}/cart`);
-  };
+    //router.push(`/${data.tenant.slug}/cart`);
+    router.push(`/${data.tenant.slug}`);
+  }
 
-  const handleUpdateQt = (newCount: number) => {
+  function handleUpdateQt(newCount: number) {
     setQtCount(newCount);
-  };
+  }
 
-  const handleUpdateQtdCombo = (newCount: number) => {
-    setQtdCombo(newCount);
-  };
+  function handleAddCombo(newCombo: Combo) {
+    // procurando o combo no array de combos
+    const resultSearchIndex = combo.findIndex(
+      (item) => item.CODCOMBO === newCombo.CODCOMBO
+    );
 
-  const handleAddCombo = (idCombo: number) => {
-    // let combos: Combo[] = [];
+    let finalCombo;
 
-    // combos.push({
-    //   idProdCombo: idCombo,
-    //   qtdProdCombo: 1,
-    // });
+    if (resultSearchIndex > -1) {
+      if (newCombo.QUANTIDADE >= 1) {
+        const newArrayCombo = combo.map((item) => {
+          if (item.CODCOMBO == combo[resultSearchIndex].CODCOMBO) {
+            item.QUANTIDADE = newCombo.QUANTIDADE;
+            return item;
+          } else {
+            return item;
+          }
+        });
 
-    setCombo((prevCombo) => [
-      ...combo,
-      { idProdCombo: idCombo, qtdProdCombo: 1 },
-    ]);
-  };
+        finalCombo = newArrayCombo;
+      } else {
+        //ou remove o combo caso a quantidade for menor que zero
+        const newArrayCombo = combo;
 
-  useEffect(() => {
-    console.log(combo);
-  }, [combo]);
+        // deleta a posição indicada e o segundo parametro é pra deletar só este objeto do array,
+        // se colocar 2 no segundo parametro, ele vai apagar a posição selecionada e mais um pra frente,
+        // esse segundo parametro é o countRemove, serve pra decidir quantos items depois dele serão apagados...
+        newArrayCombo.splice(resultSearchIndex, 1);
+        finalCombo = newArrayCombo;
+      }
+    } else {
+      const newArray = [...combo, newCombo];
+
+      finalCombo = newArray;
+    }
+
+    const total = finalCombo.reduce((accumulator, newItem) => {
+      return accumulator + newItem.PRECOVENDA * newItem.QUANTIDADE;
+    }, data.product.price);
+
+    setCombo(finalCombo);
+    setTotalPriceProdutct(total);
+  }
 
   return (
     <div className={styles.container}>
@@ -122,7 +146,9 @@ const Product = (data: Props) => {
       <div
         className={styles.headerBg}
         style={{ backgroundColor: data.tenant.mainColor }}
-      ></div>
+      >
+        {/* <button onClick={() => console.log(totalPriceProduct)}>teste</button> */}
+      </div>
 
       <div
         className={styles.productImage}
@@ -167,7 +193,8 @@ const Product = (data: Props) => {
           className={styles.areaRight}
           style={{ color: data.tenant.mainColor }}
         >
-          {formatter.formatPrice(data.product.price)}
+          {/* {formatter.formatPrice(data.product.price)} */}
+          {formatter.formatPrice(totalPriceProduct)}
         </div>
       </div>
       {data.product.combo!.length > 0 && (
@@ -178,56 +205,17 @@ const Product = (data: Props) => {
           ADICIONAIS
         </div>
       )}
-      {data.product.combo?.map(
-        (item, index) =>
-          item.TIPOCOMBO == 1 && (
-            <div
-              key={index}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                marginLeft: "20px",
-                marginTop: "10px",
-                marginBottom: "10px",
-                borderBottom: "1px solid #bbb",
-                paddingBottom: "5px",
-              }}
-            >
-              <div>
-                {/* <input
-                  type="checkbox"
-                  id={item.CODPRODUTOCOMBO.toString()}
-                  name="scales"
-                  onChange={(e) => {
-                    handleAddCombo(item.CODPRODUTOCOMBO);
-                  }}
-                /> */}
-                <label style={{ marginLeft: "10px" }} htmlFor={item.DESCRICAO}>
-                  {item.DESCRICAO}
-                </label>
-                <div style={{ marginLeft: 10, marginTop: 5, color: "#5d5d5d" }}>
-                  + {formatter.formatPrice(item.PRECOVENDA)}
-                </div>
-              </div>
 
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <Quantity
-                  color={data.tenant.mainColor}
-                  count={qtdCombo}
-                  onUpdateCount={() => {}}
-                  // onUpdateCount={(newCount: number) =>
-                  //   onChange(newCount, product.id)
-                  // }
-                  min={1}
-                  small
-                  //max={10}
-                  // iconLixeira
-                />
-              </div>
-            </div>
-          )
-      )}
+      {data.product.combo?.map((item, index) => {
+        return (
+          <ComboItem
+            key={index}
+            color={data.tenant.mainColor}
+            combo={item}
+            handleCombo={handleAddCombo}
+          />
+        );
+      })}
 
       <div className={styles.areaObs}>
         <textarea
@@ -239,13 +227,15 @@ const Product = (data: Props) => {
         ></textarea>
       </div>
       <div className={styles.buttonArea}>
-        <Button
-          // disabled
-          color={data.tenant.mainColor}
-          label="Adicionar ao Carrinho"
-          onClick={handleAddToCart}
-          fill
-        />
+        {data.tenant.isCatalogo == false && (
+          <Button
+            // disabled
+            color={data.tenant.mainColor}
+            label="Adicionar ao Carrinho"
+            onClick={handleAddProductToCart}
+            fill
+          />
+        )}
       </div>
     </div>
   );
@@ -261,10 +251,8 @@ type Props = {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug, id } = context.query;
 
-  const api = UseApi(tenantSlug as string);
-
   //GET Tenant
-  const tenant = await api.getTenant();
+  const tenant = await getTenant(tenantSlug as string);
 
   if (!tenant) {
     return {
@@ -276,7 +264,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   //GET Product
-  const product = await api.getProduct(parseInt(id as string));
+  const product = await getOneProduct(
+    tenantSlug as string,
+    parseInt(id as string)
+  );
+  //const product = await api.getProduct(parseInt(id as string));
 
   return {
     props: { tenant, product },

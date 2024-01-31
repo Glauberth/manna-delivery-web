@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../contexts/app";
 import { useAuthContext } from "../../contexts/auth";
-import { UseApi } from "../../libs/useApi";
 import { useFormatter } from "../../libs/useFormatter";
 import { Button } from "../../src/components/Button";
 import { ButtonWithIcon } from "../../src/components/ButtonWithIcon";
@@ -18,11 +17,14 @@ import { CartItem } from "../../src/types/CartItem";
 import { Tenant } from "../../src/types/Tenent";
 import { User } from "../../src/types/User";
 import styles from "../../styles/Checkout.module.css";
+import { getCartProducts } from "../../services/hooks/useProduto";
+import { autorizeToken } from "../../services/hooks/useToken";
+import { newOrder } from "../../services/hooks/useOrders";
+import { getTenant } from "../../services/hooks/useTenant";
 
 const Checkout = (data: Props) => {
   const formatter = useFormatter();
   const router = useRouter();
-  const api = UseApi(data.tenant.slug);
 
   const { user, setToken, setUser } = useAuthContext();
   const { tenant, setTenant, shippingAddress, shippingPrice } = useAppContext();
@@ -70,7 +72,7 @@ const Checkout = (data: Props) => {
 
   const handleFinish = async () => {
     if (shippingAddress) {
-      const order = await api.setOrder(
+      const order = await newOrder(
         shippingAddress,
         paymentType,
         paymentChange,
@@ -268,10 +270,8 @@ type Props = {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug } = context.query;
 
-  const api = UseApi(tenantSlug as string);
-
   //GET Tenant
-  const tenant = await api.getTenant();
+  const tenant = await getTenant(tenantSlug as string);
 
   if (!tenant) {
     return {
@@ -291,11 +291,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   // console.log("Token: " + token);
-  const user = await api.authorizeToken(token as string);
+  const user = await autorizeToken(token as string);
 
   //GET CART PRODUTOS
   const cartCookie = getCookie("cart", context);
-  const cart = await api.getCartProducts(cartCookie as string);
+  //const cart = await api.getCartProducts(cartCookie as string);
+  const cart = await getCartProducts(
+    tenantSlug as string,
+    cartCookie as string
+  );
   //console.log("CART", cart);
   //console.log(codvenda);
   return {

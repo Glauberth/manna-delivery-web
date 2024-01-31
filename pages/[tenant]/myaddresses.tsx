@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../contexts/app";
 import { useAuthContext } from "../../contexts/auth";
-import { UseApi } from "../../libs/useApi";
+
 import { useFormatter } from "../../libs/useFormatter";
 import { AddressItem } from "../../src/components/AddressItem";
 import { Button } from "../../src/components/Button";
@@ -15,6 +15,13 @@ import { CartItem } from "../../src/types/CartItem";
 import { Tenant } from "../../src/types/Tenent";
 import { User } from "../../src/types/User";
 import styles from "../../styles/MyAddresses.module.css";
+import { autorizeToken } from "../../services/hooks/useToken";
+import {
+  deleteAddress,
+  getAllAddress,
+  getShippingPrice,
+} from "../../services/hooks/useAddress";
+import { getTenant } from "../../services/hooks/useTenant";
 
 const MyAddresses = (data: Props) => {
   const { user, setToken, setUser } = useAuthContext();
@@ -29,10 +36,9 @@ const MyAddresses = (data: Props) => {
 
   const formatter = useFormatter();
   const router = useRouter();
-  const api = UseApi(data.tenant.slug);
 
   const handleAddressSelect = async (address: Address) => {
-    const price = await api.getShippingPrice(address);
+    const price = await getShippingPrice(address);
 
     if (price) {
       //Salvar no contexto
@@ -53,7 +59,7 @@ const MyAddresses = (data: Props) => {
   };
 
   const handleAddressDelete = async (id: number) => {
-    await api.deleteUserAddress(id);
+    await deleteAddress(id);
     router.reload();
   };
 
@@ -127,10 +133,8 @@ type Props = {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug } = context.query;
 
-  const api = UseApi(tenantSlug as string);
-
   //GET Tenant
-  const tenant = await api.getTenant();
+  const tenant = await getTenant(tenantSlug as string);
 
   if (!tenant) {
     return {
@@ -150,7 +154,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   // console.log("Token: " + token);
-  const user = await api.authorizeToken(token as string);
+  const user = await autorizeToken(token as string);
   if (!user) {
     return {
       redirect: {
@@ -161,7 +165,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   //GET ADDRESSES FROM LOGGED USER
-  const addresses = await api.getUserAddresses(user.email);
+  const addresses = await getAllAddress(user.email);
 
   return {
     props: { tenant, user, token, addresses },

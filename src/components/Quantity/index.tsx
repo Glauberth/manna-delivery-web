@@ -27,7 +27,14 @@ export const Quantity = ({
   const formatter = useFormatter();
 
   useEffect(() => {
-    setCanRemove(!min || (min && count > min) ? true : false);
+    // console.log({ count: count, min: min, max: max });
+
+    if (min) {
+      setCanRemove(!min || (min && count > min) ? true : false);
+    } else {
+      setCanRemove(min == 0 && count > min ? true : false);
+    }
+
     setCanAdd(!max || (max && count < max) ? true : false);
   }, [count, min, max]);
 
