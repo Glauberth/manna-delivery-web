@@ -11,10 +11,12 @@ export async function getProdutos(tenantSlug: string) {
     .get(`/products/${tenantSlug}`)
     .then((res) => {
       res.data.forEach((item: any) => {
+        console.log(item.FOTO);
         prods.push({
           id: item.CODPRODUTO,
           // image: item.URLIMAGE,
           image: item.URLIMAGE ? item.URLIMAGE : "/assets/img/sem-foto.png",
+          foto: item.FOTO ? item.FOTO : "",
           //image: imgValid,
           categoryId: item.CODGRUPO,
           categoryName: item.NOME,
@@ -96,11 +98,13 @@ export async function getCartProducts(tenantSlug: string, cartCookie: string) {
           NOME,
           OBSERVACAO,
           URLIMAGE,
+          FOTO,
         } = res.data;
 
         productbd = {
           id: CODPRODUTO,
           image: URLIMAGE ? URLIMAGE : "",
+          foto: FOTO,
           // image: URLIMAGE ? URLIMAGE : "/assets/img/no-foto.svg",
           categoryId: CODGRUPO,
           categoryName: NOME,

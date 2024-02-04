@@ -5,7 +5,7 @@ import { useFormatter } from "../../../libs/useFormatter";
 // import { useUtils } from "../../../libs/useUtils";
 import { Product } from "../../types/Products";
 import styles from "./styles.module.css";
-
+import fs from "fs/promises";
 import NextImage from "next/image";
 
 type Props = {
@@ -16,20 +16,29 @@ type ProductImg = {
   src: string;
   alt: string;
   fallback: ReactElement;
+  base64?: BlobPart;
 };
 
-const Image = ({ src, alt, fallback }: ProductImg) => {
+const Image = ({ src, alt, fallback, base64 }: ProductImg) => {
   const [error, setError] = useState(false);
 
   const onError = () => {
     setError(true);
   };
 
+  // let base64String = base64!.toString("base64");
+
+  // base64String && console.log(base64String);
+
+  const blob = new Blob([base64!]);
+  const url = URL.createObjectURL(blob);
+  console.log(url);
+
   return error ? (
     fallback
   ) : (
     <NextImage
-      src={src}
+      src={url}
       alt={alt}
       onError={onError}
       width={100}
@@ -70,6 +79,7 @@ export default function ProductItem({ data }: Props) {
             {/* <img src={data.image} alt="" /> */}
             <Image
               src={data.image}
+              base64={data.foto!}
               alt="imagemproduto"
               fallback={<span>img não existe</span>}
             />
