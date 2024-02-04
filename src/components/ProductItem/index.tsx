@@ -38,7 +38,7 @@ const Image = ({ src, alt, fallback, base64 }: ProductImg) => {
     fallback
   ) : (
     <NextImage
-      src={url}
+      src={src}
       alt={alt}
       onError={onError}
       width={100}
