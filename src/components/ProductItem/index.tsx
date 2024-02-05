@@ -5,7 +5,6 @@ import { useFormatter } from "../../../libs/useFormatter";
 // import { useUtils } from "../../../libs/useUtils";
 import { Product } from "../../types/Products";
 import styles from "./styles.module.css";
-import fs from "fs/promises";
 import NextImage from "next/image";
 
 type Props = {
@@ -25,14 +24,6 @@ const Image = ({ src, alt, fallback, base64 }: ProductImg) => {
   const onError = () => {
     setError(true);
   };
-
-  // let base64String = base64!.toString("base64");
-
-  // base64String && console.log(base64String);
-
-  const blob = new Blob([base64!]);
-  const url = URL.createObjectURL(blob);
-  console.log(url);
 
   return error ? (
     fallback
