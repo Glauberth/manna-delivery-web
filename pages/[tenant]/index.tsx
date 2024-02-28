@@ -216,10 +216,10 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug } = context.query;
+  // console.log(context.query);
 
   //GET Tenant
   const tenant = await getTenant(tenantSlug as string);
-  //console.log(tenant);
 
   if (!tenant) {
     return {

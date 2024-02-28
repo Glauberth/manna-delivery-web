@@ -83,6 +83,16 @@ export async function getTenant(tenantSlug: string): Promise<Tenant> {
         isCatalogo: true,
       };
       break;
+    case "bigjoelagoa_new":
+      return {
+        logo: "/assets/img/bigjoe/logo/logo.png",
+        slug: "bigjoelagoa_new",
+        name: "Big Joe Lagoa",
+        mainColor: "#bd8631",
+        secondColor: "#1b1e23",
+        isCatalogo: true,
+      };
+      break;
     default:
       return {
         logo: "",
