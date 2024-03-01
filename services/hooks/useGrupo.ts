@@ -19,5 +19,7 @@ export async function getAllGrupos(tenantSlug: string) {
       // console.log(err);
     });
 
+  // console.log(grupo);
+
   return grupo;
 }

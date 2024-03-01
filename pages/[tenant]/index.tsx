@@ -49,6 +49,7 @@ const Home = (data: Props) => {
   function getProducts(category: string) {
     const prodCategory = products.filter((res) => res.categoryName == category);
     // setProducts(prodCategory);
+    console.log({ prodCategory });
     return prodCategory;
   }
 
