@@ -30,7 +30,7 @@ export async function getProdutos(tenantSlug: string) {
     .catch((err) => {
       return console.log(`Erro Get Products by Manná: ${err}`);
     });
-
+  // console.log(produtos);
   return produtos;
 }
 
