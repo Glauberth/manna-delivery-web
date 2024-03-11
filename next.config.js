@@ -14,6 +14,12 @@ const nextConfig = {
         port: ``,
         pathname: "/files/**",
       },
+      {
+        protocol: "https",
+        hostname: "www.mannatech.com.br",
+        port: ``,
+        pathname: "/files/**",
+      },
     ],
   },
   reactStrictMode: true,

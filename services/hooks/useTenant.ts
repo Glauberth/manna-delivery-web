@@ -43,16 +43,7 @@ export async function getTenant(tenantSlug: string): Promise<Tenant> {
         isCatalogo: true,
       };
       break;
-    case "adacoley":
-      return {
-        logo: "https://www.mannatech.com.br/deliveryapp/clientes/adacoley/logo/logo.png",
-        slug: "adacoley",
-        name: "AdaColey",
-        mainColor: "#bd8631",
-        secondColor: "#1b1e23",
-        isCatalogo: true,
-      };
-      break;
+
     case "jordansantoamaro":
       return {
         logo: "/assets/img/logojordan.jpg",
@@ -93,6 +84,37 @@ export async function getTenant(tenantSlug: string): Promise<Tenant> {
         isCatalogo: true,
       };
       break;
+    case "adacoley":
+      return {
+        logo: "/assets/img/adacoley/logo/logo.png",
+        slug: "adacoley",
+        name: "Ada Music Bar",
+        mainColor: "#bd8631",
+        secondColor: "#1b1e23",
+        isCatalogo: true,
+      };
+      break;
+    case "seugarcia":
+      return {
+        logo: "/assets/img/seugarcia/logo/logo.png",
+        slug: "seugarcia",
+        name: "Seu Garcia",
+        mainColor: "#bd8631",
+        secondColor: "#1b1e23",
+        isCatalogo: true,
+      };
+      break;
+    case "seugarcia2":
+      return {
+        logo: "/assets/img/seugarcia/logo/logo.png",
+        slug: "seugarcia2",
+        name: "Seu Garcia",
+        mainColor: "#bd8631",
+        secondColor: "#1b1e23",
+        isCatalogo: true,
+      };
+      break;
+
     default:
       return {
         logo: "",
