@@ -12,11 +12,11 @@ export async function getTenant(tenantSlug: string): Promise<Tenant> {
         isCatalogo: true,
       };
       break;
-    case "mannapizza":
+    case "manna":
       return {
-        logo: "https://s2.glbimg.com/t2_E-_cSErv4fsbUVhwwEN0YMX0=/32x32/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2021/H/w/YbA657S3aYVfC0P9wboQ/g1-favicon.png",
-        slug: "mannapizza",
-        name: "Manna Pizaaria",
+        logo: "/assets/img/manna/logo/logo.png",
+        slug: "manna",
+        name: "Manna Restaurante",
         mainColor: "#FF0000",
         secondColor: "#gg0000",
         isCatalogo: true,
