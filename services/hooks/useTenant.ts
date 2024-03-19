@@ -114,6 +114,16 @@ export async function getTenant(tenantSlug: string): Promise<Tenant> {
         isCatalogo: true,
       };
       break;
+    case "gabysfastfood":
+      return {
+        logo: "/assets/img/gabysturu/logo/logo.png",
+        slug: "gabysfastfood",
+        name: "Gabys Fast Food",
+        mainColor: "#bd8631",
+        secondColor: "#1b1e23",
+        isCatalogo: true,
+      };
+      break;
 
     default:
       return {
