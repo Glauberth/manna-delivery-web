@@ -17,8 +17,8 @@ export async function getTenant(tenantSlug: string): Promise<Tenant> {
         logo: "/assets/img/manna/logo/logo.png",
         slug: "manna",
         name: "Manna Restaurante",
-        mainColor: "#FF0000",
-        secondColor: "#gg0000",
+        mainColor: "#bd8631",
+        secondColor: "#1b1e23",
         isCatalogo: true,
       };
       break;
