@@ -43,7 +43,7 @@ const Login = (data: Props) => {
       <Head>
         {/* esse Head é do Next mesmo, ai ele muda essas coisas de acordo com pag  */}
         <title> Login | {data.tenant.name} </title>
-        <link rel="icon" href={data.tenant.logo} />
+        {/* <link rel="icon" href={data.tenant.logo} /> */}
       </Head>
 
       <Header
