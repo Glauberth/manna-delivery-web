@@ -100,6 +100,7 @@ const Home = (data: Props) => {
             height={150}
             src={data.tenant.logo}
             alt="logo"
+            quality={25}
           />
         </div>
         <div className={styles.headerTop}>
