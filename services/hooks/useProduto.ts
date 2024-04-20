@@ -7,6 +7,7 @@ export async function getProdutos(tenantSlug: string) {
 
   let prods: Product[] = [];
 
+  console.log(tenantSlug);
   const produtos = await api
     .get(`/products/${tenantSlug}`)
     .then((res) => {
