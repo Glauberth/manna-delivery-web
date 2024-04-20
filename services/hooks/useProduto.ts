@@ -5,9 +5,18 @@ import { api } from "../api";
 export async function getProdutos(tenantSlug: string) {
   //const products = await api.get(`products/${tenantSlug}`);
 
+  const dataAtual = new Date().toLocaleDateString("pt-Br", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+
   let prods: Product[] = [];
 
-  console.log(tenantSlug);
+  console.log(` ${dataAtual} ${tenantSlug} `);
   const produtos = await api
     .get(`/products/${tenantSlug}`)
     .then((res) => {
@@ -28,13 +37,15 @@ export async function getProdutos(tenantSlug: string) {
           });
         });
       } catch (error) {
-        console.log(`Erro no forEach Products by Manná: ${error}`);
+        console.log(
+          `${dataAtual} Erro no forEach Products by Manná:  ${error}`
+        );
       }
 
       return prods;
     })
     .catch((err) => {
-      console.log(`Erro Get Products by Manná: ${err}`);
+      console.log(` ${dataAtual} Erro Get Products by Manná: ${err}`);
       return prods;
     });
   // console.log(produtos);

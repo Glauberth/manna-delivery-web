@@ -1,6 +1,15 @@
 import axios from "axios";
 
-console.log(process.env.NEXT_PUBLIC_AMBIENTE);
+const dataAtual = new Date().toLocaleDateString("pt-Br", {
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
+});
+
+console.log(`${dataAtual} ${process.env.NEXT_PUBLIC_AMBIENTE}`);
 
 export const api = axios.create({
   baseURL:
