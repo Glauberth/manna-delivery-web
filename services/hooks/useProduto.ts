@@ -28,7 +28,8 @@ export async function getProdutos(tenantSlug: string) {
       return prods;
     })
     .catch((err) => {
-      return console.log(`Erro Get Products by Manná: ${err}`);
+      console.log(`Erro Get Products by Manná: ${err}`);
+      return prods;
     });
   // console.log(produtos);
   return produtos;
