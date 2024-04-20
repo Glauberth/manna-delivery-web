@@ -95,13 +95,13 @@ const Home = (data: Props) => {
         style={{ backgroundColor: data.tenant.secondColor }}
       >
         <div className={styles.imgLogo}>
-          <NextImage
+          {/* <NextImage
             width={150}
             height={150}
             src={data.tenant.logo}
             alt="logo"
             // quality={25}
-          />
+          /> */}
         </div>
         <div className={styles.headerTop}>
           <div className={styles.headerTopLeft}>
