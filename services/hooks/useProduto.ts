@@ -11,6 +11,7 @@ export async function getProdutos(tenantSlug: string) {
     .get(`/products/${tenantSlug}`)
     .then((res) => {
       res.data.forEach((item: any) => {
+        console.log(item);
         prods.push({
           id: item.CODPRODUTO,
           // image: item.URLIMAGE,
