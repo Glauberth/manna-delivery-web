@@ -11,21 +11,25 @@ export async function getProdutos(tenantSlug: string) {
   const produtos = await api
     .get(`/products/${tenantSlug}`)
     .then((res) => {
-      res.data.forEach((item: any) => {
-        console.log(item);
-        prods.push({
-          id: item.CODPRODUTO,
-          // image: item.URLIMAGE,
-          image: item.URLIMAGE ? item.URLIMAGE : "/assets/img/sem-foto.png",
-          foto: item.FOTO ? item.FOTO : "",
-          //image: imgValid,
-          categoryId: item.CODGRUPO,
-          categoryName: item.NOME,
-          name: item.DESCRICAO,
-          description: item.OBSERVACAO,
-          price: item.PRECOVENDA,
+      try {
+        res.data.forEach((item: any) => {
+          // console.log(item);
+          prods.push({
+            id: item.CODPRODUTO,
+            // image: item.URLIMAGE,
+            image: item.URLIMAGE ? item.URLIMAGE : "/assets/img/sem-foto.png",
+            foto: item.FOTO ? item.FOTO : "",
+            //image: imgValid,
+            categoryId: item.CODGRUPO,
+            categoryName: item.NOME,
+            name: item.DESCRICAO,
+            description: item.OBSERVACAO,
+            price: item.PRECOVENDA,
+          });
         });
-      });
+      } catch (error) {
+        console.log(`Erro no forEach Products by Manná: ${error}`);
+      }
 
       return prods;
     })
