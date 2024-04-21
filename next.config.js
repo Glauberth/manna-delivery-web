@@ -5,19 +5,19 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "lgvhostapi.mannatech.com.br",
-        port: ``,
+        // port: "",
         pathname: "/files/**",
       },
       {
         protocol: "https",
         hostname: "fileupload.mannatech.com.br",
-        port: ``,
+        // port: "",
         pathname: "/files/**",
       },
       {
         protocol: "https",
         hostname: "www.mannatech.com.br",
-        port: ``,
+        // port: "",
         pathname: "/files/**",
       },
     ],
