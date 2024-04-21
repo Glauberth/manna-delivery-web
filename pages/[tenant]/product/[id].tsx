@@ -19,7 +19,7 @@ import { CartProductItem } from "../../../src/components/CartProductItem";
 import { ComboItem } from "../../../src/components/ComboItem";
 import { Combo } from "../../../src/types/Combo";
 
-const Product = (data: Props) => {
+const Products = (data: Props) => {
   const [totalPriceProduct, setTotalPriceProdutct] = useState(
     data.product.price
   );
@@ -241,7 +241,7 @@ const Product = (data: Props) => {
   );
 };
 
-export default Product;
+export default Products;
 
 type Props = {
   tenant: Tenant;
