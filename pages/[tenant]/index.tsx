@@ -24,6 +24,7 @@ import NoItemsIcon from "./../../public/assets/noitems.svg";
 import NextImage from "next/image";
 // import { FooterCart } from "../../src/components/FooterCart";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 const FooterCart = dynamic(() => import("../../src/components/FooterCart"), {
   ssr: false,
 });
@@ -46,10 +47,18 @@ const Home = (data: Props) => {
 
   const [grupos, setGrupos] = useState<Group[]>(data.grupos);
 
+  const router = useRouter();
+
   function getProducts(category: string) {
     const prodCategory = products.filter((res) => res.categoryName == category);
 
     return prodCategory;
+  }
+
+  function realoadPage() {
+    //this will reload the page without doing SSR
+    // router.replace(router.asPath);
+    router.reload();
   }
 
   //Search New   --------------------------------------------------------------->
@@ -84,6 +93,9 @@ const Home = (data: Props) => {
     results ? setProducts(results) : setProducts(dados);
   }
 
+  // console.log(typeof dados);
+  // console.log(typeof products);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -101,6 +113,7 @@ const Home = (data: Props) => {
             src={data.tenant.logo}
             alt="logo"
             // quality={25}
+            priority
           />
         </div>
         <div className={styles.headerTop}>
@@ -182,7 +195,7 @@ const Home = (data: Props) => {
 
       {!searchText && (
         <>
-          {grupos && (
+          {grupos.length > 0 ? (
             <>
               <Grupo data={grupos} />
               <div className={styles.grid2}>
@@ -202,6 +215,16 @@ const Home = (data: Props) => {
                 ))}
               </div>
             </>
+          ) : (
+            <div className={styles.noProducts}>
+              <NoItemsIcon color="#e0e0e0" />
+              <div
+                className={styles.noProductsText}
+                onClick={() => realoadPage()}
+              >
+                Ops! Não há itens para exibir! Clique aqui para recarregar!
+              </div>
+            </div>
           )}
         </>
       )}
@@ -256,8 +279,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const products = await getProdutos(tenantSlug as string); //api.getallProducts();
   const grupos = await getAllGrupos(tenantSlug as string);
   //const grupos = await api.getGrupo();
-
-  // console.log("Products: " + products);
 
   return {
     props: { tenant, products, grupos, user, token },
