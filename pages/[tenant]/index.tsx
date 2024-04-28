@@ -218,11 +218,11 @@ const Home = (data: Props) => {
           ) : (
             <div className={styles.noProducts}>
               <NoItemsIcon color="#e0e0e0" />
-              <div
-                className={styles.noProductsText}
-                onClick={() => realoadPage()}
-              >
-                Ops! Não há itens para exibir! Clique aqui para recarregar!
+              <div className={styles.noProductsText}>
+                Ops! Verifique sua conexão!
+              </div>
+              <div className={styles.clickReload} onClick={() => realoadPage()}>
+                Clique aqui para recarregar!
               </div>
             </div>
           )}

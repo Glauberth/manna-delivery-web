@@ -100,6 +100,10 @@
 }
 
 .noProducts {
+  /* display: "flex"; */
+  /* justify-content: "center"; */
+  /* align-items: "center"; */
+  text-align: center;
   width: 235px;
   margin: 88px auto;
 }
@@ -108,7 +112,19 @@
   font-weight: 500;
   font-size: 24px;
   line-height: 29px;
-  color: #cdcdcd;
+  color: #8d8c8c;
+  text-align: center;
+  margin-top: 32px;
+}
+
+.clickReload {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  color: #5e5d5d;
+  text-decoration: underline;
+  /* color: #cdcdcd; */
+  cursor: pointer;
   text-align: center;
   margin-top: 32px;
 }
