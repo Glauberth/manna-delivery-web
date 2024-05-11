@@ -2,6 +2,16 @@ import { Tenant } from "../../src/types/Tenent";
 
 export async function getTenant(tenantSlug: string): Promise<Tenant> {
   switch (tenantSlug) {
+    case "saads":
+      return {
+        logo: "/assets/img/saads/logo/logo.png",
+        slug: "saads",
+        name: "Saads Cozinha Criativa",
+        mainColor: "#bd8631",
+        secondColor: "#1b1e23",
+        isCatalogo: true,
+      };
+      break;
     case "ferreira":
       return {
         logo: "/assets/img/logojordan.jpg",

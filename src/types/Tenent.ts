@@ -5,4 +5,6 @@ export type Tenant = {
   mainColor: string;
   secondColor: string;
   isCatalogo?: boolean;
+  taxaService?: boolean;
+  obs?: string;
 };
