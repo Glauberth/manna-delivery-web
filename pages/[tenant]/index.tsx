@@ -105,7 +105,12 @@ const Home = (data: Props) => {
       >
         <div>
           {/*  */}
-          <p className={styles.obsHeader}>{data.tenant.obs}</p>
+          <p
+            className={styles.obsHeader}
+            style={{ color: data.tenant.mainColor }}
+          >
+            {data.tenant.obs}
+          </p>
         </div>
         <div className={styles.imgLogo}>
           <NextImage

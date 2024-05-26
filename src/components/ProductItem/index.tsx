@@ -57,7 +57,13 @@ export default function ProductItem({ data }: Props) {
             <div className={styles.description}>
               {data.description && `${data.description?.slice(0, 80)}...`}
             </div>
-            <div className={styles.price} style={{ color: tenant?.mainColor }}>
+            <div
+              className={styles.price}
+              style={{
+                color: data.price == 22 ? "#7966135" : tenant?.mainColor,
+                textDecoration: data.price == 22 ? "line-through" : "none",
+              }}
+            >
               {formatter.formatPrice(data.price)}
             </div>
           </div>
