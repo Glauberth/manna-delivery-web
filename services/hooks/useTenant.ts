@@ -102,6 +102,13 @@ export async function getTenant(tenantSlug: string): Promise<Tenant> {
         mainColor: "#bd8631",
         secondColor: "#1b1e23",
         isCatalogo: true,
+        obs: `Sua Pulseira é sua comanda individual e o couvert artístico é cobrado na pulseira. 
+          Não é permitido fumar/usar nenhum tipo de ilícitos nas dependências do bar.",
+        Você pode Solicitar sua conta na mesa e o garçom trará para você, mais se preferir temos caixas disponíveis.
+        Qualquer dúvida ou sugestão, você pode chamar a nossa equipe.
+        Não descarte sua pulseira, ela deve ser apresentada na portaria na saída.
+        Aproveite
+        `,
       };
       break;
     case "seugarcia":

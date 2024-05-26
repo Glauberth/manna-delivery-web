@@ -2,11 +2,9 @@ import { getCookie } from "cookies-next";
 import { GetServerSideProps } from "next";
 
 import Head from "next/head";
-// import { networkInterfaces } from "os";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../contexts/app";
 import { useAuthContext } from "../../contexts/auth";
-// import Banner from "../../src/components/Banner";
 import Grupo from "../../src/components/Grupo";
 import ProductItem from "../../src/components/ProductItem";
 import SearchInput from "../../src/components/SearchInput";
@@ -22,7 +20,6 @@ import { getTenant } from "../../services/hooks/useTenant";
 import styles from "../../styles/Home.module.css";
 import NoItemsIcon from "./../../public/assets/noitems.svg";
 import NextImage from "next/image";
-// import { FooterCart } from "../../src/components/FooterCart";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 const FooterCart = dynamic(() => import("../../src/components/FooterCart"), {
@@ -106,6 +103,10 @@ const Home = (data: Props) => {
         className={styles.header}
         style={{ backgroundColor: data.tenant.secondColor }}
       >
+        <div>
+          {/*  */}
+          <p className={styles.obsHeader}>{data.tenant.obs}</p>
+        </div>
         <div className={styles.imgLogo}>
           <NextImage
             width={150}

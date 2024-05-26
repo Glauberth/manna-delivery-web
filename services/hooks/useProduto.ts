@@ -16,7 +16,7 @@ export async function getProdutos(tenantSlug: string) {
 
   let prods: Product[] = [];
 
-  console.log(` ${dataAtual} ${tenantSlug} `);
+  // console.log(` ${dataAtual} ${tenantSlug} `);
   const produtos = await api
     .get(`/products/${tenantSlug}`)
     .then((res) => {
@@ -48,8 +48,8 @@ export async function getProdutos(tenantSlug: string) {
       console.log(` ${dataAtual} Erro Get Products by Manná: ${err}`);
       return prods;
     });
-  // console.log(produtos);
-  return produtos;
+
+  return produtos ? produtos : [];
 }
 
 export async function getOneProduct(tenantSlug: string, idProduct: number) {
