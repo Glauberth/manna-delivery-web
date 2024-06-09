@@ -20,9 +20,7 @@ import { ComboItem } from "../../../src/components/ComboItem";
 import { Combo } from "../../../src/types/Combo";
 
 const Products = (data: Props) => {
-  const [totalPriceProduct, setTotalPriceProdutct] = useState(
-    data.product.price
-  );
+  const [totalPriceProduct, setTotalPriceProdutct] = useState(data.product.PRECOVENDA);
 
   const { tenant, setTenant } = useAppContext();
   const [qtCount, setQtCount] = useState(1);
@@ -50,7 +48,7 @@ const Products = (data: Props) => {
     }
 
     // procurando o produto em um carrinho
-    const cartIndex = cart.findIndex((item) => item.id === data.product.id);
+    const cartIndex = cart.findIndex((item) => item.id === data.product.CODPRODUTO);
 
     if (cartIndex > -1) {
       // atualizando o carrinho
@@ -63,9 +61,9 @@ const Products = (data: Props) => {
 
       cart.push({
         //codvenda: 1,
-        id: data.product.id,
+        id: data.product.CODPRODUTO,
         qt: qtCount,
-        preco: data.product.price,
+        preco: data.product.PRECOVENDA,
         combo: combo,
       });
     }
@@ -86,9 +84,7 @@ const Products = (data: Props) => {
 
   function handleAddCombo(newCombo: Combo) {
     // procurando o combo no array de combos
-    const resultSearchIndex = combo.findIndex(
-      (item) => item.CODCOMBO === newCombo.CODCOMBO
-    );
+    const resultSearchIndex = combo.findIndex((item) => item.CODCOMBO === newCombo.CODCOMBO);
 
     let finalCombo;
 
@@ -122,7 +118,7 @@ const Products = (data: Props) => {
 
     const total = finalCombo.reduce((accumulator, newItem) => {
       return accumulator + newItem.PRECOVENDA * newItem.QUANTIDADE;
-    }, data.product.price);
+    }, data.product.PRECOVENDA);
 
     setCombo(finalCombo);
     setTotalPriceProdutct(total);
@@ -131,50 +127,37 @@ const Products = (data: Props) => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>{`${data.product.name} | ${data.tenant.name}`}</title>
+        <title>{`${data.product.DESCRICAO} | ${data.tenant.name}`}</title>
       </Head>
 
       <div className={styles.headerArea}>
-        <Header
-          color={data.tenant.mainColor}
-          backHref={`/${data.tenant.slug}`}
-          title={data.product.name}
-          invert
-        />
+        <Header color={data.tenant.mainColor} backHref={`/${data.tenant.slug}`} title={data.product.DESCRICAO} invert />
       </div>
 
-      <div
-        className={styles.headerBg}
-        style={{ backgroundColor: data.tenant.mainColor }}
-      >
+      <div className={styles.headerBg} style={{ backgroundColor: data.tenant.mainColor }}>
         {/* <button onClick={() => console.log(totalPriceProduct)}>teste</button> */}
       </div>
 
       <div
         className={styles.productImage}
         style={{
-          opacity: data.product.image ? "1" : "0.2",
+          opacity: data.product.URLIMAGE ? "1" : "0.2",
         }}
       >
         <NextImage
           width={300}
           height={300}
-          src={
-            data.product.image ? data.product.image : "/assets/img/sem-foto.png"
-          }
+          src={data.product.URLIMAGE ? data.product.URLIMAGE : "/assets/img/sem-foto.png"}
           alt=""
         />
       </div>
 
-      <div className={styles.category}>{data.product.categoryName}</div>
-      <div
-        className={styles.title}
-        style={{ borderBottomColor: tenant?.mainColor }}
-      >
-        {data.product.name}
+      <div className={styles.category}>{data.product.NOME}</div>
+      <div className={styles.title} style={{ borderBottomColor: tenant?.mainColor }}>
+        {data.product.DESCRICAO}
       </div>
       <div className={styles.line}></div>
-      <div className={styles.description}>{data.product.description}</div>
+      <div className={styles.description}>{data.product.OBSERVACAO}</div>
       <div className={styles.qtText}>Quantidade</div>
       <div className={styles.area}>
         <div className={styles.areaLeft}>
@@ -189,32 +172,20 @@ const Products = (data: Props) => {
           />
         </div>
 
-        <div
-          className={styles.areaRight}
-          style={{ color: data.tenant.mainColor }}
-        >
+        <div className={styles.areaRight} style={{ color: data.tenant.mainColor }}>
           {/* {formatter.formatPrice(data.product.price)} */}
           {formatter.formatPrice(totalPriceProduct)}
         </div>
       </div>
-      {data.product.combo!.length > 0 && (
-        <div
-          style={{ marginTop: "20px", textAlign: "center", fontWeight: "bold" }}
-          className={styles.category}
-        >
+
+      {data.product.COMBO && data.product.COMBO.length > 0 && (
+        <div style={{ marginTop: "20px", textAlign: "center", fontWeight: "bold" }} className={styles.category}>
           ADICIONAIS
         </div>
       )}
 
-      {data.product.combo?.map((item, index) => {
-        return (
-          <ComboItem
-            key={index}
-            color={data.tenant.mainColor}
-            combo={item}
-            handleCombo={handleAddCombo}
-          />
-        );
+      {data.product.COMBO?.map((item, index) => {
+        return <ComboItem key={index} color={data.tenant.mainColor} combo={item} handleCombo={handleAddCombo} />;
       })}
 
       <div className={styles.areaObs}>
@@ -264,10 +235,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   //GET Product
-  const product = await getOneProduct(
-    tenantSlug as string,
-    parseInt(id as string)
-  );
+  const product = await getOneProduct(tenantSlug as string, parseInt(id as string));
   //const product = await api.getProduct(parseInt(id as string));
 
   return {

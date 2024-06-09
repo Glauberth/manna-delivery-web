@@ -2,88 +2,60 @@ import { CartItem } from "../../src/types/CartItem";
 import { Product } from "../../src/types/Products";
 import { api } from "../api";
 
-export async function getProdutos(tenantSlug: string) {
+const dateConfig: Intl.DateTimeFormatOptions = {
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
+};
+
+export async function getProdutos(tenantSlug: string): Promise<Product[]> {
   //const products = await api.get(`products/${tenantSlug}`);
 
-  const dataAtual = new Date().toLocaleDateString("pt-Br", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  });
+  const dataAtual = new Date().toLocaleDateString("pt-Br", dateConfig);
 
   let prods: Product[] = [];
 
-  // console.log(` ${dataAtual} ${tenantSlug} `);
-  const produtos = await api
+  const produtos: Product[] = await api
     .get(`/products/${tenantSlug}`)
     .then((res) => {
       try {
-        res.data.forEach((item: any) => {
-          // console.log(item);
-          prods.push({
-            id: item.CODPRODUTO,
-            // image: item.URLIMAGE,
-            image: item.URLIMAGE ? item.URLIMAGE : "/assets/img/sem-foto.png",
-            foto: item.FOTO ? item.FOTO : "",
-            //image: imgValid,
-            categoryId: item.CODGRUPO,
-            categoryName: item.NOME,
-            name: item.DESCRICAO,
-            description: item.OBSERVACAO,
-            price: item.PRECOVENDA,
-          });
+        const product: Product[] = res.data.map((item: Product) => {
+          return {
+            ...item,
+            URLIMAGE: item.URLIMAGE ? item.URLIMAGE : "/assets/img/sem-foto.png",
+          };
         });
+
+        return product;
       } catch (error) {
-        console.log(
-          `${dataAtual} Erro no forEach Products by Manná:  ${error}`
-        );
+        console.log(`${dataAtual} Erro no forEach Products by Manná:  ${error}`);
       }
 
       return prods;
     })
-    .catch((err) => {
-      console.log(` ${dataAtual} Erro Get Products by Manná: ${err}`);
-      return prods;
+    .catch((error) => {
+      console.log(` ${dataAtual} - ${tenantSlug} - Erro Get Products by Manná: ${(error as Error).message}`);
+      return [];
     });
 
   return produtos ? produtos : [];
 }
 
-export async function getOneProduct(tenantSlug: string, idProduct: number) {
-  let prod: Product[] = [];
+export async function getOneProduct(tenantSlug: string, idProduct: number): Promise<Product | {}> {
+  const result = await api
+    .get<Product>(`/products/${tenantSlug}/${idProduct}`)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      console.log((error as Error).message);
+      return {};
+    });
 
-  await api.get(`/products/${tenantSlug}/${idProduct}`).then((res) => {
-    const {
-      CODPRODUTO,
-      CODBARRA,
-      DESCRICAO,
-      PRECOVENDA,
-      CODGRUPO,
-      NOME,
-      OBSERVACAO,
-      URLIMAGE,
-      COMBO,
-    } = res.data;
-
-    prod = [
-      {
-        id: CODPRODUTO,
-        image: URLIMAGE ? URLIMAGE : "",
-        // image: URLIMAGE ? URLIMAGE : "/assets/img/no-foto.svg",
-        categoryId: CODGRUPO,
-        categoryName: NOME,
-        description: OBSERVACAO,
-        name: DESCRICAO,
-        price: PRECOVENDA,
-        combo: COMBO,
-      },
-    ];
-  });
-
-  return prod[0];
+  return result;
 }
 
 export async function getCartProducts(tenantSlug: string, cartCookie: string) {
@@ -106,29 +78,17 @@ export async function getCartProducts(tenantSlug: string, cartCookie: string) {
 
       await api.get(`/products/${tenantSlug}/${cartJson[i].id}`).then((res) => {
         // console.log(res.data);
-        const {
-          CODPRODUTO,
-          CODBARRA,
-          DESCRICAO,
-          PRECOVENDA,
-          CODGRUPO,
-          NOME,
-          OBSERVACAO,
-          URLIMAGE,
-          FOTO,
-        } = res.data;
+        const { CODPRODUTO, CODBARRA, DESCRICAO, PRECOVENDA, CODGRUPO, NOME, OBSERVACAO, URLIMAGE, FOTO } = res.data;
 
         productbd = {
-          id: CODPRODUTO,
-          image: URLIMAGE ? URLIMAGE : "",
-          foto: FOTO,
-          // image: URLIMAGE ? URLIMAGE : "/assets/img/no-foto.svg",
-          categoryId: CODGRUPO,
-          categoryName: NOME,
-          description: OBSERVACAO,
-          name: DESCRICAO,
-          price: PRECOVENDA,
-          combo: cartJson[i]?.combo,
+          CODPRODUTO: CODPRODUTO,
+          URLIMAGE: URLIMAGE ? URLIMAGE : "",
+          CODGRUPO: CODGRUPO,
+          NOME: NOME,
+          OBSERVACAO: OBSERVACAO,
+          DESCRICAO: DESCRICAO,
+          PRECOVENDA: PRECOVENDA,
+          COMBO: cartJson[i]?.combo,
         };
 
         cart.push({

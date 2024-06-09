@@ -38,7 +38,7 @@ const Cart = (data: Props) => {
   const handleCartChange = (newCount: number, id: number) => {
     const tmpCart: CartItem[] = [...cart];
 
-    const cartIndex = tmpCart.findIndex((item) => item.product.id === id);
+    const cartIndex = tmpCart.findIndex((item) => item.product.CODPRODUTO === id);
 
     if (newCount > 0) {
       tmpCart[cartIndex].qt = newCount;
@@ -56,10 +56,10 @@ const Cart = (data: Props) => {
     let cartCookie: CartCookie[] = [];
     for (let i in newCart) {
       cartCookie.push({
-        id: newCart[i].product.id,
+        id: newCart[i].product.CODPRODUTO,
         qt: newCart[i].qt,
-        preco: newCart[i].product.price,
-        combo: newCart[i].product.combo,
+        preco: newCart[i].product.PRECOVENDA,
+        combo: newCart[i].product.COMBO,
         //codvenda: data.codvenda,
       });
     }
@@ -84,7 +84,7 @@ const Cart = (data: Props) => {
   useEffect(() => {
     let sub = 0;
     for (let i in cart) {
-      sub += cart[i].product.price * cart[i].qt;
+      sub += cart[i].product.PRECOVENDA * cart[i].qt;
     }
 
     setSubtotal(sub);
@@ -100,12 +100,7 @@ const Cart = (data: Props) => {
         <title>{`Sacola | ${data.tenant.name}`}</title>
       </Head>
 
-      <Header
-        backHref={`/${data.tenant.slug}`}
-        color={data.tenant.mainColor}
-        title="Sacola"
-        subTitle="Produtos"
-      />
+      <Header backHref={`/${data.tenant.slug}`} color={data.tenant.mainColor} title="Sacola" subTitle="Produtos" />
 
       <div className={styles.resumeButton}>
         <Button
@@ -143,24 +138,15 @@ const Cart = (data: Props) => {
             value={shippingInput}
             onChange={(newValue) => setShippingInput(newValue)}
           />
-          <Button
-            color={data.tenant.mainColor}
-            label="OK"
-            onClick={handleShippingCalc}
-          />
+          <Button color={data.tenant.mainColor} label="OK" onClick={handleShippingCalc} />
         </div>
 
         {shippingTime > 0 && (
           <div className={styles.shippingInfo}>
             <div className={styles.shippingAdress}>{shippingAddress}</div>
             <div className={styles.shippingTime}>
-              <div className={styles.shippingTimeText}>
-                Recebe em até {shippingTime} minutos
-              </div>
-              <div
-                style={{ color: data.tenant.mainColor }}
-                className={styles.shippingPrice}
-              >
+              <div className={styles.shippingTimeText}>Recebe em até {shippingTime} minutos</div>
+              <div style={{ color: data.tenant.mainColor }} className={styles.shippingPrice}>
                 {formatter.formatPrice(shippingPrice)}
               </div>
             </div>
@@ -171,33 +157,21 @@ const Cart = (data: Props) => {
       <div className={styles.resumeArea}>
         <div className={styles.resumeItem}>
           <div className={styles.resumeLeft}>Subtotal</div>
-          <div className={styles.resumeRight}>
-            {formatter.formatPrice(subtotal)}
-          </div>
+          <div className={styles.resumeRight}>{formatter.formatPrice(subtotal)}</div>
         </div>
         <div className={styles.resumeItem}>
           <div className={styles.resumeLeft}>Frete</div>
-          <div className={styles.resumeRight}>
-            {shippingPrice > 0 ? formatter.formatPrice(shippingPrice) : "--"}
-          </div>
+          <div className={styles.resumeRight}>{shippingPrice > 0 ? formatter.formatPrice(shippingPrice) : "--"}</div>
         </div>
         <div className={styles.resumeLine}></div>
         <div className={styles.resumeItem}>
           <div className={styles.resumeLeft}>Total</div>
-          <div
-            style={{ color: data.tenant.mainColor }}
-            className={styles.resumeRightBig}
-          >
+          <div style={{ color: data.tenant.mainColor }} className={styles.resumeRightBig}>
             {formatter.formatPrice(shippingPrice + subtotal)}
           </div>
         </div>
         <div className={styles.resumeButton}>
-          <Button
-            color={data.tenant.mainColor}
-            label="Continuar"
-            onClick={handleFinish}
-            fill
-          />
+          <Button color={data.tenant.mainColor} label="Continuar" onClick={handleFinish} fill />
         </div>
       </div>
     </div>
@@ -243,10 +217,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   //GET CART PRODUTOS
   const cartCookie = getCookie("cart", context);
   //const cart = await api.getCartProducts(cartCookie as string);
-  const cart = await getCartProducts(
-    tenantSlug as string,
-    cartCookie as string
-  );
+  const cart = await getCartProducts(tenantSlug as string, cartCookie as string);
 
   return {
     props: { tenant, user, token, cart },

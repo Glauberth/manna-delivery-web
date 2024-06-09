@@ -47,7 +47,7 @@ const Home = (data: Props) => {
   const router = useRouter();
 
   function getProducts(category: string) {
-    const prodCategory = products.filter((res) => res.categoryName == category);
+    const prodCategory = products.filter((res) => res.NOME == category);
 
     return prodCategory;
   }
@@ -67,11 +67,7 @@ const Home = (data: Props) => {
     let newFilteredProducts: Product[] = [];
 
     for (let product of data.products) {
-      if (
-        product.name
-          .toLocaleLowerCase()
-          .indexOf(searchText.toLocaleLowerCase()) > -1
-      ) {
+      if (product.DESCRICAO.toLocaleLowerCase().indexOf(searchText.toLocaleLowerCase()) > -1) {
         newFilteredProducts.push(product);
       }
     }
@@ -83,9 +79,7 @@ const Home = (data: Props) => {
   function handlerClick(searchValue: string) {
     let prodFiltrado = dados;
 
-    const results = prodFiltrado.filter((itens) =>
-      itens.name.toLowerCase().includes(searchValue.toLowerCase())
-    );
+    const results = prodFiltrado.filter((itens) => itens.DESCRICAO.toLowerCase().includes(searchValue.toLowerCase()));
 
     results ? setProducts(results) : setProducts(dados);
   }
@@ -99,16 +93,10 @@ const Home = (data: Props) => {
         <title>{`Produtos | ${data.tenant.name}`}</title>
       </Head>
 
-      <header
-        className={styles.header}
-        style={{ backgroundColor: data.tenant.secondColor }}
-      >
+      <header className={styles.header} style={{ backgroundColor: data.tenant.secondColor }}>
         <div>
           {/*  */}
-          <p
-            className={styles.obsHeader}
-            style={{ color: data.tenant.mainColor }}
-          >
+          <p className={styles.obsHeader} style={{ color: data.tenant.mainColor }}>
             {data.tenant.obs}
           </p>
         </div>
@@ -129,11 +117,7 @@ const Home = (data: Props) => {
               O que deseja pra hoje
               <strong> {user?.name.toUpperCase()}</strong>?
             </div>
-            <div>
-              {comanda !== null || comanda !== null
-                ? "Comanda Nº #" + comanda
-                : ""}
-            </div>
+            <div>{comanda !== null || comanda !== null ? "Comanda Nº #" + comanda : ""}</div>
           </div>
 
           {/* 
@@ -141,29 +125,13 @@ const Home = (data: Props) => {
                 */}
           {data.tenant.isCatalogo == false && (
             <div className={styles.headerTopRight}>
-              <div
-                className={styles.menuButtom}
-                onClick={() => setSidebarOpen(true)}
-              >
-                <div
-                  className={styles.menuButtomLine}
-                  style={{ backgroundColor: tenant?.mainColor }}
-                ></div>
-                <div
-                  className={styles.menuButtomLine}
-                  style={{ backgroundColor: tenant?.mainColor }}
-                ></div>
-                <div
-                  className={styles.menuButtomLine}
-                  style={{ backgroundColor: tenant?.mainColor }}
-                ></div>
+              <div className={styles.menuButtom} onClick={() => setSidebarOpen(true)}>
+                <div className={styles.menuButtomLine} style={{ backgroundColor: tenant?.mainColor }}></div>
+                <div className={styles.menuButtomLine} style={{ backgroundColor: tenant?.mainColor }}></div>
+                <div className={styles.menuButtomLine} style={{ backgroundColor: tenant?.mainColor }}></div>
               </div>
 
-              <Sidebar
-                tenant={data.tenant}
-                open={sidebarOpen}
-                onClose={() => setSidebarOpen(false)}
-              />
+              <Sidebar tenant={data.tenant} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
             </div>
           )}
         </div>
@@ -191,9 +159,7 @@ const Home = (data: Props) => {
           {filteredProducts.length === 0 && (
             <div className={styles.noProducts}>
               <NoItemsIcon color="#e0e0e0" />
-              <div className={styles.noProductsText}>
-                Ops! Não há itens com este nome!
-              </div>
+              <div className={styles.noProductsText}>Ops! Não há itens com este nome!</div>
             </div>
           )}
         </>
@@ -207,16 +173,10 @@ const Home = (data: Props) => {
               <div className={styles.grid2}>
                 {grupos.map((item, index) => (
                   <div key={index}>
-                    <div
-                      className={styles.categoryName}
-                      style={{ backgroundColor: tenant?.mainColor }}
-                    >
+                    <div className={styles.categoryName} style={{ backgroundColor: tenant?.mainColor }}>
                       {item.NOMEGRUPOAPP}
                     </div>
-                    {getProducts(item.NOME).map(
-                      (item, index) =>
-                        item && <ProductItem key={index} data={item} />
-                    )}
+                    {getProducts(item.NOME).map((item, index) => item && <ProductItem key={index} data={item} />)}
                   </div>
                 ))}
               </div>
@@ -224,9 +184,7 @@ const Home = (data: Props) => {
           ) : (
             <div className={styles.noProducts}>
               <NoItemsIcon color="#e0e0e0" />
-              <div className={styles.noProductsText}>
-                Ops! Verifique sua conexão!
-              </div>
+              <div className={styles.noProductsText}>Ops! Verifique sua conexão!</div>
               <div className={styles.clickReload} onClick={() => realoadPage()}>
                 Clique aqui para recarregar!
               </div>
@@ -235,9 +193,7 @@ const Home = (data: Props) => {
         </>
       )}
 
-      {data.tenant.isCatalogo == false && (
-        <FooterCart tenantSlug={data.tenant.slug} />
-      )}
+      {data.tenant.isCatalogo == false && <FooterCart tenantSlug={data.tenant.slug} />}
     </div>
   );
 };

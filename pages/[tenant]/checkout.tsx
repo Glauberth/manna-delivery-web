@@ -64,7 +64,7 @@ const Checkout = (data: Props) => {
   useEffect(() => {
     let sub = 0;
     for (let i in cart) {
-      sub += cart[i].product.price * cart[i].qt;
+      sub += cart[i].product.PRECOVENDA * cart[i].qt;
     }
 
     setSubtotal(sub);
@@ -72,13 +72,7 @@ const Checkout = (data: Props) => {
 
   const handleFinish = async () => {
     if (shippingAddress) {
-      const order = await newOrder(
-        shippingAddress,
-        paymentType,
-        paymentChange,
-        cupom,
-        data.cart
-      );
+      const order = await newOrder(shippingAddress, paymentType, paymentChange, cupom, data.cart);
       if (order) {
         router.push(`/${data.tenant.slug}/order/${order.codvenda}`);
       } else {
@@ -93,12 +87,7 @@ const Checkout = (data: Props) => {
         <title>{`Checkout | ${data.tenant.name}`}</title>
       </Head>
 
-      <Header
-        backHref={`/${data.tenant.slug}/cart`}
-        color={data.tenant.mainColor}
-        title="Checkout"
-        subTitle="Produtos"
-      />
+      <Header backHref={`/${data.tenant.slug}/cart`} color={data.tenant.mainColor} title="Checkout" subTitle="Produtos" />
 
       <div className={styles.infoGroup}>
         <div className={styles.infoArea}>
@@ -183,11 +172,7 @@ const Checkout = (data: Props) => {
                   value={cupomInput}
                   onChange={(newValue) => setCupomInput(newValue)}
                 />
-                <Button
-                  color={data.tenant.mainColor}
-                  label="OK"
-                  onClick={handleSetCupom}
-                />
+                <Button color={data.tenant.mainColor} label="OK" onClick={handleSetCupom} />
               </div>
             )}
           </div>
@@ -214,32 +199,23 @@ const Checkout = (data: Props) => {
       <div className={styles.resumeArea}>
         <div className={styles.resumeItem}>
           <div className={styles.resumeLeft}>Subtotal</div>
-          <div className={styles.resumeRight}>
-            {formatter.formatPrice(subtotal)}
-          </div>
+          <div className={styles.resumeRight}>{formatter.formatPrice(subtotal)}</div>
         </div>
 
         {cupomDiscount > 0 && (
           <div className={styles.resumeItem}>
             <div className={styles.resumeLeft}>Desconto</div>
-            <div className={styles.resumeRight}>
-              - {formatter.formatPrice(cupomDiscount)}
-            </div>
+            <div className={styles.resumeRight}>- {formatter.formatPrice(cupomDiscount)}</div>
           </div>
         )}
         <div className={styles.resumeItem}>
           <div className={styles.resumeLeft}>Frete</div>
-          <div className={styles.resumeRight}>
-            {shippingPrice > 0 ? formatter.formatPrice(shippingPrice) : "--"}
-          </div>
+          <div className={styles.resumeRight}>{shippingPrice > 0 ? formatter.formatPrice(shippingPrice) : "--"}</div>
         </div>
         <div className={styles.resumeLine}></div>
         <div className={styles.resumeItem}>
           <div className={styles.resumeLeft}>Total</div>
-          <div
-            style={{ color: data.tenant.mainColor }}
-            className={styles.resumeRightBig}
-          >
+          <div style={{ color: data.tenant.mainColor }} className={styles.resumeRightBig}>
             {formatter.formatPrice(shippingPrice + subtotal - cupomDiscount)}
           </div>
         </div>
@@ -296,10 +272,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   //GET CART PRODUTOS
   const cartCookie = getCookie("cart", context);
   //const cart = await api.getCartProducts(cartCookie as string);
-  const cart = await getCartProducts(
-    tenantSlug as string,
-    cartCookie as string
-  );
+  const cart = await getCartProducts(tenantSlug as string, cartCookie as string);
   //console.log("CART", cart);
   //console.log(codvenda);
   return {

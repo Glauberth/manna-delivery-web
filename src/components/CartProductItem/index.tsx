@@ -12,27 +12,21 @@ type Props = {
   noEdit?: boolean;
 };
 
-export const CartProductItem = ({
-  color,
-  product,
-  quantity,
-  onChange,
-  noEdit,
-}: Props) => {
+export const CartProductItem = ({ color, product, quantity, onChange, noEdit }: Props) => {
   const formatter = useFormatter();
 
   return (
     <div className={styles.container}>
-      {product.image && (
+      {product.URLIMAGE && (
         <div className={styles.productImage}>
-          <NextImage width={100} height={100} src={product.image} alt="" />
+          <NextImage width={100} height={100} src={product.URLIMAGE} alt="" />
         </div>
       )}
       <div className={styles.productInfo}>
-        <div className={styles.productCategory}>{product.categoryName}</div>
-        <div className={styles.productName}>{product.name}</div>
+        <div className={styles.productCategory}>{product.NOME}</div>
+        <div className={styles.productName}>{product.DESCRICAO}</div>
         <div className={styles.productPrice} style={{ color: color }}>
-          {formatter.formatPrice(product.price)}
+          {formatter.formatPrice(product.PRECOVENDA)}
         </div>
       </div>
       <div className={styles.qtControl}>
@@ -51,7 +45,7 @@ export const CartProductItem = ({
           <Quantity
             color={color}
             count={quantity}
-            onUpdateCount={(newCount: number) => onChange(newCount, product.id)}
+            onUpdateCount={(newCount: number) => onChange(newCount, product.CODPRODUTO)}
             min={0}
             // iconLixeira
             small

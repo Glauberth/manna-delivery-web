@@ -1,10 +1,13 @@
 export const useFormatter = () => ({
   formatPrice: (price: number) => {
-    return price.toLocaleString("pt-br", {
-      minimumFractionDigits: 2,
-      style: "currency",
-      currency: "BRL",
-    });
+    return (
+      price &&
+      price.toLocaleString("pt-br", {
+        minimumFractionDigits: 2,
+        style: "currency",
+        currency: "BRL",
+      })
+    );
   },
   formatQuantity: (quantity: number, minDigits: number) => {
     if (quantity.toString().length >= minDigits) return quantity.toString();

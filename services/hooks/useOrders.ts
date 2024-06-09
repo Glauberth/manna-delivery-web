@@ -4,14 +4,13 @@ import { Order } from "../../src/types/Order";
 import { Product } from "../../src/types/Products";
 
 const TEMPORARYonProduct: Product = {
-  id: 1,
-  image: "", //"https://www.mannatech.com.br/velhojohn/imgappdelivery/58.png", //"/tmp/burguer.png",
-  categoryId: 0,
-  categoryName: "HAMBURGUER",
-  description:
-    "O Hamburguer Mais suculento do Brasil, com duas carnes, queijo, cebola, picles e pão com gegilin",
-  name: "BURGUER AC/DC",
-  price: 25.5,
+  CODPRODUTO: 1,
+  URLIMAGE: "", //"https://www.mannatech.com.br/velhojohn/imgappdelivery/58.png", //"/tmp/burguer.png",
+  CODGRUPO: 0,
+  NOME: "HAMBURGUER",
+  OBSERVACAO: "O Hamburguer Mais suculento do Brasil, com duas carnes, queijo, cebola, picles e pão com gegilin",
+  DESCRICAO: "BURGUER AC/DC",
+  PRECOVENDA: 25.5,
 };
 
 const TEMPORARYorder: Order = {
@@ -37,14 +36,14 @@ const TEMPORARYorder: Order = {
     {
       product: {
         ...TEMPORARYonProduct,
-        id: 1,
-        image: "", //"https://www.mannatech.com.br/velhojohn/imgappdelivery/101.png",
-        name: "CHOPP PILSEN/ 475 ML",
-        price: 13,
+        CODPRODUTO: 1,
+        URLIMAGE: "", //"https://www.mannatech.com.br/velhojohn/imgappdelivery/101.png",
+        DESCRICAO: "CHOPP PILSEN/ 475 ML",
+        PRECOVENDA: 13,
       },
       qt: 1,
     },
-    { product: { ...TEMPORARYonProduct, id: 2 }, qt: 2 },
+    { product: { ...TEMPORARYonProduct, CODPRODUTO: 2 }, qt: 2 },
     // { product: { ...TEMPORARYonProduct, id: 3 }, qt: 1 },
   ],
   subtotal: 204,

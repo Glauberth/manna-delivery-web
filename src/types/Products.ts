@@ -1,13 +1,12 @@
 import { Combo } from "./Combo";
 
 export type Product = {
-  id: number;
-  image: string;
-  foto?: Buffer;
-  categoryId: number;
-  categoryName: string;
-  name: string;
-  description?: string;
-  price: number;
-  combo?: Combo[];
+  CODPRODUTO: number;
+  URLIMAGE: string;
+  CODGRUPO: number;
+  NOME: string;
+  DESCRICAO: string;
+  OBSERVACAO?: string;
+  PRECOVENDA: number;
+  COMBO?: Combo[];
 };
