@@ -8,5 +8,6 @@ export type Product = {
   DESCRICAO: string;
   OBSERVACAO?: string;
   PRECOVENDA: number;
+  PRECOPROMO?: number;
   COMBO?: Combo[];
 };

@@ -27,14 +27,18 @@ const Image = ({ src, alt, fallback }: ProductImg) => {
   return error ? (
     fallback
   ) : (
-    <NextImage
-      src={src}
-      alt={alt}
-      onError={onError}
-      width={100}
-      height={100}
-      // sizes="(max-width: 100px) 100vw"
-    />
+    <>
+      <NextImage
+        src={src}
+        alt={alt}
+        onError={onError}
+        width={100}
+        height={100}
+        placeholder="blur"
+        blurDataURL="/assets/img/sem-foto.png"
+        // sizes="(max-width: 100px) 100vw"
+      />
+    </>
   );
 };
 
@@ -54,14 +58,22 @@ export default function ProductItem({ data }: Props) {
             <div className={styles.catName}>{data.NOME}</div>
             <div className={styles.name}>{data.DESCRICAO}</div>
             <div className={styles.description}>{data.OBSERVACAO && `${data.OBSERVACAO?.slice(0, 80)}...`}</div>
-            <div
-              className={styles.price}
-              style={{
-                color: data.PRECOVENDA == 22 ? "#7966135" : tenant?.mainColor,
-                textDecoration: data.PRECOVENDA == 22 ? "line-through" : "none",
-              }}
-            >
-              {formatter.formatPrice(data.PRECOVENDA)}
+            <div style={{ display: "flex", gap: 5, alignItems: "flex-end" }}>
+              {data.PRECOPROMO && (
+                <div className={styles.price} style={{ color: tenant?.mainColor }}>
+                  {formatter.formatPrice(data.PRECOPROMO)}
+                </div>
+              )}
+              <div
+                className={styles.price}
+                style={{
+                  color: data.PRECOPROMO ? "#7171718f" : tenant?.mainColor,
+                  textDecoration: data.PRECOPROMO ? "line-through" : "none",
+                  fontSize: data.PRECOPROMO && 12,
+                }}
+              >
+                {formatter.formatPrice(data.PRECOVENDA)}
+              </div>
             </div>
           </div>
           <div

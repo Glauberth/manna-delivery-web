@@ -172,9 +172,22 @@ const Products = (data: Props) => {
           />
         </div>
 
-        <div className={styles.areaRight} style={{ color: data.tenant.mainColor }}>
-          {/* {formatter.formatPrice(data.product.price)} */}
-          {formatter.formatPrice(totalPriceProduct)}
+        <div style={{ display: "flex", gap: 5, alignItems: "flex-end" }}>
+          {data.product.PRECOPROMO && (
+            <div className={styles.areaRight} style={{ color: data.tenant.mainColor }}>
+              {data.product.PRECOPROMO && formatter.formatPrice(data.product.PRECOPROMO)}
+            </div>
+          )}
+          <div
+            className={styles.areaRight}
+            style={{
+              color: data.product.PRECOPROMO ? "#7171718f" : data.tenant.mainColor,
+              textDecoration: data.product.PRECOPROMO ? "line-through" : "none",
+              fontSize: data.product.PRECOPROMO && 20,
+            }}
+          >
+            {formatter.formatPrice(totalPriceProduct)}
+          </div>
         </div>
       </div>
 

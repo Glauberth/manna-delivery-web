@@ -10,12 +10,18 @@ type ProductImg = {
 
 const Image = ({ src, alt, fallback }: ProductImg) => {
   const [error, setError] = useState(false);
-
+  const [isLoading, setLoading] = useState(false);
   const onError = () => {
     setError(true);
   };
 
-  return error ? fallback : <NextImage src={src} alt={alt} onError={onError} />;
+  return error ? (
+    fallback
+  ) : (
+    <>
+      <NextImage src={src} alt={alt} onError={onError} placeholder="blur" blurDataURL="/assets/img/sem-foto.png" />;
+    </>
+  );
 };
 
 export default function ProductImage(url: string) {

@@ -1,23 +1,19 @@
 import { Group } from "../../src/types/Group";
 import { api } from "../api";
 
-export async function getAllGrupos(tenantSlug: string) {
-  let grupo: Group[] = [];
-
-  await api
-    .get(`/grupo/${tenantSlug}`)
-    .then((res) => {
-      res.data.forEach((item: Group) => {
-        grupo.push({
-          CODGRUPO: item.CODGRUPO,
-          NOME: item.NOME,
-          NOMEGRUPOAPP: item.NOMEGRUPOAPP,
-        });
+export async function getAllGrupos(tenantSlug: string): Promise<Group[]> {
+  try {
+    //
+    const grupos = await api.get(`/grupo/${tenantSlug}`).then((res) => {
+      const grupo: Group[] = res.data.map((item: Group) => {
+        return item;
       });
-    })
-    .catch((err) => {
-      // console.log(err);
+
+      return grupo;
     });
 
-  return grupo ? grupo : [];
+    return grupos;
+  } catch (error) {
+    return [];
+  }
 }
