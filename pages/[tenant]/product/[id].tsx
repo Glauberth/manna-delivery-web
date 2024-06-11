@@ -18,6 +18,7 @@ import { getTenant } from "../../../services/hooks/useTenant";
 import { CartProductItem } from "../../../src/components/CartProductItem";
 import { ComboItem } from "../../../src/components/ComboItem";
 import { Combo } from "../../../src/types/Combo";
+import ProductImage from "../../../src/components/ProductItem/ProductImagem";
 
 const Products = (data: Props) => {
   const [totalPriceProduct, setTotalPriceProdutct] = useState(data.product.PRECOVENDA);
@@ -144,12 +145,14 @@ const Products = (data: Props) => {
           opacity: data.product.URLIMAGE ? "1" : "0.2",
         }}
       >
-        <NextImage
+        <ProductImage altura={300} largura={300} src={data.product.URLIMAGE} />
+        {/* <NextImage
+          //
           width={300}
           height={300}
-          src={data.product.URLIMAGE ? data.product.URLIMAGE : "/assets/img/sem-foto.png"}
+          src={data.product.URLIMAGE}
           alt=""
-        />
+        /> */}
       </div>
 
       <div className={styles.category}>{data.product.NOME}</div>

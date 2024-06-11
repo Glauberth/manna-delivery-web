@@ -36,6 +36,7 @@ const Image = ({ src, alt, fallback }: ProductImg) => {
         height={100}
         placeholder="blur"
         blurDataURL="/assets/img/sem-foto.png"
+
         // sizes="(max-width: 100px) 100vw"
       />
     </>
@@ -57,7 +58,7 @@ export default function ProductItem({ data }: Props) {
           <div className={styles.info}>
             <div className={styles.catName}>{data.NOME}</div>
             <div className={styles.name}>{data.DESCRICAO}</div>
-            <div className={styles.description}>{data.OBSERVACAO && `${data.OBSERVACAO?.slice(0, 80)}...`}</div>
+            <div className={styles.description}>{data.OBSERVACAO && `${data.OBSERVACAO?.slice(0, 60)}...`}</div>
             <div style={{ display: "flex", gap: 5, alignItems: "flex-end" }}>
               {data.PRECOPROMO && (
                 <div className={styles.price} style={{ color: tenant?.mainColor }}>
@@ -82,7 +83,6 @@ export default function ProductItem({ data }: Props) {
               opacity: data.URLIMAGE == "/assets/img/sem-foto.png" ? "0.2" : "1",
             }}
           >
-            {/* <img src={data.image} alt="" /> */}
             <Image
               src={data.URLIMAGE ? data.URLIMAGE : "/assets/img/sem-foto.png"}
               //base64={data.foto!}

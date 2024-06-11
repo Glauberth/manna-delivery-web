@@ -16,6 +16,7 @@
 }
 
 .info {
+  /* max-width: 350px; */
   padding: 13px;
 }
 
@@ -36,11 +37,16 @@
   /* opacity: 5%; */
 }
 
+.productImage {
+  margin-right: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 14rem;
+}
+
 .productImage img {
   border-radius: 15px;
-  max-width: 350px;
-  width: 90%;
-  height: 350px;
   object-fit: cover;
   object-position: center;
 }
