@@ -205,7 +205,7 @@ const Products = (data: Props) => {
           )}
 
           {produtoQuery.COMBO &&
-            produtoQuery.COMBO.map((item: Combo, index) => {
+            produtoQuery.COMBO.map((item: Combo, index: number) => {
               return <ComboItem key={index} color={data.tenant.mainColor} combo={item} handleCombo={handleAddCombo} />;
             })}
 
