@@ -9,35 +9,36 @@ import { Button } from "../../../src/components/Button";
 import { Header } from "../../../src/components/Header";
 import { Quantity } from "../../../src/components/Quantity";
 import { CartCookie } from "../../../src/types/CartCookie";
-import { Product } from "../../../src/types/Products";
 import { Tenant } from "../../../src/types/Tenent";
 import styles from "../../../styles/Product-id.module.css";
-import NextImage from "next/image";
-import { getOneProduct } from "../../../services/hooks/useProduto";
+import { useProduct } from "../../../services/hooks/useProduto";
 import { getTenant } from "../../../services/hooks/useTenant";
-import { CartProductItem } from "../../../src/components/CartProductItem";
+// import { CartProductItem } from "../../../src/components/CartProductItem";
 import { ComboItem } from "../../../src/components/ComboItem";
 import { Combo } from "../../../src/types/Combo";
 import ProductImage from "../../../src/components/ProductItem/ProductImagem";
+import Skeleton from "../../../src/components/Skeleton/Skeleton";
 
 const Products = (data: Props) => {
-  const [totalPriceProduct, setTotalPriceProdutct] = useState(data.product.PRECOVENDA);
+  const {
+    data: produtoQuery,
+    error: errorProduto,
+    isLoading: isLoadingProduto,
+    isFetching: isFetchingProduto,
+  } = useProduct(data.tenant.slug, data.productID);
 
+  const [totalPriceProduct, setTotalPriceProdutct] = useState<number>(0);
   const { tenant, setTenant } = useAppContext();
   const [qtCount, setQtCount] = useState(1);
   const [combo, setCombo] = useState<Combo[]>([]);
   const router = useRouter();
   const formatter = useFormatter();
 
-  useEffect(() => {
-    setTenant(data.tenant);
-  }, []);
-
   function handleAddProductToCart() {
     let cart: CartCookie[] = [];
 
-    // create or existing cart
     if (hasCookie("cart")) {
+      // create or existing cart
       const cartCookie = getCookie("cart");
       const cartJson: CartCookie[] = JSON.parse(cartCookie as string);
 
@@ -49,7 +50,7 @@ const Products = (data: Props) => {
     }
 
     // procurando o produto em um carrinho
-    const cartIndex = cart.findIndex((item) => item.id === data.product.CODPRODUTO);
+    const cartIndex = cart.findIndex((item) => item.id === data.productID);
 
     if (cartIndex > -1) {
       // atualizando o carrinho
@@ -57,21 +58,14 @@ const Products = (data: Props) => {
     } else {
       // adicionando o produto ao carrinho
 
-      //GET Tenant
-      // const codvenda = getTenant(data.tenant.slug);
-
       cart.push({
-        //codvenda: 1,
-        id: data.product.CODPRODUTO,
+        id: data.productID,
         qt: qtCount,
-        preco: data.product.PRECOVENDA,
+        preco: 0, //data.product.PRECOVENDA,
         combo: combo,
       });
     }
 
-    console.log(cart);
-
-    //setar o cookie
     setCookie("cart", JSON.stringify(cart));
 
     //Mandar para o carrinho
@@ -117,113 +111,127 @@ const Products = (data: Props) => {
       finalCombo = newArray;
     }
 
-    const total = finalCombo.reduce((accumulator, newItem) => {
-      return accumulator + newItem.PRECOVENDA * newItem.QUANTIDADE;
-    }, data.product.PRECOVENDA);
+    const total = finalCombo.reduce(
+      (accumulator, newItem) => {
+        return accumulator + newItem.PRECOVENDA * newItem.QUANTIDADE;
+      },
+      produtoQuery ? produtoQuery.PRECOVENDA : 0
+      //  data.product.PRECOVENDA
+    );
 
     setCombo(finalCombo);
     setTotalPriceProdutct(total);
   }
 
+  useEffect(() => {
+    setTenant(data.tenant);
+  }, []);
+
+  useEffect(() => {
+    // produtoQuery && setProduct(produtoQuery);
+    produtoQuery && setTotalPriceProdutct(produtoQuery.PRECOPROMO ? produtoQuery.PRECOPROMO : produtoQuery.PRECOVENDA);
+  }, [produtoQuery]);
+
   return (
     <div className={styles.container}>
-      <Head>
-        <title>{`${data.product.DESCRICAO} | ${data.tenant.name}`}</title>
-      </Head>
+      {isLoadingProduto || isFetchingProduto ? (
+        <Skeleton heigth={30} lines={10} />
+      ) : produtoQuery ? (
+        <>
+          <Head>
+            <title>{`${produtoQuery.DESCRICAO} | ${data.tenant.name}`}</title>
+          </Head>
 
-      <div className={styles.headerArea}>
-        <Header color={data.tenant.mainColor} backHref={`/${data.tenant.slug}`} title={data.product.DESCRICAO} invert />
-      </div>
+          <div className={styles.headerArea}>
+            <Header color={data.tenant.mainColor} backHref={`/${data.tenant.slug}`} title={produtoQuery.DESCRICAO} invert />
+          </div>
 
-      <div className={styles.headerBg} style={{ backgroundColor: data.tenant.mainColor }}>
-        {/* <button onClick={() => console.log(totalPriceProduct)}>teste</button> */}
-      </div>
+          <div className={styles.headerBg} style={{ backgroundColor: data.tenant.mainColor }}></div>
 
-      <div
-        className={styles.productImage}
-        style={{
-          opacity: data.product.URLIMAGE ? "1" : "0.2",
-        }}
-      >
-        <ProductImage altura={300} largura={300} src={data.product.URLIMAGE} />
-        {/* <NextImage
-          //
-          width={300}
-          height={300}
-          src={data.product.URLIMAGE}
-          alt=""
-        /> */}
-      </div>
-
-      <div className={styles.category}>{data.product.NOME}</div>
-      <div className={styles.title} style={{ borderBottomColor: tenant?.mainColor }}>
-        {data.product.DESCRICAO}
-      </div>
-      <div className={styles.line}></div>
-      <div className={styles.description}>{data.product.OBSERVACAO}</div>
-      <div className={styles.qtText}>Quantidade</div>
-      <div className={styles.area}>
-        <div className={styles.areaLeft}>
-          <Quantity
-            color={data.tenant.mainColor}
-            count={qtCount}
-            onUpdateCount={handleUpdateQt}
-            min={1}
-            // small
-            //max={10}
-            // iconLixeira
-          />
-        </div>
-
-        <div style={{ display: "flex", gap: 5, alignItems: "flex-end" }}>
-          {data.product.PRECOPROMO && (
-            <div className={styles.areaRight} style={{ color: data.tenant.mainColor }}>
-              {data.product.PRECOPROMO && formatter.formatPrice(data.product.PRECOPROMO)}
-            </div>
-          )}
           <div
-            className={styles.areaRight}
+            className={styles.productImage}
             style={{
-              color: data.product.PRECOPROMO ? "#7171718f" : data.tenant.mainColor,
-              textDecoration: data.product.PRECOPROMO ? "line-through" : "none",
-              fontSize: data.product.PRECOPROMO && 20,
+              opacity: produtoQuery.URLIMAGE ? "1" : "0.2",
             }}
           >
-            {formatter.formatPrice(totalPriceProduct)}
+            <ProductImage altura={300} largura={300} src={produtoQuery.URLIMAGE} />
           </div>
-        </div>
-      </div>
 
-      {data.product.COMBO && data.product.COMBO.length > 0 && (
-        <div style={{ marginTop: "20px", textAlign: "center", fontWeight: "bold" }} className={styles.category}>
-          ADICIONAIS
-        </div>
+          <div className={styles.category}>{produtoQuery.NOME}</div>
+          <div className={styles.title} style={{ borderBottomColor: tenant?.mainColor }}>
+            {produtoQuery.DESCRICAO}
+          </div>
+          <div className={styles.line}></div>
+          <div className={styles.description}>{produtoQuery.OBSERVACAO}</div>
+          <div className={styles.qtText}>Quantidade</div>
+          <div className={styles.area}>
+            <div className={styles.areaLeft}>
+              <Quantity
+                color={data.tenant.mainColor}
+                count={qtCount}
+                onUpdateCount={handleUpdateQt}
+                min={1}
+                // small
+                // max={10}
+                // iconLixeira
+              />
+            </div>
+
+            <div style={{ display: "flex", gap: 5, alignItems: "flex-end" }}>
+              {produtoQuery.PRECOPROMO && (
+                <div className={styles.areaRight} style={{ color: data.tenant.mainColor }}>
+                  {produtoQuery.PRECOPROMO && formatter.formatPrice(produtoQuery.PRECOPROMO)}
+                </div>
+              )}
+              <div
+                className={styles.areaRight}
+                style={{
+                  color: produtoQuery.PRECOPROMO ? "#7171718f" : data.tenant.mainColor,
+                  textDecoration: produtoQuery.PRECOPROMO ? "line-through" : "none",
+                  fontSize: produtoQuery.PRECOPROMO && 20,
+                }}
+              >
+                {produtoQuery.PRECOPROMO
+                  ? formatter.formatPrice(produtoQuery.PRECOVENDA)
+                  : formatter.formatPrice(totalPriceProduct)}
+              </div>
+            </div>
+          </div>
+
+          {produtoQuery.COMBO && produtoQuery.COMBO.length > 0 && (
+            <div style={{ marginTop: "20px", textAlign: "center", fontWeight: "bold" }} className={styles.category}>
+              ADICIONAIS
+            </div>
+          )}
+
+          {produtoQuery.COMBO?.map((item, index) => {
+            return <ComboItem key={index} color={data.tenant.mainColor} combo={item} handleCombo={handleAddCombo} />;
+          })}
+
+          <div className={styles.areaObs}>
+            <textarea
+              style={{ borderColor: data.tenant.mainColor, fontSize: 16 }}
+              placeholder="Alguma Observação ?"
+              id="story"
+              name="story"
+              rows={5}
+            ></textarea>
+          </div>
+          <div className={styles.buttonArea}>
+            {data.tenant.isCatalogo == false && (
+              <Button
+                // disabled
+                color={data.tenant.mainColor}
+                label="Adicionar ao Carrinho"
+                onClick={handleAddProductToCart}
+                fill
+              />
+            )}
+          </div>
+        </>
+      ) : (
+        <Skeleton heigth={30} lines={20} />
       )}
-
-      {data.product.COMBO?.map((item, index) => {
-        return <ComboItem key={index} color={data.tenant.mainColor} combo={item} handleCombo={handleAddCombo} />;
-      })}
-
-      <div className={styles.areaObs}>
-        <textarea
-          style={{ borderColor: data.tenant.mainColor, fontSize: 16 }}
-          placeholder="Alguma Observação ?"
-          id="story"
-          name="story"
-          rows={5}
-        ></textarea>
-      </div>
-      <div className={styles.buttonArea}>
-        {data.tenant.isCatalogo == false && (
-          <Button
-            // disabled
-            color={data.tenant.mainColor}
-            label="Adicionar ao Carrinho"
-            onClick={handleAddProductToCart}
-            fill
-          />
-        )}
-      </div>
     </div>
   );
 };
@@ -232,7 +240,8 @@ export default Products;
 
 type Props = {
   tenant: Tenant;
-  product: Product;
+  productID: number;
+  // product: Product;
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -251,11 +260,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   //GET Product
-  const product = await getOneProduct(tenantSlug as string, parseInt(id as string));
+  //const product = await getOneProduct(tenantSlug as string, parseInt(id as string));
   //const product = await api.getProduct(parseInt(id as string));
+  const productID = parseInt(id as string);
 
   return {
-    props: { tenant, product },
+    //props: { tenant, product },
+    props: { tenant, productID },
     // revalidate: 1,
     // fallback: true,
   };

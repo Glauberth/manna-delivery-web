@@ -9,7 +9,7 @@ type Props = {
   data: Group[];
 };
 
-export default function Grupo({ data }: Props) {
+export default function GrupoSlider({ data }: Props) {
   return (
     <div className={styles.container}>
       <Swiper

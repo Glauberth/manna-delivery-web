@@ -1,12 +1,10 @@
 import Link from "next/link";
 import { ReactElement, useState } from "react";
-import { useAppContext } from "../../../contexts/app";
-import { useFormatter } from "../../../libs/useFormatter";
-import { Product } from "../../types/Products";
 import styles from "./styles.module.css";
 import NextImage from "next/image";
-import { queryClient } from "../../../services/queryClient";
-import { getOneProduct } from "../../../services/hooks/useProduto";
+import { Product } from "../../types/Products";
+import { useAppContext } from "../../../contexts/app";
+import { useFormatter } from "../../../libs/useFormatter";
 
 type Props = {
   data: Product;
@@ -44,10 +42,13 @@ const Image = ({ src, alt, fallback }: ProductImg) => {
   );
 };
 
-export default function ProductItem({ data }: Props) {
+export default function BannerProductItem({ data }: Props) {
   const { tenant } = useAppContext();
 
   const formatter = useFormatter();
+  // console.log(data.image);
+  // const isimg = useUtils();
+  // isimg.isImg(data.image);
 
   return (
     <Link href={`/${tenant?.slug}/product/${data.CODPRODUTO}`}>
@@ -55,8 +56,8 @@ export default function ProductItem({ data }: Props) {
         <div className={styles.container}>
           <div className={styles.info}>
             <div className={styles.catName}>{data.NOME}</div>
-            <div className={styles.name}>{data.DESCRICAO}</div>
-            <div className={styles.description}>{data.OBSERVACAO && `${data.OBSERVACAO?.slice(0, 60)}...`}</div>
+            <div className={styles.name}>{data.DESCRICAO.length < 20 ? data.DESCRICAO : `${data.DESCRICAO.slice(0, 20)}...`}</div>
+            <div className={styles.description}>{data.OBSERVACAO && `${data.OBSERVACAO?.slice(0, 20)}...`}</div>
             <div style={{ display: "flex", gap: 5, alignItems: "flex-end" }}>
               {data.PRECOPROMO && (
                 <div className={styles.price} style={{ color: tenant?.mainColor }}>
@@ -83,6 +84,7 @@ export default function ProductItem({ data }: Props) {
           >
             <Image
               src={data.URLIMAGE ? data.URLIMAGE : "/assets/img/sem-foto.png"}
+              //base64={data.foto!}
               alt="imagemproduto"
               fallback={<span>img não existe</span>}
             />

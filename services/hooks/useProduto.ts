@@ -1,3 +1,4 @@
+import { useQuery } from "react-query";
 import { CartItem } from "../../src/types/CartItem";
 import { Product } from "../../src/types/Products";
 import { api } from "../api";
@@ -12,7 +13,7 @@ const dateConfig: Intl.DateTimeFormatOptions = {
 };
 
 export async function getProdutos(tenantSlug: string): Promise<Product[]> {
-  //const products = await api.get(`products/${tenantSlug}`);
+  console.log("requisitou Api Produtos");
 
   const dataAtual = new Date().toLocaleDateString("pt-Br", dateConfig);
 
@@ -31,7 +32,7 @@ export async function getProdutos(tenantSlug: string): Promise<Product[]> {
 
         return product;
       } catch (error) {
-        console.log(`${dataAtual} Erro no forEach Products by Manná:  ${error}`);
+        console.log(`${dataAtual} Erro no forEach Products by Manná:  ${(error as Error).message}`);
       }
 
       return prods;
@@ -44,15 +45,18 @@ export async function getProdutos(tenantSlug: string): Promise<Product[]> {
   return produtos ? produtos : [];
 }
 
-export async function getOneProduct(tenantSlug: string, idProduct: number): Promise<Product | {}> {
-  const result = await api
+export async function getOneProduct(tenantSlug: string, idProduct: number): Promise<Product | null> {
+  console.log("requisitou Api Produto");
+  const dataAtual = new Date().toLocaleDateString("pt-Br", dateConfig);
+
+  const result: Product | null = await api
     .get<Product>(`/products/${tenantSlug}/${idProduct}`)
     .then((res) => {
       return res.data;
     })
     .catch((error) => {
-      console.log((error as Error).message);
-      return {};
+      ` ${dataAtual} - ${tenantSlug} - Erro Get One Product by Manná: ${(error as Error).message}`;
+      return null;
     });
 
   return result;
@@ -100,4 +104,16 @@ export async function getCartProducts(tenantSlug: string, cartCookie: string) {
   }
 
   return cart;
+}
+
+export function useProducts(tenantSlug: string) {
+  return useQuery(["produtos", 1], () => getProdutos(tenantSlug), {
+    staleTime: 1000 * 30,
+  });
+}
+
+export function useProduct(tenantSlug: string, idProduct: number) {
+  return useQuery(["produto", idProduct], () => getOneProduct(tenantSlug, idProduct), {
+    staleTime: 1000 * 30,
+  });
 }
