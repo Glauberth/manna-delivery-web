@@ -204,9 +204,10 @@ const Products = (data: Props) => {
             </div>
           )}
 
-          {produtoQuery.COMBO?.map((item, index) => {
-            return <ComboItem key={index} color={data.tenant.mainColor} combo={item} handleCombo={handleAddCombo} />;
-          })}
+          {produtoQuery.COMBO &&
+            produtoQuery.COMBO?.map((item, index) => {
+              return <ComboItem key={index} color={data.tenant.mainColor} combo={item} handleCombo={handleAddCombo} />;
+            })}
 
           <div className={styles.areaObs}>
             <textarea
