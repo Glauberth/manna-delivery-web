@@ -136,8 +136,7 @@ const Home = (data: Props) => {
           <div className={styles.headerTopLeft}>
             <div className={styles.headerTitle}>Seja Bem-Vindo (a) 👋</div>
             <div className={styles.headerSubTitle}>
-              O que deseja pra hoje
-              <strong> {user?.name.toUpperCase()}</strong>?
+              O que deseja pra hoje <strong> {user?.name.toUpperCase()}</strong>?
             </div>
             <div>{comanda !== null || comanda !== null ? "Comanda Nº #" + comanda : ""}</div>
           </div>
