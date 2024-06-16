@@ -1,0 +1,6 @@
+#PM2
+
+
+start na aplicação via NextJS:
+LINUX: pm2 start "npm run start" --name "FRONT_DELIVERY"
+WINDOWOS: pm2 start "C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js" --name "FRONT_DELIVERY" -- run start

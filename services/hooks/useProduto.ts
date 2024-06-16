@@ -32,7 +32,7 @@ export async function getProdutos(tenantSlug: string): Promise<Product[]> {
 
         return product;
       } catch (error) {
-        console.log(`${dataAtual} Erro no forEach Products by Manná:  ${(error as Error).message}`);
+        console.log(`${dataAtual} Erro no map do getProdutos Products by Manná:  ${(error as Error).message}`);
       }
 
       return prods;
@@ -52,10 +52,15 @@ export async function getOneProduct(tenantSlug: string, idProduct: number): Prom
   const result: Product | null = await api
     .get<Product>(`/products/${tenantSlug}/${idProduct}`)
     .then((res) => {
-      return res.data;
+      try {
+        return res.data;
+      } catch (error) {
+        console.log(` ${dataAtual} - ${tenantSlug} - Erro Get one Product by Manná: ${(error as Error).message}`);
+        return null;
+      }
     })
     .catch((error) => {
-      ` ${dataAtual} - ${tenantSlug} - Erro Get One Product by Manná: ${(error as Error).message}`;
+      console.log(` ${dataAtual} - ${tenantSlug} - Erro Get One Product by Manná: ${(error as Error).message}`);
       return null;
     });
 
