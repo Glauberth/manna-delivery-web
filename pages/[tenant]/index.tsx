@@ -129,7 +129,7 @@ const Home = (data: Props) => {
             src={data.tenant.logo}
             alt="logo"
             // quality={25}
-            priority
+            // priority
           />
         </div>
         <div className={styles.headerTop}>

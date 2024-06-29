@@ -42,6 +42,8 @@ export async function getProdutos(tenantSlug: string): Promise<Product[]> {
       return [];
     });
 
+  console.log(new Date());
+
   return produtos ? produtos : [];
 }
 

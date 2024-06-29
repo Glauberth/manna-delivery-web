@@ -14,18 +14,13 @@ export const Header = ({ backHref, color, subTitle, title, invert }: Props) => {
   return (
     <div className={styles.container}>
       <div className={styles.leftSide}>
-        <Link href={backHref}>
-          <a className={styles.buttonTransparent}>
-            <BackIcon color={invert ? "#FFF" : color} />
-          </a>
+        <Link href={backHref} className={styles.buttonTransparent}>
+          <BackIcon color={invert ? "#FFF" : color} />
         </Link>
       </div>
       <div className={styles.centerSide}>
         {title && (
-          <div
-            className={styles.title}
-            style={{ color: invert ? "#FFF" : "#1b1b1b" }}
-          >
+          <div className={styles.title} style={{ color: invert ? "#FFF" : "#1b1b1b" }}>
             {title}
           </div>
         )}

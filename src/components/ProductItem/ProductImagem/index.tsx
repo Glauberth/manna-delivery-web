@@ -1,5 +1,4 @@
 import { ReactElement, useState } from "react";
-import styles from "./styles.module.css";
 import NextImage from "next/image";
 
 type ProductImg = {
@@ -27,26 +26,29 @@ const Image = ({ src, alt, fallback, altura = 100, largura = 100 }: ProductImg) 
     fallback
   ) : (
     <>
-      <NextImage
-        style={{
-          opacity: src ? "1" : "0.2",
-        }}
-        src={src}
-        alt={alt}
-        width={largura}
-        height={altura}
-        onError={onError}
-        placeholder="blur"
-        blurDataURL="/assets/img/sem-foto.png"
-        //
-      />
+      {error ? (
+        <h1>Erro ao carregar imagem...</h1>
+      ) : (
+        <NextImage
+          style={{
+            opacity: src ? "1" : "0.2",
+          }}
+          src={src}
+          alt={alt}
+          width={largura}
+          height={altura}
+          onError={onError}
+          placeholder="blur"
+          blurDataURL="/assets/img/sem-foto.png"
+          //
+        />
+      )}
     </>
   );
 };
 
 export default function ProductImage({ src, altura, largura }: Props) {
   return (
-    // <div className={styles.img}>
     <Image
       src={src ? src : "/assets/img/sem-foto.png"}
       altura={altura}
@@ -54,6 +56,5 @@ export default function ProductImage({ src, altura, largura }: Props) {
       alt="imgProduct"
       fallback={<span>img não existe</span>}
     />
-    // </div>
   );
 }
