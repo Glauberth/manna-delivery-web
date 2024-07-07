@@ -9,7 +9,7 @@ import { Header } from "../../src/components/Header";
 import { InputField } from "../../src/components/InputField";
 import { Tenant } from "../../src/types/Tenent";
 import styles from "../../styles/SignUp.module.css";
-import { getTenant } from "../../services/hooks/useTenant";
+import { getTenant } from "../../src/services/hooks/useTenant";
 
 const SignUp = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
@@ -39,10 +39,7 @@ const SignUp = (data: Props) => {
       </Head>
 
       {/* Aqui é um componente normal criado da setinha */}
-      <Header
-        color={data.tenant.mainColor as string}
-        backHref={`/${data.tenant.slug}/login`}
-      />
+      <Header color={data.tenant.mainColor as string} backHref={`/${data.tenant.slug}/login`} />
 
       <div className={styles.header}>{data.tenant.name}</div>
 
@@ -61,21 +58,11 @@ const SignUp = (data: Props) => {
 
       <div className={styles.formArea}>
         <div className={styles.inputArea}>
-          <InputField
-            color={data.tenant.mainColor}
-            placeholder="Digite seu Nome"
-            value={name}
-            onChange={setName}
-          />
+          <InputField color={data.tenant.mainColor} placeholder="Digite seu Nome" value={name} onChange={setName} />
         </div>
 
         <div className={styles.inputArea}>
-          <InputField
-            color={data.tenant.mainColor}
-            placeholder="Digite seu E-mail"
-            value={email}
-            onChange={setEmail}
-          />
+          <InputField color={data.tenant.mainColor} placeholder="Digite seu E-mail" value={email} onChange={setEmail} />
         </div>
 
         <div className={styles.inputArea}>
@@ -89,12 +76,7 @@ const SignUp = (data: Props) => {
         </div>
 
         <div className={styles.inputArea}>
-          <Button
-            color={data.tenant.mainColor}
-            label="Cadastrar"
-            onClick={handleSubmit}
-            fill
-          />
+          <Button color={data.tenant.mainColor} label="Cadastrar" onClick={handleSubmit} fill />
         </div>
       </div>
 

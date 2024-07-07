@@ -1,8 +1,21 @@
 import type { NextPage } from "next";
+import NextImage from "next/image";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
+import { useTenants } from "../src/services/hooks/useTenant";
+import Link from "next/link";
+import { queryClient } from "../src/services/queryClient";
+import { useRouter } from "next/navigation";
 
 const Home: NextPage = () => {
+  const { data, error, isLoading, isFetching } = useTenants();
+  const router = useRouter();
+  async function handleClickImage(tenantSlug: string) {
+    await queryClient.invalidateQueries("grupos");
+    await queryClient.invalidateQueries("produtos");
+
+    router.push(`/${tenantSlug}`);
+  }
   return (
     <div className={styles.container}>
       <Head>
@@ -11,9 +24,30 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>Main</main>
+      <main className={styles.main}>
+        {data &&
+          data.map((item, index) => {
+            return (
+              <div key={index}>
+                <NextImage
+                  key={index}
+                  className={styles.itemLogo}
+                  width={150}
+                  height={150}
+                  src={item.logo}
+                  alt="logo"
+                  onClick={() => handleClickImage(item.slug)}
+                  //
+                  // quality={25}
+                  // priority
+                />
+                <p style={{ textAlign: "center" }}>{item.name}</p>
+              </div>
+            );
+          })}
+      </main>
 
-      <footer className={styles.footer}>Footer</footer>
+      <footer className={styles.footer}>{" _"}</footer>
     </div>
   );
 };

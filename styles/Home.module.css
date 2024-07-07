@@ -6,6 +6,28 @@
   background-color: #fff;
 }
 
+.main {
+  /* gap: 5px;
+  display: grid;
+  flex-direction: row;
+  grid: auto; */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin: 5px 24px 0px 24px;
+  text-align: center;
+  /* justify-content: center;
+  align-items: center; */
+}
+
+.itemLogo {
+  /* display: flex;
+  flex-direction: row;
+  gap: 10px;
+  */
+  border-radius: 25px;
+}
+
 .header {
   background-color: #f9f9fb;
   padding: 50px 24px 30px 24px;

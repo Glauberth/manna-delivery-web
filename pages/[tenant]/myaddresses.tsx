@@ -15,18 +15,13 @@ import { CartItem } from "../../src/types/CartItem";
 import { Tenant } from "../../src/types/Tenent";
 import { User } from "../../src/types/User";
 import styles from "../../styles/MyAddresses.module.css";
-import { autorizeToken } from "../../services/hooks/useToken";
-import {
-  deleteAddress,
-  getAllAddress,
-  getShippingPrice,
-} from "../../services/hooks/useAddress";
-import { getTenant } from "../../services/hooks/useTenant";
+import { autorizeToken } from "../../src/services/hooks/useToken";
+import { deleteAddress, getAllAddress, getShippingPrice } from "../../src/services/hooks/useAddress";
+import { getTenant } from "../../src/services/hooks/useTenant";
 
 const MyAddresses = (data: Props) => {
   const { user, setToken, setUser } = useAuthContext();
-  const { tenant, setTenant, setShippingAddress, setShippingPrice } =
-    useAppContext();
+  const { tenant, setTenant, setShippingAddress, setShippingPrice } = useAppContext();
 
   useEffect(() => {
     setTenant(data.tenant);
@@ -87,11 +82,7 @@ const MyAddresses = (data: Props) => {
         <title>{`Meus Endereços | ${data.tenant.name}`}</title>
       </Head>
 
-      <Header
-        backHref={`/${data.tenant.slug}/checkout`}
-        color={data.tenant.mainColor}
-        title="Meus Endereços"
-      />
+      <Header backHref={`/${data.tenant.slug}/checkout`} color={data.tenant.mainColor} title="Meus Endereços" />
 
       <div className={styles.list}>
         {data.addresses.map((item, index) => (
@@ -109,12 +100,7 @@ const MyAddresses = (data: Props) => {
       </div>
 
       <div className={styles.btnArea}>
-        <Button
-          color={data.tenant.mainColor}
-          label="Novo Endereço"
-          onClick={handleNewAddress}
-          fill
-        />
+        <Button color={data.tenant.mainColor} label="Novo Endereço" onClick={handleNewAddress} fill />
       </div>
     </div>
   );

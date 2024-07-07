@@ -9,7 +9,7 @@ import { Header } from "../../src/components/Header";
 import { InputField } from "../../src/components/InputField";
 import { Tenant } from "../../src/types/Tenent";
 import styles from "../../styles/Forget.module.css";
-import { getTenant } from "../../services/hooks/useTenant";
+import { getTenant } from "../../src/services/hooks/useTenant";
 
 const Forguet = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
@@ -34,10 +34,7 @@ const Forguet = (data: Props) => {
         <link rel="icon" href={data.tenant.logo} />
       </Head>
 
-      <Header
-        color={data.tenant.mainColor as string}
-        backHref={`/${data.tenant.slug}/login`}
-      />
+      <Header color={data.tenant.mainColor as string} backHref={`/${data.tenant.slug}/login`} />
 
       <div className={styles.header}>{data.tenant.name}</div>
 
@@ -49,29 +46,18 @@ const Forguet = (data: Props) => {
           borderBottomColor: data.tenant.mainColor,
         }}
       >
-        Preencha o campo com seu e-mail e receba as instruções necessárias para
-        redefinir a sua senha.
+        Preencha o campo com seu e-mail e receba as instruções necessárias para redefinir a sua senha.
       </div>
 
       <div className={styles.line}></div>
 
       <div className={styles.formArea}>
         <div className={styles.inputArea}>
-          <InputField
-            color={data.tenant.mainColor}
-            placeholder="Digite seu E-mail"
-            value={email}
-            onChange={setEmail}
-          />
+          <InputField color={data.tenant.mainColor} placeholder="Digite seu E-mail" value={email} onChange={setEmail} />
         </div>
 
         <div className={styles.inputArea}>
-          <Button
-            color={data.tenant.mainColor}
-            label="Enviar"
-            onClick={handleSubmit}
-            fill
-          />
+          <Button color={data.tenant.mainColor} label="Enviar" onClick={handleSubmit} fill />
         </div>
       </div>
     </div>

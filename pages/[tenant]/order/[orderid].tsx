@@ -14,9 +14,9 @@ import { Tenant } from "../../../src/types/Tenent";
 import { User } from "../../../src/types/User";
 import styles from "../../../styles/Order-id.module.css";
 import { Order } from "../../../src/types/Order";
-import { autorizeToken } from "../../../services/hooks/useToken";
-import { getTenant } from "../../../services/hooks/useTenant";
-import { getOneOrder } from "../../../services/hooks/useOrders";
+import { autorizeToken } from "../../../src/services/hooks/useToken";
+import { getTenant } from "../../../src/services/hooks/useTenant";
+import { getOneOrder } from "../../../src/services/hooks/useOrders";
 
 const OrderID = (data: Props) => {
   const { user, setToken, setUser } = useAuthContext();
@@ -83,11 +83,7 @@ const OrderID = (data: Props) => {
         <title>{`Pedido #${data.order.codvenda} | ${data.tenant.name}`}</title>
       </Head>
 
-      <Header
-        backHref={`/${data.tenant.slug}/cart`}
-        color={data.tenant.mainColor}
-        title={`Pedido #${data.order.codvenda}`}
-      />
+      <Header backHref={`/${data.tenant.slug}/cart`} color={data.tenant.mainColor} title={`Pedido #${data.order.codvenda}`} />
 
       {data.order.status !== "delivered" && (
         <div
@@ -113,9 +109,7 @@ const OrderID = (data: Props) => {
               }}
             ></div>
           </div>
-          <div className={styles.statusMsg}>
-            Aguardando Mudança de status...
-          </div>
+          <div className={styles.statusMsg}>Aguardando Mudança de status...</div>
         </div>
       )}
 
@@ -133,9 +127,7 @@ const OrderID = (data: Props) => {
           {data.order.products.length}
           {data.order.products.length === 1 ? " item" : " itens"}
         </div>
-        <div className={styles.orderInfoDate}>
-          {formatter.formatDate(data.order.orderDate)}
-        </div>
+        <div className={styles.orderInfoDate}>{formatter.formatDate(data.order.orderDate)}</div>
       </div>
 
       <div className={styles.productsList}>
@@ -226,34 +218,25 @@ const OrderID = (data: Props) => {
       <div className={styles.resumeArea}>
         <div className={styles.resumeItem}>
           <div className={styles.resumeLeft}>Subtotal</div>
-          <div className={styles.resumeRight}>
-            {formatter.formatPrice(data.order.subtotal)}
-          </div>
+          <div className={styles.resumeRight}>{formatter.formatPrice(data.order.subtotal)}</div>
         </div>
 
         {data.order.cupomDiscount && (
           <div className={styles.resumeItem}>
             <div className={styles.resumeLeft}>Desconto</div>
-            <div className={styles.resumeRight}>
-              - {formatter.formatPrice(data.order.cupomDiscount)}
-            </div>
+            <div className={styles.resumeRight}>- {formatter.formatPrice(data.order.cupomDiscount)}</div>
           </div>
         )}
         <div className={styles.resumeItem}>
           <div className={styles.resumeLeft}>Frete</div>
           <div className={styles.resumeRight}>
-            {data.order.shippingPrice > 0
-              ? formatter.formatPrice(data.order.shippingPrice)
-              : "--"}
+            {data.order.shippingPrice > 0 ? formatter.formatPrice(data.order.shippingPrice) : "--"}
           </div>
         </div>
         <div className={styles.resumeLine}></div>
         <div className={styles.resumeItem}>
           <div className={styles.resumeLeft}>Total</div>
-          <div
-            style={{ color: data.tenant.mainColor }}
-            className={styles.resumeRightBig}
-          >
+          <div style={{ color: data.tenant.mainColor }} className={styles.resumeRightBig}>
             {formatter.formatPrice(data.order.total)}
           </div>
         </div>

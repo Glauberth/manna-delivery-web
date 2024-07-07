@@ -15,17 +15,13 @@ import { CartItem } from "../../../src/types/CartItem";
 import { Tenant } from "../../../src/types/Tenent";
 import { User } from "../../../src/types/User";
 import styles from "../../../styles/NewAddress.module.css";
-import { autorizeToken } from "../../../services/hooks/useToken";
-import {
-  getOneAddress,
-  updateAddress,
-} from "../../../services/hooks/useAddress";
-import { getTenant } from "../../../services/hooks/useTenant";
+import { autorizeToken } from "../../../src/services/hooks/useToken";
+import { getOneAddress, updateAddress } from "../../../src/services/hooks/useAddress";
+import { getTenant } from "../../../src/services/hooks/useTenant";
 
 const EditAddress = (data: Props) => {
   const { user, setToken, setUser } = useAuthContext();
-  const { tenant, setTenant, setShippingAddress, setShippingPrice } =
-    useAppContext();
+  const { tenant, setTenant, setShippingAddress, setShippingPrice } = useAppContext();
 
   useEffect(() => {
     setTenant(data.tenant);
@@ -42,10 +38,7 @@ const EditAddress = (data: Props) => {
   const [address, setAddress] = useState<Address>(data.address);
 
   //o valor de field agora é uma das chaves do address
-  const changeAddressField = (
-    field: keyof Address,
-    value: (typeof address)[keyof Address]
-  ) => {
+  const changeAddressField = (field: keyof Address, value: (typeof address)[keyof Address]) => {
     setAddress({
       ...address,
       [field]: value,
@@ -99,11 +92,7 @@ const EditAddress = (data: Props) => {
         <title>{`Editar Endereço | ${data.tenant.name}`}</title>
       </Head>
 
-      <Header
-        backHref={`/${data.tenant.slug}/myaddresses`}
-        color={data.tenant.mainColor}
-        title="Editar Endereço"
-      />
+      <Header backHref={`/${data.tenant.slug}/myaddresses`} color={data.tenant.mainColor} title="Editar Endereço" />
 
       <div className={styles.inputs}>
         <div className={styles.row}>
@@ -194,12 +183,7 @@ const EditAddress = (data: Props) => {
       </div>
 
       <div className={styles.btnArea}>
-        <Button
-          color={data.tenant.mainColor}
-          label="Atualizar"
-          onClick={handleSaveAddress}
-          fill
-        />
+        <Button color={data.tenant.mainColor} label="Atualizar" onClick={handleSaveAddress} fill />
       </div>
     </div>
   );

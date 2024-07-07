@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { Group } from "../../src/types/Group";
+import { Group } from "../../../src/types/Group";
 import { api } from "../api";
 
 const dateConfig: Intl.DateTimeFormatOptions = {

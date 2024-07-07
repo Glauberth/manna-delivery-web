@@ -10,7 +10,7 @@ import { Header } from "../../src/components/Header";
 import { InputField } from "../../src/components/InputField";
 import { Tenant } from "../../src/types/Tenent";
 import styles from "../../styles/Login.module.css";
-import { getTenant } from "../../services/hooks/useTenant";
+import { getTenant } from "../../src/services/hooks/useTenant";
 
 const Login = (data: Props) => {
   const { setToken, setUser } = useAuthContext();
@@ -46,10 +46,7 @@ const Login = (data: Props) => {
         {/* <link rel="icon" href={data.tenant.logo} /> */}
       </Head>
 
-      <Header
-        color={data.tenant.mainColor as string}
-        backHref={`/${data.tenant.slug}`}
-      />
+      <Header color={data.tenant.mainColor as string} backHref={`/${data.tenant.slug}`} />
 
       <div className={styles.header}>{data.tenant.name}</div>
 
@@ -66,12 +63,7 @@ const Login = (data: Props) => {
 
       <div className={styles.formArea}>
         <div className={styles.inputArea}>
-          <InputField
-            color={data.tenant.mainColor}
-            placeholder="Digite seu E-mail"
-            value={email}
-            onChange={setEmail}
-          />
+          <InputField color={data.tenant.mainColor} placeholder="Digite seu E-mail" value={email} onChange={setEmail} />
         </div>
 
         <div className={styles.inputArea}>
@@ -85,19 +77,11 @@ const Login = (data: Props) => {
         </div>
 
         <div className={styles.inputArea}>
-          <Button
-            color={data.tenant.mainColor}
-            label="Entrar"
-            onClick={handleSubmit}
-            fill
-          />
+          <Button color={data.tenant.mainColor} label="Entrar" onClick={handleSubmit} fill />
         </div>
       </div>
 
-      <div
-        className={styles.forgetArea}
-        style={{ borderBottomColor: data.tenant.mainColor }}
-      >
+      <div className={styles.forgetArea} style={{ borderBottomColor: data.tenant.mainColor }}>
         Esqueceu sua senha?
         <Link href={`/${data.tenant.slug}/forget`}>
           <a style={{ color: data.tenant.mainColor }}> Clique aqui </a>
@@ -107,11 +91,7 @@ const Login = (data: Props) => {
       <div className={styles.line}></div>
 
       <div className={styles.signupArea}>
-        <Button
-          color={data.tenant.mainColor}
-          label="Quero me Cadastrar"
-          onClick={handleSignUp}
-        />
+        <Button color={data.tenant.mainColor} label="Quero me Cadastrar" onClick={handleSignUp} />
       </div>
     </div>
   );

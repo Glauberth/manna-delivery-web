@@ -1,7 +1,7 @@
-import { Address } from "../../src/types/Address";
-import { CartItem } from "../../src/types/CartItem";
-import { Order } from "../../src/types/Order";
-import { Product } from "../../src/types/Products";
+import { Address } from "../../../src/types/Address";
+import { CartItem } from "../../../src/types/CartItem";
+import { Order } from "../../../src/types/Order";
+import { Product } from "../../../src/types/Products";
 
 const TEMPORARYonProduct: Product = {
   CODPRODUTO: 1,

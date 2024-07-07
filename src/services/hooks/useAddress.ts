@@ -1,4 +1,4 @@
-import { Address } from "../../src/types/Address";
+import { Address } from "../../../src/types/Address";
 
 export async function getAllAddress(email: string) {
   const addresses: Address[] = [];

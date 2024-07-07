@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { Tenant } from "../../src/types/Tenent";
 import { useAppContext } from "../../contexts/app";
-import { getTenant } from "../../services/hooks/useTenant";
+import { getTenant } from "../../src/services/hooks/useTenant";
 
 const Comanda = (data: Props) => {
   const router = useRouter();

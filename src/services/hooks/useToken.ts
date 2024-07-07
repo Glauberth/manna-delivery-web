@@ -1,4 +1,4 @@
-import { User } from "../../src/types/User";
+import { User } from "../../../src/types/User";
 
 export async function autorizeToken(token: string): Promise<User | false> {
   if (!token) return false;

@@ -11,13 +11,14 @@ import { Quantity } from "../../../src/components/Quantity";
 import { CartCookie } from "../../../src/types/CartCookie";
 import { Tenant } from "../../../src/types/Tenent";
 import styles from "../../../styles/Product-id.module.css";
-import { useProduct } from "../../../services/hooks/useProduto";
-import { getTenant } from "../../../services/hooks/useTenant";
+import { useProduct } from "../../../src/services/hooks/useProduto";
+import { getTenant } from "../../../src/services/hooks/useTenant";
 // import { CartProductItem } from "../../../src/components/CartProductItem";
 import { ComboItem } from "../../../src/components/ComboItem";
 import { Combo } from "../../../src/types/Combo";
 import ProductImage from "../../../src/components/ProductItem/ProductImagem";
 import Skeleton from "../../../src/components/Skeleton/Skeleton";
+import { Scanner } from "@yudiel/react-qr-scanner";
 
 const Products = (data: Props) => {
   const {
@@ -27,12 +28,17 @@ const Products = (data: Props) => {
     isFetching: isFetchingProduto,
   } = useProduct(data.tenant.slug, data.productID);
 
+  const [cameraIsOpen, setCameraIsOpen] = useState(false);
   const [totalPriceProduct, setTotalPriceProdutct] = useState<number>(0);
   const { tenant, setTenant } = useAppContext();
   const [qtCount, setQtCount] = useState(1);
   const [combo, setCombo] = useState<Combo[]>([]);
   const router = useRouter();
   const formatter = useFormatter();
+
+  function handleCamera() {
+    setCameraIsOpen(!cameraIsOpen);
+  }
 
   function handleAddProductToCart() {
     let cart: CartCookie[] = [];
@@ -218,13 +224,17 @@ const Products = (data: Props) => {
               rows={5}
             ></textarea>
           </div>
+
           <div className={styles.buttonArea}>
-            {data.tenant.isCatalogo == false && (
+            {cameraIsOpen && <Scanner onScan={(result) => console.log(result)} />}
+
+            {data.tenant.isCatalog == false && (
               <Button
                 // disabled
                 color={data.tenant.mainColor}
                 label="Adicionar ao Carrinho"
-                onClick={handleAddProductToCart}
+                //onClick={handleAddProductToCart}
+                onClick={handleCamera}
                 fill
               />
             )}
@@ -251,6 +261,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   //GET Tenant
   const tenant = await getTenant(tenantSlug as string);
 
+  console.log({ DadosTenant: tenant });
   if (!tenant) {
     return {
       redirect: {

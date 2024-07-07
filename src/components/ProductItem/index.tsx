@@ -5,8 +5,6 @@ import { useFormatter } from "../../../libs/useFormatter";
 import { Product } from "../../types/Products";
 import styles from "./styles.module.css";
 import NextImage from "next/image";
-import { queryClient } from "../../../services/queryClient";
-import { getOneProduct } from "../../../services/hooks/useProduto";
 
 type Props = {
   data: Product;

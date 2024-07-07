@@ -12,10 +12,10 @@ import { Group } from "../../src/types/Group";
 import { Product } from "../../src/types/Products";
 import { Tenant } from "../../src/types/Tenent";
 import { User } from "../../src/types/User";
-import { useProducts } from "../../services/hooks/useProduto";
-import { useGrupos } from "../../services/hooks/useGrupo";
-import { autorizeToken } from "../../services/hooks/useToken";
-import { getTenant } from "../../services/hooks/useTenant";
+import { useProducts } from "../../src/services/hooks/useProduto";
+import { useGrupos } from "../../src/services/hooks/useGrupo";
+import { autorizeToken } from "../../src/services/hooks/useToken";
+import { getTenant } from "../../src/services/hooks/useTenant";
 import styles from "../../styles/Home.module.css";
 import NoItemsIcon from "./../../public/assets/noitems.svg";
 import NextImage from "next/image";
@@ -240,7 +240,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   //GET Tenant
   const tenant = await getTenant(tenantSlug as string);
 
-  if (!tenant) {
+  if (!tenant.name) {
     return {
       redirect: {
         destination: "/",

@@ -6,7 +6,7 @@ import { Provider as AppContextProvider } from "../contexts/app";
 import { Provider as AuthContextProvider } from "../contexts/auth";
 import GoogleAnalytics from "../src/components/GoogleAnalytics";
 import { QueryClientProvider } from "react-query";
-import { queryClient } from "../services/queryClient";
+import { queryClient } from "../src/services/queryClient";
 import { ReactQueryDevtools } from "react-query/devtools";
 
 function MyApp({ Component, pageProps }: AppProps) {

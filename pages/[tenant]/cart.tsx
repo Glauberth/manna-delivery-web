@@ -15,9 +15,9 @@ import { CartItem } from "../../src/types/CartItem";
 import { Tenant } from "../../src/types/Tenent";
 import { User } from "../../src/types/User";
 import styles from "../../styles/Cart.module.css";
-import { getCartProducts } from "../../services/hooks/useProduto";
-import { autorizeToken } from "../../services/hooks/useToken";
-import { getTenant } from "../../services/hooks/useTenant";
+import { getCartProducts } from "../../src/services/hooks/useProduto";
+import { autorizeToken } from "../../src/services/hooks/useToken";
+import { getTenant } from "../../src/services/hooks/useTenant";
 
 const Cart = (data: Props) => {
   const formatter = useFormatter();

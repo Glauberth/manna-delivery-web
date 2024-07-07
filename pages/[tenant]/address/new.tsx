@@ -15,14 +15,13 @@ import { CartItem } from "../../../src/types/CartItem";
 import { Tenant } from "../../../src/types/Tenent";
 import { User } from "../../../src/types/User";
 import styles from "../../../styles/NewAddress.module.css";
-import { autorizeToken } from "../../../services/hooks/useToken";
-import { getAllAddress, newAddress } from "../../../services/hooks/useAddress";
-import { getTenant } from "../../../services/hooks/useTenant";
+import { autorizeToken } from "../../../src/services/hooks/useToken";
+import { getAllAddress, newAddress } from "../../../src/services/hooks/useAddress";
+import { getTenant } from "../../../src/services/hooks/useTenant";
 
 const NewAddress = (data: Props) => {
   const { user, setToken, setUser } = useAuthContext();
-  const { tenant, setTenant, setShippingAddress, setShippingPrice } =
-    useAppContext();
+  const { tenant, setTenant, setShippingAddress, setShippingPrice } = useAppContext();
 
   useEffect(() => {
     setTenant(data.tenant);
@@ -107,11 +106,7 @@ const NewAddress = (data: Props) => {
         <title>{`Novo Endereço | ${data.tenant.name}`}</title>
       </Head>
 
-      <Header
-        backHref={`/${data.tenant.slug}/myaddresses`}
-        color={data.tenant.mainColor}
-        title="Novo Endereço"
-      />
+      <Header backHref={`/${data.tenant.slug}/myaddresses`} color={data.tenant.mainColor} title="Novo Endereço" />
 
       <div className={styles.inputs}>
         <div className={styles.row}>
@@ -202,12 +197,7 @@ const NewAddress = (data: Props) => {
       </div>
 
       <div className={styles.btnArea}>
-        <Button
-          color={data.tenant.mainColor}
-          label="Salvar"
-          onClick={handleNewAddress}
-          fill
-        />
+        <Button color={data.tenant.mainColor} label="Salvar" onClick={handleNewAddress} fill />
       </div>
     </div>
   );

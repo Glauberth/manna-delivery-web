@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
-import { CartItem } from "../../src/types/CartItem";
-import { Product } from "../../src/types/Products";
+import { CartItem } from "../../../src/types/CartItem";
+import { Product } from "../../../src/types/Products";
 import { api } from "../api";
 
 const dateConfig: Intl.DateTimeFormatOptions = {
