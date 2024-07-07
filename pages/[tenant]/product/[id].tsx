@@ -18,7 +18,7 @@ import { ComboItem } from "../../../src/components/ComboItem";
 import { Combo } from "../../../src/types/Combo";
 import ProductImage from "../../../src/components/ProductItem/ProductImagem";
 import Skeleton from "../../../src/components/Skeleton/Skeleton";
-import { Scanner } from "@yudiel/react-qr-scanner";
+import { IDetectedBarcode, Scanner } from "@yudiel/react-qr-scanner";
 
 const Products = (data: Props) => {
   const {
@@ -38,6 +38,14 @@ const Products = (data: Props) => {
 
   function handleCamera() {
     setCameraIsOpen(!cameraIsOpen);
+  }
+
+  function handleResultScan(dados: IDetectedBarcode) {
+    console.log({
+      rawValue: dados.rawValue,
+      format: dados.format,
+    });
+    alert(dados.rawValue);
   }
 
   function handleAddProductToCart() {
@@ -226,7 +234,7 @@ const Products = (data: Props) => {
           </div>
 
           <div className={styles.buttonArea}>
-            {cameraIsOpen && <Scanner onScan={(result) => alert(result)} />}
+            {cameraIsOpen && <Scanner onScan={(result) => alert(result.toString())} />}
 
             {data.tenant.isCatalog == false && (
               <Button
