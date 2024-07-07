@@ -40,12 +40,14 @@ const Products = (data: Props) => {
     setCameraIsOpen(!cameraIsOpen);
   }
 
-  function handleResultScan(dados: IDetectedBarcode) {
-    console.log({
-      rawValue: dados.rawValue,
-      format: dados.format,
+  function handleResultScan(dados: IDetectedBarcode[]) {
+    dados.map((item, index) => {
+      console.log({
+        rawValue: item.rawValue,
+        format: item.format,
+      });
+      alert(item.rawValue);
     });
-    alert(dados.rawValue);
   }
 
   function handleAddProductToCart() {
@@ -234,7 +236,7 @@ const Products = (data: Props) => {
           </div>
 
           <div className={styles.buttonArea}>
-            {cameraIsOpen && <Scanner onScan={(result) => alert(result.toString())} />}
+            {cameraIsOpen && <Scanner onScan={(result) => handleResultScan(result)} />}
 
             {data.tenant.isCatalog == false && (
               <Button
