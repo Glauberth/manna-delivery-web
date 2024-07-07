@@ -226,7 +226,7 @@ const Products = (data: Props) => {
           </div>
 
           <div className={styles.buttonArea}>
-            {cameraIsOpen && <Scanner onScan={(result) => console.log(result)} />}
+            {cameraIsOpen && <Scanner onScan={(result) => alert(result)} />}
 
             {data.tenant.isCatalog == false && (
               <Button

@@ -145,7 +145,7 @@ const Home = (data: Props) => {
           {/* 
                 Não será exibido o icone do menu para o SR inverno, pois ele é só catalogo...
                 */}
-          {data.tenant.isCatalogo == false && (
+          {data.tenant.isCatalog == false && (
             <div className={styles.headerTopRight}>
               <div className={styles.menuButtom} onClick={() => setSidebarOpen(true)}>
                 <div className={styles.menuButtomLine} style={{ backgroundColor: tenant?.mainColor }}></div>
@@ -217,7 +217,7 @@ const Home = (data: Props) => {
         </>
       )}
 
-      {data.tenant.isCatalogo == false && <FooterCart tenantSlug={data.tenant.slug} />}
+      {data.tenant.isCatalog == false && <FooterCart tenantSlug={data.tenant.slug} />}
     </div>
   );
 };
