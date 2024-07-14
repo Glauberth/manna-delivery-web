@@ -19,6 +19,9 @@ import { Combo } from "../../../src/types/Combo";
 import ProductImage from "../../../src/components/ProductItem/ProductImagem";
 import Skeleton from "../../../src/components/Skeleton/Skeleton";
 import { IDetectedBarcode, IScannerProps, Scanner } from "@yudiel/react-qr-scanner";
+import { Bounce, toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { addOrderProduct } from "../../../src/services/hooks/useOrders";
 
 const Products = (data: Props) => {
   const {
@@ -28,6 +31,7 @@ const Products = (data: Props) => {
     isFetching: isFetchingProduto,
   } = useProduct(data.tenant.slug, data.productID);
 
+  const [obsItem, setObsItem] = useState("");
   const [cameraIsOpen, setCameraIsOpen] = useState(false);
   const [totalPriceProduct, setTotalPriceProdutct] = useState<number>(0);
   const { tenant, setTenant } = useAppContext();
@@ -40,17 +44,43 @@ const Products = (data: Props) => {
     setCameraIsOpen(!cameraIsOpen);
   }
 
-  function handleResultScan(dados: IDetectedBarcode[]) {
-    dados.map((item, index) => {
-      console.log({
-        rawValue: item.rawValue,
-        format: item.format,
-        completo: item,
-      });
-      alert(item.rawValue);
-    });
+  async function handleResultScan(dados: IDetectedBarcode[]) {
+    dados.map(async (item, index) => {
+      // console.log({
+      //   rawValue: item.rawValue,
+      //   format: item.format,
+      //   completo: item,
+      // });
 
-    setCameraIsOpen(false);
+      setCameraIsOpen(false);
+
+      const nMesa = item.rawValue;
+      const timerToClose = 5000;
+
+      toast.success(`Item adicionado na Comanda Nº: ${item.rawValue}`, {
+        position: "top-center",
+        autoClose: timerToClose,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
+
+      const result = await addOrderProduct(data.tenant.slug, {
+        codBarra: produtoQuery!.CODBARRA,
+        codProduto: produtoQuery!.CODPRODUTO,
+        codUsuario: 1,
+        mesa: Number(nMesa),
+        precoVenda: produtoQuery?.PRECOPROMO ? produtoQuery.PRECOPROMO : produtoQuery!.PRECOVENDA,
+        quantidade: 1,
+        OBS: obsItem,
+      });
+
+      console.log(result);
+    });
   }
 
   function handleAddProductToCart() {
@@ -153,6 +183,21 @@ const Products = (data: Props) => {
 
   return (
     <div className={styles.container}>
+      <>
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+          transition={Bounce}
+        />
+      </>
       {isLoadingProduto || isFetchingProduto ? (
         <Skeleton heigth={30} lines={10} />
       ) : produtoQuery ? (
@@ -235,6 +280,8 @@ const Products = (data: Props) => {
               id="story"
               name="story"
               rows={5}
+              value={obsItem}
+              onChange={(e) => setObsItem(e.target.value)}
             ></textarea>
           </div>
 
@@ -276,7 +323,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   //GET Tenant
   const tenant = await getTenant(tenantSlug as string);
 
-  console.log({ DadosTenant: tenant });
+  // console.log({ DadosTenant: tenant });
   if (!tenant) {
     return {
       redirect: {

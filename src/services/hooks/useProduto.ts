@@ -88,10 +88,10 @@ export async function getCartProducts(tenantSlug: string, cartCookie: string) {
       let productbd: Product;
 
       await api.get(`/products/${tenantSlug}/${cartJson[i].id}`).then((res) => {
-        // console.log(res.data);
         const { CODPRODUTO, CODBARRA, DESCRICAO, PRECOVENDA, CODGRUPO, NOME, OBSERVACAO, URLIMAGE, FOTO } = res.data;
 
         productbd = {
+          CODBARRA: CODBARRA,
           CODPRODUTO: CODPRODUTO,
           URLIMAGE: URLIMAGE ? URLIMAGE : "",
           CODGRUPO: CODGRUPO,

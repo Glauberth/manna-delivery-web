@@ -11,7 +11,7 @@ const dateConfig: Intl.DateTimeFormatOptions = {
   second: "2-digit",
 };
 export async function getTenant(tenantSlug: string): Promise<Tenant> {
-  console.log("requisitou Api Tenants");
+  console.log(`requisitou Api Tenants ${tenantSlug}`);
 
   const dataAtual = new Date().toLocaleDateString("pt-Br", dateConfig);
 
@@ -89,7 +89,6 @@ export async function getAllTenant(): Promise<Tenant[]> {
       return [];
     });
 
-  console.log(tenant);
   return tenant;
 }
 

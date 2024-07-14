@@ -31,6 +31,7 @@ export default function Banner({ data }: Props) {
             <SwiperSlide className={styles.slide} key={index}>
               <BannerProductItem
                 data={{
+                  CODBARRA: "1",
                   CODPRODUTO: 1,
                   URLIMAGE: "https://fileupload.mannatech.com.br/files/doc_17109467560006051921.jpg",
                   CODGRUPO: 1,

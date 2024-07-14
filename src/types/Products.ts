@@ -2,6 +2,7 @@ import { Combo } from "./Combo";
 
 export type Product = {
   CODPRODUTO: number;
+  CODBARRA: string;
   URLIMAGE: string;
   CODGRUPO: number;
   NOME: string;
