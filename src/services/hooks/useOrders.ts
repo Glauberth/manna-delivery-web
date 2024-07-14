@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import { Address } from "../../../src/types/Address";
 import { CartItem } from "../../../src/types/CartItem";
 import { Order } from "../../../src/types/Order";
@@ -79,14 +80,24 @@ export async function newOrder(
 }
 
 export async function addOrderProduct(tenantSlug: string, dados: DadosNewVenda) {
+  // Interface para o erro do Axios
+  interface AxiosCustomError extends AxiosError {
+    response?: AxiosError["response"] & {
+      data?: {
+        message?: string;
+      };
+    };
+  }
+
   const result: DadosNewVenda[] | any = await api
     .post(`/vendas/${tenantSlug}`, dados)
     .then((res) => {
       return res;
     })
-    .catch((error) => {
-      console.log(` ${dataAtual} - ${tenantSlug} - Erro Post new Vendaby Manná: ${(error as Error).message}`);
-      return [];
+    .catch((error: AxiosCustomError) => {
+      const errorMessage = error.response?.data?.message || error.message;
+      console.log(`${dataAtual} - ${tenantSlug} - Erro Post new Venda by Manná: ${errorMessage}`);
+      throw new Error(errorMessage);
     });
 
   return result ? result : [];

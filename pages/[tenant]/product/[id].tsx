@@ -57,19 +57,7 @@ const Products = (data: Props) => {
       const nMesa = item.rawValue;
       const timerToClose = 5000;
 
-      toast.success(`Item adicionado na Comanda Nº: ${item.rawValue}`, {
-        position: "top-center",
-        autoClose: timerToClose,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        transition: Bounce,
-      });
-
-      const result = await addOrderProduct(data.tenant.slug, {
+      await addOrderProduct(data.tenant.slug, {
         codBarra: produtoQuery!.CODBARRA,
         codProduto: produtoQuery!.CODPRODUTO,
         codUsuario: 1,
@@ -77,9 +65,33 @@ const Products = (data: Props) => {
         precoVenda: produtoQuery?.PRECOPROMO ? produtoQuery.PRECOPROMO : produtoQuery!.PRECOVENDA,
         quantidade: 1,
         OBS: obsItem,
-      });
-
-      console.log(result);
+      })
+        .then((res) => {
+          toast.success(`Item adicionado na Comanda Nº: ${item.rawValue}`, {
+            position: "top-center",
+            autoClose: timerToClose,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            transition: Bounce,
+          });
+        })
+        .catch((err) => {
+          toast.error(`Erro ao Lançar item: ${(err as Error).message}`, {
+            position: "top-center",
+            autoClose: timerToClose,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            transition: Bounce,
+          });
+        });
     });
   }
 
