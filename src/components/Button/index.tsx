@@ -6,9 +6,10 @@ type Props = {
   onClick: () => void;
   fill?: boolean;
   disabled?: boolean;
+  preco?: string;
 };
 
-export const Button = ({ color, label, onClick, fill, disabled }: Props) => {
+export const Button = ({ color, label, onClick, fill, disabled, preco }: Props) => {
   return (
     <div
       className={styles.container}
@@ -18,9 +19,11 @@ export const Button = ({ color, label, onClick, fill, disabled }: Props) => {
         borderColor: color,
         backgroundColor: fill ? color : "#FFF",
         opacity: disabled ? 0.4 : 1,
+        justifyContent: "space-between",
       }}
     >
-      {label}
+      <div>{label}</div>
+      {preco && <div>{preco}</div>}
     </div>
   );
 };

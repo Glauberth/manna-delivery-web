@@ -4,6 +4,11 @@
   border: 1px solid #f2f4f5;
   border-radius: 10px;
   overflow: hidden; /*Tudo que passar do Container CORTA, pra poder ficar arredondado... */
+  align-items: center;
+  text-align: center;
+  /* padding: 5px; */
+  /* padding: 20px; */
+  /* border: 2px solid red; */
 }
 
 .button {

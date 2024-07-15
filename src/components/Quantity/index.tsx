@@ -13,15 +13,7 @@ type Props = {
   iconLixeira?: boolean;
 };
 
-export const Quantity = ({
-  color,
-  count,
-  onUpdateCount,
-  min,
-  max,
-  small,
-  iconLixeira,
-}: Props) => {
+export const Quantity = ({ color, count, onUpdateCount, min, max, small, iconLixeira }: Props) => {
   const [canRemove, setCanRemove] = useState(false);
   const [canAdd, setCanAdd] = useState(false);
   const formatter = useFormatter();
@@ -56,6 +48,7 @@ export const Quantity = ({
           backgroundColor: canRemove ? color : "#f2f4f5",
           width: small ? 42 : 48,
           height: small ? 42 : 48,
+          cursor: "pointer",
         }}
       >
         {canRemove ? "-" : iconLixeira ? <IconLixeira color={"#000"} /> : "-"}
@@ -71,6 +64,7 @@ export const Quantity = ({
           backgroundColor: canAdd ? color : "#f2f4f5",
           width: small ? 42 : 48,
           height: small ? 42 : 48,
+          cursor: "pointer",
         }}
       >
         +

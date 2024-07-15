@@ -241,7 +241,7 @@ const Products = (data: Props) => {
           <div className={styles.description}>{produtoQuery.OBSERVACAO}</div>
           <div className={styles.qtText}>Quantidade</div>
           <div className={styles.area}>
-            <div className={styles.areaLeft}>
+            {/* <div className={styles.areaLeft}>
               <Quantity
                 color={data.tenant.mainColor}
                 count={qtCount}
@@ -251,7 +251,7 @@ const Products = (data: Props) => {
                 // max={10}
                 // iconLixeira
               />
-            </div>
+            </div> */}
 
             <div style={{ display: "flex", gap: 5, alignItems: "flex-end" }}>
               {produtoQuery.PRECOPROMO && (
@@ -297,21 +297,41 @@ const Products = (data: Props) => {
             ></textarea>
           </div>
 
-          <div className={styles.buttonArea}>
-            {cameraIsOpen && (
-              <Scanner formats={["qr_code", "code_128", "ean_13"]} onScan={(result) => handleResultScan(result)} />
-            )}
-
-            {data.tenant.isCatalog == false && (
-              <Button
-                // disabled
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+              marginLeft: "5px",
+            }}
+          >
+            <div>
+              <Quantity
                 color={data.tenant.mainColor}
-                label="Adicionar ao Carrinho"
+                count={qtCount}
+                onUpdateCount={handleUpdateQt}
+                min={1}
+                // small
+                // max={10}
+                // iconLixeira
+              />
+            </div>
+            <div className={styles.buttonArea} style={{ width: "100%" }}>
+              {cameraIsOpen && (
+                <Scanner formats={["qr_code", "code_128", "ean_13"]} onScan={(result) => handleResultScan(result)} />
+              )}
+
+              <Button
+                disabled={data.tenant.isCatalog}
+                color={data.tenant.mainColor}
+                label={`Adicionar`}
+                preco={formatter.formatPrice(produtoQuery.PRECOVENDA)}
                 //onClick={handleAddProductToCart}
+
                 onClick={handleCamera}
                 fill
               />
-            )}
+            </div>
           </div>
         </>
       ) : (
