@@ -26,7 +26,7 @@ export const ComboItem = ({ color, combo, handleCombo, noEdit }: Props) => {
     <div className={styles.container}>
       {combo.URLIMAGE && (
         <div className={styles.productImage}>
-          <NextImage width={150} height={150} src={combo.URLIMAGE} alt="" />
+          <NextImage width={70} height={70} src={combo.URLIMAGE} alt="" />
         </div>
       )}
       <div className={styles.productInfo}>

@@ -239,20 +239,8 @@ const Products = (data: Props) => {
           </div>
           <div className={styles.line}></div>
           <div className={styles.description}>{produtoQuery.OBSERVACAO}</div>
-          <div className={styles.qtText}>Quantidade</div>
+          {/* <div className={styles.qtText}>Quantidade</div> */}
           <div className={styles.area}>
-            {/* <div className={styles.areaLeft}>
-              <Quantity
-                color={data.tenant.mainColor}
-                count={qtCount}
-                onUpdateCount={handleUpdateQt}
-                min={1}
-                // small
-                // max={10}
-                // iconLixeira
-              />
-            </div> */}
-
             <div style={{ display: "flex", gap: 5, alignItems: "flex-end" }}>
               {produtoQuery.PRECOPROMO && (
                 <div className={styles.areaRight} style={{ color: data.tenant.mainColor }}>
@@ -326,7 +314,7 @@ const Products = (data: Props) => {
                   disabled={data.tenant.isCatalog}
                   color={data.tenant.mainColor}
                   label={`Adicionar`}
-                  preco={formatter.formatPrice(produtoQuery.PRECOVENDA)}
+                  preco={formatter.formatPrice(totalPriceProduct)}
                   //onClick={handleAddProductToCart}
 
                   onClick={handleCamera}

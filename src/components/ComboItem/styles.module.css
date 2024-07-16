@@ -1,20 +1,25 @@
 .container {
+  padding: 2px 15px 2px 15px;
   display: flex;
   align-items: center;
   border-bottom: 1.5px solid rgba(27, 27, 27, 0.1);
 }
 
 .productImage {
-  width: 85px;
+  display: flex;
+  align-items: center;
+  margin: 5px 10px 5px 2px;
 }
 
 .productImage img {
-  width: 100%;
+  /* max-width: 70px; */
+  /* height: auto; */
+  border-radius: 15px;
 }
 
 .productInfo {
   flex: 1;
-  margin-left: 19px;
+  margin-left: 0px;
 }
 
 .productInfo .productCategory {

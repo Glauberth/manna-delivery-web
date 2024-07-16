@@ -6,7 +6,7 @@ export const useFormatter = () => ({
           style: "currency",
           currency: "BRL",
         })
-      : "0";
+      : "R$ 0,00";
   },
   formatQuantity: (quantity: number, minDigits: number) => {
     if (quantity.toString().length >= minDigits) return quantity.toString();
