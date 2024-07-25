@@ -22,6 +22,7 @@ import { IDetectedBarcode, IScannerProps, Scanner } from "@yudiel/react-qr-scann
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { addOrderProduct } from "../../../src/services/hooks/useOrders";
+import Swal from "sweetalert2";
 
 const Products = (data: Props) => {
   const {
@@ -39,6 +40,13 @@ const Products = (data: Props) => {
   const [combo, setCombo] = useState<Combo[]>([]);
   const router = useRouter();
   const formatter = useFormatter();
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: "btn btn-success",
+      cancelButton: "btn btn-danger",
+    },
+    buttonsStyling: true,
+  });
 
   function handleCamera() {
     setCameraIsOpen(!cameraIsOpen);
@@ -57,40 +65,54 @@ const Products = (data: Props) => {
       const nMesa = item.rawValue;
       const timerToClose = 5000;
 
-      await addOrderProduct(data.tenant.slug, {
-        codBarra: produtoQuery!.CODBARRA,
-        codProduto: produtoQuery!.CODPRODUTO,
-        codUsuario: 1,
-        mesa: Number(nMesa),
-        precoVenda: produtoQuery?.PRECOPROMO ? produtoQuery.PRECOPROMO : produtoQuery!.PRECOVENDA,
-        quantidade: 1,
-        OBS: obsItem,
-      })
-        .then((res) => {
-          toast.success(`Item adicionado na Comanda Nº: ${item.rawValue}`, {
-            position: "top-center",
-            autoClose: timerToClose,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-            transition: Bounce,
-          });
+      swalWithBootstrapButtons
+        .fire({
+          title: `Adicionar na Comanda ${nMesa} ?`,
+          text: produtoQuery?.DESCRICAO,
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: "Sim",
+          cancelButtonText: "Não, Voltar!",
+          reverseButtons: true,
         })
-        .catch((err) => {
-          toast.error(`Erro ao Lançar item: ${(err as Error).message}`, {
-            position: "top-center",
-            autoClose: timerToClose,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-            transition: Bounce,
-          });
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            await addOrderProduct(data.tenant.slug, {
+              codBarra: produtoQuery!.CODBARRA,
+              codProduto: produtoQuery!.CODPRODUTO,
+              codUsuario: 1,
+              mesa: Number(nMesa),
+              precoVenda: produtoQuery?.PRECOPROMO ? produtoQuery.PRECOPROMO : produtoQuery!.PRECOVENDA,
+              quantidade: 1,
+              OBS: obsItem,
+            })
+              .then((res) => {
+                toast.success(`Item adicionado na Comanda Nº: ${item.rawValue}`, {
+                  position: "top-center",
+                  autoClose: timerToClose,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "colored",
+                  transition: Bounce,
+                });
+              })
+              .catch((err) => {
+                toast.error(`Erro ao Lançar item: ${(err as Error).message}`, {
+                  position: "top-center",
+                  autoClose: timerToClose,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "colored",
+                  transition: Bounce,
+                });
+              });
+          }
         });
     });
   }
@@ -315,8 +337,7 @@ const Products = (data: Props) => {
                   color={data.tenant.mainColor}
                   label={`Adicionar`}
                   preco={formatter.formatPrice(totalPriceProduct)}
-                  //onClick={handleAddProductToCart}
-
+                  // onClick={handleAlert}
                   onClick={handleCamera}
                   fill
                 />
