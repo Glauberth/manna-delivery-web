@@ -63,7 +63,7 @@ const Products = (data: Props) => {
       setCameraIsOpen(false);
 
       const nMesa = item.rawValue;
-      const timerToClose = 5000;
+      const timerToClose = 5001;
 
       swalWithBootstrapButtons
         .fire({
