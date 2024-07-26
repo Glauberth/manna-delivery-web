@@ -10,7 +10,7 @@ const Comanda = (data: Props) => {
   const { setComanda } = useAppContext();
   useEffect(() => {
     if (data.comanda) {
-      console.log("numero comanda: " + data.comanda);
+      console.log("Número comanda: " + data.comanda);
       setComanda(data.comanda);
       router.push(`/${data.tenant.slug}`);
     }
