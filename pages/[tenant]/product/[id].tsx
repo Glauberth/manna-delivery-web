@@ -270,6 +270,11 @@ const Products = (data: Props) => {
           maxAge: 60 * 60 * 24 * 1,
           path: "/",
         });
+        //Falta gravar o codvenda no cookie para os proximos subitens;
+        setCookie("manna.codvenda", res.data.codvenda, {
+          maxAge: 60 * 60 * 24 * 1,
+          path: "/",
+        });
 
         toast.success(`Item adicionado na Comanda Nº: ${comandaPulseira}, Obs: Mesa ${cookieMesaObs} `, {
           position: "top-center",
