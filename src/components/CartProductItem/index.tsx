@@ -1,5 +1,6 @@
 import { useFormatter } from "../../../libs/useFormatter";
 import { Product } from "../../types/Products";
+import ProductImage from "../ProductItem/ProductImagem";
 import { Quantity } from "../Quantity";
 import styles from "./styles.module.css";
 import NextImage from "next/image";
@@ -17,11 +18,10 @@ export const CartProductItem = ({ color, product, quantity, onChange, noEdit }: 
 
   return (
     <div className={styles.container}>
-      {product.URLIMAGE && (
-        <div className={styles.productImage}>
-          <NextImage width={100} height={100} src={product.URLIMAGE} alt="" />
-        </div>
-      )}
+      <div style={{ width: "40px", height: "40px", margin: "5px" }}>
+        <ProductImage altura={50} largura={50} src={product.URLIMAGE} />
+      </div>
+
       <div className={styles.productInfo}>
         <div className={styles.productCategory}>{product.NOME}</div>
         <div className={styles.productName}>{product.DESCRICAO}</div>

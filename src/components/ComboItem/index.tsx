@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormatter } from "../../../libs/useFormatter";
 import { Combo } from "../../types/Combo";
 import { Quantity } from "../Quantity";
@@ -8,11 +8,24 @@ import NextImage from "next/image";
 type Props = {
   color: string;
   combo: Combo;
-  handleCombo: (combo: Combo) => void;
   noEdit?: boolean;
+  qtdMax?: number;
+  qtdTotalGrupo: number;
+  isCompletQtdGrupo: boolean;
+  handleQtdTotalGrupo: (value: number) => void;
+  handleCombo: (combo: Combo) => void;
 };
 
-export const ComboItem = ({ color, combo, handleCombo, noEdit }: Props) => {
+export const ComboItem = ({
+  color,
+  combo,
+  handleCombo,
+  noEdit,
+  qtdMax,
+  qtdTotalGrupo,
+  isCompletQtdGrupo,
+  handleQtdTotalGrupo,
+}: Props) => {
   const [quantidade, setQuantidade] = useState(0);
   const formatter = useFormatter();
 
@@ -24,13 +37,12 @@ export const ComboItem = ({ color, combo, handleCombo, noEdit }: Props) => {
 
   return (
     <div className={styles.container}>
-      {combo.URLIMAGE && (
-        <div className={styles.productImage}>
-          <NextImage width={70} height={70} src={combo.URLIMAGE} alt="" />
-        </div>
-      )}
+      <div className={styles.productImage}>
+        <NextImage width={70} height={70} src={combo.URLIMAGE ? combo.URLIMAGE : "/assets/img/sem-foto.png"} alt="" />
+      </div>
+
       <div className={styles.productInfo}>
-        <div className={styles.productCategory}>{combo.NOME}</div>
+        {/* <div className={styles.productCategory}>{combo.NOME}</div> */}
         <div className={styles.productName}>{combo.DESCRICAO}</div>
         <div className={styles.productPrice} style={{ color: color }}>
           {formatter.formatPrice(combo.PRECOVENDA)}
@@ -54,9 +66,12 @@ export const ComboItem = ({ color, combo, handleCombo, noEdit }: Props) => {
             count={quantidade}
             onUpdateCount={handleUpdateQtdCombo}
             min={0}
-            max={3}
+            max={qtdMax}
             // iconLixeira
             small
+            isCompletQtdGrupo={isCompletQtdGrupo}
+            setQtdTotalGrupo={handleQtdTotalGrupo}
+            qtdTotalGrupo={qtdTotalGrupo}
           />
         )}
       </div>

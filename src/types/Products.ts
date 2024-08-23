@@ -1,4 +1,4 @@
-import { Combo } from "./Combo";
+import { Combo, COMBOGRUPO } from "./Combo";
 
 export type Product = {
   CODPRODUTO: number;
@@ -10,5 +10,5 @@ export type Product = {
   OBSERVACAO?: string;
   PRECOVENDA: number;
   PRECOPROMO?: number;
-  COMBO?: Combo[];
+  COMBO?: COMBOGRUPO[];
 };

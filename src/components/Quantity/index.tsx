@@ -11,31 +11,53 @@ type Props = {
   max?: number;
   small?: boolean;
   iconLixeira?: boolean;
+  isCompletQtdGrupo?: boolean;
+  qtdTotalGrupo?: number;
+  setQtdTotalGrupo?: (qtd: number) => void;
 };
 
-export const Quantity = ({ color, count, onUpdateCount, min, max, small, iconLixeira }: Props) => {
+export const Quantity = ({
+  color,
+  count,
+  onUpdateCount,
+  min,
+  max,
+  small,
+  iconLixeira,
+  isCompletQtdGrupo,
+  setQtdTotalGrupo = () => {},
+  qtdTotalGrupo = 0,
+}: Props) => {
   const [canRemove, setCanRemove] = useState(false);
   const [canAdd, setCanAdd] = useState(false);
   const formatter = useFormatter();
 
   useEffect(() => {
-    // console.log({ count: count, min: min, max: max });
-
     if (min) {
       setCanRemove(!min || (min && count > min) ? true : false);
     } else {
       setCanRemove(min == 0 && count > min ? true : false);
     }
 
-    setCanAdd(!max || (max && count < max) ? true : false);
-  }, [count, min, max]);
+    if (isCompletQtdGrupo === true) {
+      setCanAdd(false);
+    } else {
+      setCanAdd(!max || (max && count < max) ? true : false);
+    }
+  }, [count, min, max, isCompletQtdGrupo]);
 
   const handleRemove = () => {
-    if (canRemove) onUpdateCount(count - 1);
+    if (canRemove) {
+      onUpdateCount(count - 1);
+      setQtdTotalGrupo(qtdTotalGrupo - 1);
+    }
   };
 
   const handleAdd = () => {
-    if (canAdd) onUpdateCount(count + 1);
+    if (canAdd) {
+      onUpdateCount(count + 1);
+      setQtdTotalGrupo(qtdTotalGrupo + 1);
+    }
   };
 
   return (
@@ -54,7 +76,7 @@ export const Quantity = ({ color, count, onUpdateCount, min, max, small, iconLix
         {canRemove ? "-" : iconLixeira ? <IconLixeira color={"#000"} /> : "-"}
       </div>
       <div className={styles.qt} style={{ fontSize: small ? 16 : 18 }}>
-        {formatter.formatQuantity(count, 2)}
+        {formatter.formatQuantity(count, 1)}
       </div>
       <div
         className={styles.button}

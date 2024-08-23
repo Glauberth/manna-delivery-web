@@ -32,12 +32,12 @@ const OrderID = (data: Props) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (data.order.status !== "delivered") {
-      setTimeout(() => {
-        console.log("recarregou");
-        router.reload();
-      }, 10000); //5seconds
-    }
+    // if (data.order.status !== "delivered") {
+    //   setTimeout(() => {
+    //     console.log("recarregou");
+    //     router.reload();
+    //   }, 10000); //5seconds
+    // }
   }, []);
 
   const orderStatusList = {
@@ -79,7 +79,7 @@ const OrderID = (data: Props) => {
   };
   return (
     <div className={styles.container}>
-      <Head>
+      {/* <Head>
         <title>{`Pedido #${data.order.codvenda} | ${data.tenant.name}`}</title>
       </Head>
 
@@ -240,7 +240,7 @@ const OrderID = (data: Props) => {
             {formatter.formatPrice(data.order.total)}
           </div>
         </div>
-      </div>
+      </div>*/}
     </div>
   );
 };
@@ -281,7 +281,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const user = await autorizeToken(token as string);
 
   //Get Order
-  const order = await getOneOrder(parseInt(orderid as string));
+  const order = await getOneOrder({ tenantSlug: tenant.slug, mesaComanda: parseInt(orderid as string) });
 
   return {
     props: { tenant, user, token, order },

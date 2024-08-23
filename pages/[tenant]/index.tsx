@@ -1,6 +1,5 @@
 import { getCookie } from "cookies-next";
 import { GetServerSideProps } from "next";
-
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../contexts/app";
@@ -23,6 +22,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import Skeleton from "../../src/components/Skeleton/Skeleton";
 import GrupoSlider from "../../src/components/GrupoSlider";
+
 // import Banner from "../../src/components/Banner";
 // import { queryClient } from "../../services/queryClient";
 const FooterCart = dynamic(() => import("../../src/components/FooterCart"), {
@@ -45,7 +45,7 @@ const Home = (data: Props) => {
     isFetching: isFetchingGrupos,
   } = useGrupos(data.tenant.slug);
 
-  const { tenant, comanda, setTenant } = useAppContext();
+  const { tenant, setTenant } = useAppContext();
   const { user, setToken, setUser } = useAuthContext();
   const [dados, setDados] = useState<Product[] | undefined>(produtosQuery);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -115,7 +115,6 @@ const Home = (data: Props) => {
       <Head>
         <title>{`Produtos | ${data.tenant.name}`}</title>
       </Head>
-
       <header className={styles.header} style={{ backgroundColor: data.tenant.secondColor }}>
         <div>
           <p className={styles.obsHeader} style={{ color: data.tenant.mainColor }}>
@@ -139,7 +138,18 @@ const Home = (data: Props) => {
             <div className={styles.headerSubTitle}>
               O que deseja pra hoje <strong> {user?.name.toUpperCase()}</strong>?
             </div>
-            <div>{comanda !== null || comanda !== null ? "Comanda Nº #" + comanda : ""}</div>
+
+            {data.mesaObs && (
+              <div className={styles.headerSubTitle} style={{ marginTop: "5px" }}>
+                <strong> Obs: Mesa #{data.mesaObs}</strong>
+              </div>
+            )}
+
+            {data.codVenda && (
+              <div className={styles.headerSubTitle} style={{ marginTop: "5px" }}>
+                <strong> Nº Venda: #{data.codVenda}</strong>
+              </div>
+            )}
           </div>
 
           {/* 
@@ -161,9 +171,7 @@ const Home = (data: Props) => {
           <SearchInput onSearch={handleSearch} />
         </div>
       </header>
-
       {/* <Banner data={falta carregar os produtos em oferta aqui...} /> */}
-
       {searchText && (
         <>
           <div className={styles.searchText}>
@@ -186,7 +194,6 @@ const Home = (data: Props) => {
           )}
         </>
       )}
-
       {!searchText && (
         <>
           {grupos && grupos.length > 0 ? (
@@ -217,7 +224,7 @@ const Home = (data: Props) => {
         </>
       )}
 
-      {data.tenant.isCatalog == false && <FooterCart tenantSlug={data.tenant.slug} />}
+      {data.tenant.isCatalog == false && <FooterCart tenantSlug={data.tenant.slug} color={data.tenant.mainColor} />}
     </div>
   );
 };
@@ -230,14 +237,13 @@ type Props = {
   //grupos: Group[];
   token: string;
   user: User | null;
-  comanda: string | null;
+  mesaObs: string | null;
+  codVenda: string | null;
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug } = context.query;
-  // console.log(context.query);
 
-  //GET Tenant
   const tenant = await getTenant(tenantSlug as string);
 
   if (!tenant.name) {
@@ -257,19 +263,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     token = null;
   }
 
-  // console.log("Token: " + token);
+  const mesaObs = getCookie("manna.mesaobs", context);
+  const cookieVenda = getCookie("manna.codvenda", context);
   const user = await autorizeToken(token as string);
-
-  //GET PRODUTOS
-
-  // const { data, error } = useProducts(tenantSlug as string);
-  // console.log({ data: data });
-
-  //const products = await getProdutos(tenantSlug as string);
-  //const grupos = await getAllGrupos(tenantSlug as string);
 
   return {
     //props: { tenant, products, grupos, user, token },
-    props: { tenant, user, token },
+    props: { tenant, user, token, mesaObs: mesaObs ? mesaObs?.toString() : "", codVenda: cookieVenda ? cookieVenda : null },
   };
 };

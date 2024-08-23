@@ -27,7 +27,21 @@ const Image = ({ src, alt, fallback, altura = 100, largura = 100 }: ProductImg) 
   ) : (
     <>
       {error ? (
-        <h1>Erro ao carregar imagem...</h1>
+        // <h1>Erro ao carregar imagem...</h1>
+        <NextImage
+          style={{
+            opacity: src ? "1" : "0.2",
+          }}
+          src={src}
+          alt={alt}
+          width={largura}
+          height={altura}
+          onError={onError}
+          placeholder="blur"
+          blurDataURL="/assets/img/sem-foto.png"
+
+          //
+        />
       ) : (
         <NextImage
           style={{
@@ -49,12 +63,14 @@ const Image = ({ src, alt, fallback, altura = 100, largura = 100 }: ProductImg) 
 
 export default function ProductImage({ src, altura, largura }: Props) {
   return (
-    <Image
-      src={src ? src : "/assets/img/sem-foto.png"}
-      altura={altura}
-      largura={largura}
-      alt="imgProduct"
-      fallback={<span>img não existe</span>}
-    />
+    <>
+      <Image
+        src={src ? src : "/assets/img/sem-foto.png"}
+        altura={altura}
+        largura={largura}
+        alt="imgProduct"
+        fallback={<span>img não existe</span>}
+      />
+    </>
   );
 }

@@ -11,4 +11,24 @@ export type Combo = {
   PRECOVENDA: number;
   PRECOCUSTO: number;
   PERCENTUAL: number;
+  codcombogrupo?: number;
+};
+
+export type COMBOGRUPO = {
+  codcombogrupo: number;
+  nomegrupo: string;
+  obrigatorio: number;
+  qtdmin: number;
+  qtdmax: number;
+  COMBO: Combo[];
+};
+
+export type ComboVendas = {
+  CodComboVendas?: number;
+  CodDetalheVenda?: number;
+  CodProduto: number;
+  Quantidade: number;
+  Impresso: string;
+  CodVenda?: number;
+  PrecoVenda: number;
 };

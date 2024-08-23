@@ -1,18 +1,25 @@
-import { Address } from "./Address";
-import { CartItem } from "./CartItem";
-
 export type Order = {
   codvenda: number;
-  status: "pending" | "preparing" | "sent" | "delivered";
-  orderDate: string;
-  codcliente: string;
-  shippingAddress: Address;
-  shippingPrice: number;
-  paymentType: "money" | "card";
-  paymentChange?: number;
-  cupom?: string;
-  cupomDiscount?: number;
-  products: CartItem[];
-  subtotal: number;
-  total: number;
+  DataEmissao: Date;
+  HoraEntrada: Date;
+  Mesa: number;
+  Cliente: {
+    Nome: string;
+    Apelido: string;
+    Celular: string;
+    credito: number;
+  };
+  Vendadetalhe_temp?: [
+    {
+      Quantidade: number;
+      ValorUnitario: number;
+      ValorTotal: number;
+      Produto: {
+        codproduto: number;
+        CodBarra: string;
+        Descricao: string;
+        urlImage: string;
+      };
+    }
+  ];
 };

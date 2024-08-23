@@ -14,15 +14,9 @@ type Props = {
   disabled?: boolean;
 };
 
-export const SidebarMenuItem = ({
-  color,
-  label,
-  icon,
-  onClick,
-  disabled,
-}: Props) => {
+export const SidebarMenuItem = ({ color, label, icon, onClick, disabled }: Props) => {
   return (
-    <div className={styles.container} onClick={onClick}>
+    <div className={styles.container} onClick={disabled ? () => {} : onClick}>
       {icon === "cart" && <CartIcon color={color} />}
       {icon === "config" && <ConfigIcon color={color} />}
       {icon === "fav" && <FavIcon color={color} />}

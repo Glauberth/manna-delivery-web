@@ -13,13 +13,13 @@ import { Header } from "../../src/components/Header";
 import { InputField } from "../../src/components/InputField";
 import { Address } from "../../src/types/Address";
 import { CartCookie } from "../../src/types/CartCookie";
-import { CartItem } from "../../src/types/CartItem";
+// import { CartItem } from "../../src/types/CartItem";
 import { Tenant } from "../../src/types/Tenent";
 import { User } from "../../src/types/User";
 import styles from "../../styles/Checkout.module.css";
-import { getCartProducts } from "../../src/services/hooks/useProduto";
+// import { getCartProducts } from "../../src/services/hooks/useProduto";
 import { autorizeToken } from "../../src/services/hooks/useToken";
-import { newOrder } from "../../src/services/hooks/useOrders";
+// import { newOrder } from "../../src/services/hooks/useOrders";
 import { getTenant } from "../../src/services/hooks/useTenant";
 
 const Checkout = (data: Props) => {
@@ -36,7 +36,8 @@ const Checkout = (data: Props) => {
   }, []);
 
   // Product Control
-  const [cart, setCart] = useState<CartItem[]>(data.cart);
+  // const [cart, setCart] = useState<CartItem[]>(data.cart);
+  const [cart, setCart] = useState([]); // useState(data.cart);
 
   // Shipping
   const handleChangeAddress = () => {
@@ -64,21 +65,21 @@ const Checkout = (data: Props) => {
   useEffect(() => {
     let sub = 0;
     for (let i in cart) {
-      sub += cart[i].product.PRECOVENDA * cart[i].qt;
+      // sub += cart[i].product.PRECOVENDA * cart[i].qt;
     }
 
     setSubtotal(sub);
   }, [cart]);
 
   const handleFinish = async () => {
-    if (shippingAddress) {
-      const order = await newOrder(shippingAddress, paymentType, paymentChange, cupom, data.cart);
-      if (order) {
-        router.push(`/${data.tenant.slug}/order/${order.codvenda}`);
-      } else {
-        alert("Ocorreu um erro, tente mais tarde!");
-      }
-    }
+    // if (shippingAddress) {
+    //   const order = await newOrder(shippingAddress, paymentType, paymentChange, cupom, data.cart);
+    //   if (order) {
+    //     router.push(`/${data.tenant.slug}/order/${order.codvenda}`);
+    //   } else {
+    //     alert("Ocorreu um erro, tente mais tarde!");
+    //   }
+    // }
   };
 
   return (
@@ -184,7 +185,7 @@ const Checkout = (data: Props) => {
       </div>
 
       <div className={styles.productsList}>
-        {cart.map((cartItem, index) => (
+        {/* {cart.map((cartItem, index) => (
           <CartProductItem
             key={index}
             color={data.tenant.mainColor}
@@ -193,7 +194,7 @@ const Checkout = (data: Props) => {
             onChange={() => {}}
             noEdit
           />
-        ))}
+        ))} */}
       </div>
 
       <div className={styles.resumeArea}>
@@ -239,7 +240,7 @@ type Props = {
   tenant: Tenant;
   token: string;
   user: User | null;
-  cart: CartItem[];
+  // cart: CartItem[];
   // codvenda: number;
 };
 
@@ -272,10 +273,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   //GET CART PRODUTOS
   const cartCookie = getCookie("cart", context);
   //const cart = await api.getCartProducts(cartCookie as string);
-  const cart = await getCartProducts(tenantSlug as string, cartCookie as string);
+  // const cart = await getCartProducts(tenantSlug as string, cartCookie as string);
   //console.log("CART", cart);
   //console.log(codvenda);
   return {
-    props: { tenant, user, token, cart },
+    // props: { tenant, user, token, cart },
+    props: { tenant, user, token },
   };
 };
