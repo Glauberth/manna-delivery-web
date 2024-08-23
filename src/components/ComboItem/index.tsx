@@ -10,6 +10,7 @@ type Props = {
   combo: Combo;
   noEdit?: boolean;
   qtdMax?: number;
+  qtdInicial?: number;
   qtdTotalGrupo: number;
   isCompletQtdGrupo: boolean;
   handleQtdTotalGrupo: (value: number) => void;
@@ -22,11 +23,12 @@ export const ComboItem = ({
   handleCombo,
   noEdit,
   qtdMax,
+  qtdInicial = 0,
   qtdTotalGrupo,
   isCompletQtdGrupo,
   handleQtdTotalGrupo,
 }: Props) => {
-  const [quantidade, setQuantidade] = useState(0);
+  const [quantidade, setQuantidade] = useState(qtdInicial);
   const formatter = useFormatter();
 
   function handleUpdateQtdCombo(newCount: number) {
