@@ -53,15 +53,15 @@
 					"column": 0
 				},
 				{
-					"line": 562,
-					"column": 29
+					"line": 430,
+					"column": 19
 				},
 				{
-					"line": 511,
-					"column": 30
+					"line": -1,
+					"column": 0
 				},
 				{
-					"line": 586,
+					"line": 591,
 					"column": 38
 				},
 				{
@@ -143,8 +143,53 @@
 					"column": 0
 				},
 				{
-					"line": 44,
+					"line": 52,
 					"column": 25
+				},
+				{
+					"line": -1,
+					"column": 0
+				},
+				{
+					"line": -1,
+					"column": 0
+				},
+				{
+					"line": -1,
+					"column": 0
+				},
+				{
+					"line": -1,
+					"column": 0
+				},
+				{
+					"line": -1,
+					"column": 0
+				},
+				{
+					"line": -1,
+					"column": 0
+				},
+				{
+					"line": -1,
+					"column": 0
+				},
+				{
+					"line": -1,
+					"column": 0
+				}
+			]
+		},
+		{
+			"path": "src/components/ComboItem/index.tsx",
+			"bookmarks": [
+				{
+					"line": -1,
+					"column": 0
+				},
+				{
+					"line": 51,
+					"column": 0
 				},
 				{
 					"line": -1,

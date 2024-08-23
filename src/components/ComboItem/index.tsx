@@ -35,7 +35,15 @@ export const ComboItem = ({
     setQuantidade(newCount);
     const updatedCombo = { ...combo, QUANTIDADE: newCount };
     handleCombo(updatedCombo);
+    // console.log({ updatedCombo });
   }
+
+  // useEffect(() => {
+  //   // console.log({ EntrounoEffcets: { updatedCombo } });
+  //   setQuantidade(qtdInicial);
+  //   qtdInicial && handleUpdateQtdCombo(qtdInicial);
+  //   // qtdInicial && handleQtdTotalGrupo(qtdInicial);
+  // }, [qtdInicial > 0]);
 
   return (
     <div className={styles.container}>
@@ -69,6 +77,7 @@ export const ComboItem = ({
             onUpdateCount={handleUpdateQtdCombo}
             min={0}
             max={qtdMax}
+            qtdInicial={qtdInicial}
             // iconLixeira
             small
             isCompletQtdGrupo={isCompletQtdGrupo}

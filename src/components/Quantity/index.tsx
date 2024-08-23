@@ -12,8 +12,9 @@ type Props = {
   small?: boolean;
   iconLixeira?: boolean;
   isCompletQtdGrupo?: boolean;
-  qtdTotalGrupo?: number;
   setQtdTotalGrupo?: (qtd: number) => void;
+  qtdTotalGrupo?: number;
+  qtdInicial?: number;
 };
 
 export const Quantity = ({
@@ -27,6 +28,7 @@ export const Quantity = ({
   isCompletQtdGrupo,
   setQtdTotalGrupo = () => {},
   qtdTotalGrupo = 0,
+  qtdInicial = 0,
 }: Props) => {
   const [canRemove, setCanRemove] = useState(false);
   const [canAdd, setCanAdd] = useState(false);
@@ -59,6 +61,11 @@ export const Quantity = ({
       setQtdTotalGrupo(qtdTotalGrupo + 1);
     }
   };
+
+  // useEffect(() => {
+  //   onUpdateCount(qtdInicial);
+  //   setQtdTotalGrupo(qtdInicial);
+  // }, [qtdInicial > 0]);
 
   return (
     <div className={styles.container}>

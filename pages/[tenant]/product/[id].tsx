@@ -41,8 +41,6 @@ const style = {
 };
 
 const Products = (data: Props) => {
-  console.log("Carregou componente Produto One");
-
   const {
     data: produtoQuery,
     error: errorProduto,
@@ -68,8 +66,6 @@ const Products = (data: Props) => {
   const inputRefNomeCliente = useRef<HTMLDivElement>(null);
 
   const { "manna.mesaobs": cookieMesaObs } = parseCookies();
-  // const { "manna.codvenda": cookieCodVenda } = parseCookies();
-  // const { "manna.comanda": cookieComandaPulsiera } = parseCookies();
 
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
@@ -167,7 +163,7 @@ const Products = (data: Props) => {
             ...(comboVendas && { combovendas: comboVendas }),
           })
             .then((res) => {
-              console.log(res);
+              // console.log(res);
               setCookie("manna.codvenda", res.data.codvenda, {
                 maxAge: 60 * 60 * 24 * 1,
                 path: "/",
@@ -410,7 +406,7 @@ const Products = (data: Props) => {
       produtoQuery ? (produtoQuery.PRECOPROMO ? produtoQuery.PRECOPROMO : produtoQuery.PRECOVENDA) : 0
     );
 
-    console.log({ finalCombo });
+    // console.log({ finalCombo });
 
     setCombo(finalCombo);
     setTotalPriceProdutct(total);
@@ -431,6 +427,10 @@ const Products = (data: Props) => {
       setComandaPulseira(value);
     }
   };
+
+  useEffect(() => {
+    console.log({ Combos: combo });
+  }, [combo]);
 
   return (
     <div className={styles.container}>
