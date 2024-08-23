@@ -14,7 +14,7 @@ console.log(`${dataAtual} ${process.env.NEXT_PUBLIC_AMBIENTE}`);
 export const api = axios.create({
   baseURL:
     process.env.NEXT_PUBLIC_AMBIENTE == "development"
-      ? "http://192.168.2.2:9001/api/v1/"
+      ? "http://localhost:9001/api/v1/"
       : "https://apidelivery.mannatech.com.br/api/v1/", // : "http://lgvhost.mannatech.com.br:9001/api/v1/",
   timeout: 15000,
 });
