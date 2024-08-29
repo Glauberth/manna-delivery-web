@@ -41,7 +41,7 @@ export async function getProdutos(tenantSlug: string): Promise<Product[]> {
       return [];
     });
 
-  console.log(new Date());
+  // console.log(new Date());
 
   return produtos ? produtos : [];
 }
@@ -65,7 +65,7 @@ export async function getOneProduct(tenantSlug: string, idProduct: number): Prom
       return null;
     });
 
-  console.log(result);
+  // console.log(result);
 
   return result;
 }

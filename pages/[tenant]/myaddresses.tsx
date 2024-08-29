@@ -63,7 +63,7 @@ const MyAddresses = (data: Props) => {
   const handleMenuEvent = (event: MouseEvent) => {
     const tagName = (event.target as Element).tagName;
 
-    console.log(tagName);
+    console.log({ tagName });
 
     if (!["path", "svg"].includes(tagName)) {
       setMenuOpened(0);
