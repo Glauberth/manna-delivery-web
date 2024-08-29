@@ -12,7 +12,7 @@ const dateConfig: Intl.DateTimeFormatOptions = {
 };
 
 export async function getProdutos(tenantSlug: string): Promise<Product[]> {
-  console.log("requisitou Api Produtos");
+  // console.log("requisitou Api Produtos");
 
   const dataAtual = new Date().toLocaleDateString("pt-Br", dateConfig);
 
