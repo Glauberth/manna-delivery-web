@@ -62,11 +62,6 @@ export const Quantity = ({
     }
   };
 
-  // useEffect(() => {
-  //   onUpdateCount(qtdInicial);
-  //   setQtdTotalGrupo(qtdInicial);
-  // }, [qtdInicial > 0]);
-
   return (
     <div className={styles.container}>
       <div
