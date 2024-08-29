@@ -361,6 +361,7 @@ const Products = (data: Props) => {
   // }
 
   function handleUpdateQt(newCount: number) {
+    console.log({ combo });
     setQtCount(newCount);
   }
 
@@ -418,6 +419,21 @@ const Products = (data: Props) => {
 
   useEffect(() => {
     produtoQuery && setTotalPriceProdutct(produtoQuery.PRECOPROMO ? produtoQuery.PRECOPROMO : produtoQuery.PRECOVENDA);
+
+    if (produtoQuery?.COMBO) {
+      let itensCombo: Combo[] = [];
+
+      produtoQuery?.COMBO?.map((comboGrupo) => {
+        console.log({ comboGrupo });
+        if (comboGrupo.obrigatorio == 1 && comboGrupo.COMBO.length == 1) {
+          comboGrupo.COMBO.map((itemCombo) => {
+            itensCombo.push(itemCombo);
+          });
+        }
+      });
+
+      itensCombo && setCombo(itensCombo);
+    }
   }, [produtoQuery]);
 
   const handleComandaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -427,10 +443,6 @@ const Products = (data: Props) => {
       setComandaPulseira(value);
     }
   };
-
-  useEffect(() => {
-    console.log({ Combos: combo });
-  }, [combo]);
 
   return (
     <div className={styles.container}>
@@ -519,6 +531,11 @@ const Products = (data: Props) => {
                     ADICIONAIS
                     {produtoQuery.COMBO &&
                       produtoQuery.COMBO.map((item: COMBOGRUPO, index: number) => {
+                        // falta colocar pra verificar se o item está só e já colocar a quantidade como máx escolhida
+                        let qtdInicial = 0;
+                        if (item.COMBO.length == 1 && item.obrigatorio) {
+                          qtdInicial = item.qtdmax;
+                        }
                         return (
                           <ComboGrupo
                             key={index}
@@ -608,13 +625,13 @@ const Products = (data: Props) => {
                 //Isso aqui retira as setinhas chatas do input number...
                 sx={{
                   "& input[type=number]": {
-                    "-moz-appearance": "textfield",
+                    MozAppearance: "textfield",
                     "&::-webkit-outer-spin-button": {
-                      "-webkit-appearance": "none",
+                      WebkitAppearance: "none",
                       margin: 0,
                     },
                     "&::-webkit-inner-spin-button": {
-                      "-webkit-appearance": "none",
+                      WebkitAppearance: "none",
                       margin: 0,
                     },
                   },
@@ -666,6 +683,7 @@ export default Products;
 type Props = {
   tenant: Tenant;
   productID: number;
+  // comboVendasInit : Combo[];
   // product: Product;
 };
 
