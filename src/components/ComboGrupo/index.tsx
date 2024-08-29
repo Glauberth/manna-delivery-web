@@ -21,7 +21,6 @@ export function ComboGrupo({ ComboGrupo, Combo, handleAddCombo, colorTenant }: P
     } else {
       setIsCompletQtdGrupo(false);
     }
-    // console.log({ Grupo: ComboGrupo.nomegrupo, qtd: qtdTotalGrupo });
   }, [qtdTotalGrupo]);
 
   return (
@@ -38,14 +37,6 @@ export function ComboGrupo({ ComboGrupo, Combo, handleAddCombo, colorTenant }: P
       </div>
       <div>
         {Combo.map((item: Combo, indexProdutoCombo: number) => {
-          // falta colocar pra verificar se o item está só e já colocar a quantidade como máx escolhida
-          let qtdInicial = 0;
-          if (Combo.length == 1 && ComboGrupo.obrigatorio) {
-            //qtdInicial = ComboGrupo.qtdmax;
-            // setQtdTotalGrupo(ComboGrupo.qtdmax);
-            // console.log({ qtdDoMap: qtdInicial, grupo: ComboGrupo.nomegrupo });
-          }
-
           return (
             <ComboItem
               key={indexProdutoCombo}
@@ -53,7 +44,7 @@ export function ComboGrupo({ ComboGrupo, Combo, handleAddCombo, colorTenant }: P
               combo={item}
               handleCombo={handleAddCombo}
               qtdMax={ComboGrupo.qtdmax}
-              qtdInicial={qtdInicial}
+              qtdInicial={ComboGrupo.obrigatorio && ComboGrupo.COMBO.length == 1 ? ComboGrupo.qtdmin : 0}
               handleQtdTotalGrupo={setQtdTotalGrupo}
               qtdTotalGrupo={qtdTotalGrupo}
               isCompletQtdGrupo={isCompletQtdGrupo}
