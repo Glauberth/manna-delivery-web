@@ -11,6 +11,11 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Importa o CSS necessário
 
+import { useTenantStore } from "../src/store/TenantStore";
+
+//Aqui serve pra ficar escutando as mudanças no state do zustand
+process.env.NEXT_PUBLIC_AMBIENTE == "development" && useTenantStore.subscribe((state) => console.log(state));
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>

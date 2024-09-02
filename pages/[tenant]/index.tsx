@@ -107,7 +107,6 @@ const Home = (data: Props) => {
 
   useEffect(() => {
     setTenant(data.tenant);
-    console.log({ tenant });
     setToken(data.token);
     if (data.user) setUser(data.user);
   }, []);
