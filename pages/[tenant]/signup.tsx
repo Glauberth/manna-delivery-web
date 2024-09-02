@@ -3,16 +3,19 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useAppContext } from "../../contexts/app";
+// import { useAppContext } from "../../contexts/app";
 import { Button } from "../../src/components/Button";
 import { Header } from "../../src/components/Header";
 import { InputField } from "../../src/components/InputField";
 import { Tenant } from "../../src/types/Tenent";
 import styles from "../../styles/SignUp.module.css";
 import { getTenant } from "../../src/services/hooks/useTenant";
+import { useTenantStore } from "../../src/store/TenantStore";
 
 const SignUp = (data: Props) => {
-  const { tenant, setTenant } = useAppContext();
+  // const { tenant, setTenant } = useAppContext();
+
+  const [tenant, setTenant] = useTenantStore((state) => [data.tenant, state.setTenant]);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

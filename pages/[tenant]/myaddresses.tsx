@@ -3,8 +3,8 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useAppContext } from "../../contexts/app";
-import { useAuthContext } from "../../contexts/auth";
+// import { useAppContext } from "../../contexts/app";
+// import { useAuthContext } from "../../contexts/auth";
 
 import { useFormatter } from "../../libs/useFormatter";
 import { AddressItem } from "../../src/components/AddressItem";
@@ -18,10 +18,21 @@ import styles from "../../styles/MyAddresses.module.css";
 import { autorizeToken } from "../../src/services/hooks/useToken";
 import { deleteAddress, getAllAddress, getShippingPrice } from "../../src/services/hooks/useAddress";
 import { getTenant } from "../../src/services/hooks/useTenant";
+import { useTenantStore } from "../../src/store/TenantStore";
 
 const MyAddresses = (data: Props) => {
-  const { user, setToken, setUser } = useAuthContext();
-  const { tenant, setTenant, setShippingAddress, setShippingPrice } = useAppContext();
+  // const { user, setToken, setUser } = useAuthContext();
+  // const { tenant, setTenant, setShippingAddress, setShippingPrice } = useAppContext();
+
+  const [tenant, setTenant, user, setUser, setToken, setShippingAddress, setShippingPrice] = useTenantStore((state) => [
+    state.tenant,
+    state.setTenant,
+    state.user,
+    state.setUser,
+    state.setToken,
+    state.setShippingAddress,
+    state.setShippingPrice,
+  ]);
 
   useEffect(() => {
     setTenant(data.tenant);

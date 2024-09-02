@@ -3,8 +3,8 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useAppContext } from "../../contexts/app";
-import { useAuthContext } from "../../contexts/auth";
+// import { useAppContext } from "../../contexts/app";
+// import { useAuthContext } from "../../contexts/auth";
 import { useFormatter } from "../../libs/useFormatter";
 import { Button } from "../../src/components/Button";
 import { CartProductItem } from "../../src/components/CartProductItem";
@@ -18,13 +18,22 @@ import { getTenant } from "../../src/services/hooks/useTenant";
 import { getOneOrder } from "../../src/services/hooks/useOrders";
 import { Order } from "../../src/types/Order";
 import { destroyCookie, parseCookies } from "nookies";
+import { useTenantStore } from "../../src/store/TenantStore";
 
 const Cart = (data: Props) => {
   const formatter = useFormatter();
   const router = useRouter();
 
-  const { tenant, setTenant } = useAppContext();
-  const { user, setToken, setUser } = useAuthContext();
+  // const { tenant, setTenant } = useAppContext();
+  // const { user, setToken, setUser } = useAuthContext();
+
+  const [tenant, user, setTenant, setUser, setToken] = useTenantStore((state) => [
+    state.tenant,
+    state.user,
+    state.setTenant,
+    state.setUser,
+    state.setToken,
+  ]);
 
   useEffect(() => {
     setTenant(data.tenant);

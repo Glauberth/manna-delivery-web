@@ -3,19 +3,29 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useAppContext } from "../../contexts/app";
-import { useAuthContext } from "../../contexts/auth";
+// import { useAppContext } from "../../contexts/app";
+// import { useAuthContext } from "../../contexts/auth";
 import { Button } from "../../src/components/Button";
 import { Header } from "../../src/components/Header";
 import { InputField } from "../../src/components/InputField";
 import { Tenant } from "../../src/types/Tenent";
 import styles from "../../styles/Login.module.css";
 import { getTenant } from "../../src/services/hooks/useTenant";
+import { useTenantStore } from "../../src/store/TenantStore";
 
 const Login = (data: Props) => {
-  const { setToken, setUser } = useAuthContext();
+  //   const { setToken, setUser } = useAuthContext();
 
-  const { tenant, setTenant } = useAppContext();
+  //   const { tenant, setTenant } = useAppContext();
+
+  const [tenant, setTenant, user, setUser, setToken] = useTenantStore((state) => [
+    state.tenant,
+    state.setTenant,
+    state.user,
+    state.setUser,
+    state.setToken,
+  ]);
+
   useEffect(() => {
     setTenant(data.tenant);
   }, []);

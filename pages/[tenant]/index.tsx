@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 // import { useAppContext } from "../../contexts/app";
-import { useAuthContext } from "../../contexts/auth";
+// import { useAuthContext } from "../../contexts/auth";
 import ProductItem from "../../src/components/ProductItem";
 import SearchInput from "../../src/components/SearchInput";
 import { Sidebar } from "../../src/components/Sidebar";
@@ -46,9 +46,16 @@ const Home = (data: Props) => {
     isFetching: isFetchingGrupos,
   } = useGrupos(data.tenant.slug);
 
-  const [tenant, setTenant] = useTenantStore((state) => [data.tenant, state.setTenant]);
+  const [tenant, setTenant, user, setUser, setToken] = useTenantStore((state) => [
+    data.tenant,
+    state.setTenant,
+    state.user,
+    state.setUser,
+    state.setToken,
+  ]);
   // const { tenant, setTenant } = useAppContext();
-  const { user, setToken, setUser } = useAuthContext();
+
+  // const { user, setToken, setUser } = useAuthContext();
   const [dados, setDados] = useState<Product[] | undefined>(produtosQuery);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 

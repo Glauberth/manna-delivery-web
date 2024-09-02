@@ -1,10 +1,11 @@
 import { useRouter } from "next/router";
-import { useAuthContext } from "../../../contexts/auth";
+// import { useAuthContext } from "../../../contexts/auth";
 import { Tenant } from "../../types/Tenent";
 import { Button } from "../Button";
 import { SidebarMenuItem } from "../SidebarMenuItem";
 import styles from "./styles.module.css";
 import { destroyCookie } from "nookies";
+import { useTenantStore } from "../../store/TenantStore";
 
 type Props = {
   tenant: Tenant;
@@ -13,7 +14,9 @@ type Props = {
 };
 
 export const Sidebar = ({ tenant, open, onClose }: Props) => {
-  const { user, setToken } = useAuthContext();
+  // const { user, setToken } = useAuthContext();
+
+  const [user, setToken] = useTenantStore((state) => [state.user, state.setToken]);
 
   const router = useRouter();
 

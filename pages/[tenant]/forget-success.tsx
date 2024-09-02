@@ -2,16 +2,18 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useAppContext } from "../../contexts/app";
+// import { useAppContext } from "../../contexts/app";
 import { Button } from "../../src/components/Button";
 import { Header } from "../../src/components/Header";
 import { Icon } from "../../src/components/Icon/Icon";
 import { Tenant } from "../../src/types/Tenent";
 import styles from "../../styles/ForgetSuccess.module.css";
 import { getTenant } from "../../src/services/hooks/useTenant";
+import { useTenantStore } from "../../src/store/TenantStore";
 
 const ForguetSuccess = (data: Props) => {
-  const { tenant, setTenant } = useAppContext();
+  // const { tenant, setTenant } = useAppContext();
+  const [tenant, setTenant] = useTenantStore((state) => [state.tenant, state.setTenant]);
 
   const router = useRouter();
 

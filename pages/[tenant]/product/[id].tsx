@@ -2,7 +2,7 @@ import { getCookie, hasCookie, setCookie } from "cookies-next";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
-import { useAppContext } from "../../../contexts/app";
+// import { useAppContext } from "../../../contexts/app";
 import { useFormatter } from "../../../libs/useFormatter";
 import { Button } from "../../../src/components/Button";
 import { Header } from "../../../src/components/Header";
@@ -24,6 +24,7 @@ import { parseCookies } from "nookies";
 import { LoadingButton } from "@mui/lab";
 import { ComboGrupo } from "../../../src/components/ComboGrupo";
 import useToast from "../../../libs/useToast";
+import { useTenantStore } from "../../../src/store/TenantStore";
 
 const style = {
   position: "absolute",
@@ -48,6 +49,8 @@ const Products = (data: Props) => {
 
   const { showToast } = useToast();
 
+  const [tenant, setTenant] = useTenantStore((state) => [state.tenant, state.setTenant]);
+  // const { tenant, setTenant } = useAppContext();
   const [obsItem, setObsItem] = useState("");
   const [cameraIsOpen, setCameraIsOpen] = useState(false);
   const [totalPriceProduct, setTotalPriceProdutct] = useState<number>(0);
@@ -60,7 +63,6 @@ const Products = (data: Props) => {
   const [nomeCliente, setNomeCliente] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { tenant, setTenant } = useAppContext();
   const formatter = useFormatter();
   const inputRefComandaPulseira = useRef<HTMLDivElement>(null);
   const inputRefNomeCliente = useRef<HTMLDivElement>(null);

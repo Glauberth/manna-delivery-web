@@ -3,8 +3,8 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useAppContext } from "../../contexts/app";
-import { useAuthContext } from "../../contexts/auth";
+// import { useAppContext } from "../../contexts/app";
+// import { useAuthContext } from "../../contexts/auth";
 import { useFormatter } from "../../libs/useFormatter";
 import { Button } from "../../src/components/Button";
 import { ButtonWithIcon } from "../../src/components/ButtonWithIcon";
@@ -21,13 +21,23 @@ import styles from "../../styles/Checkout.module.css";
 import { autorizeToken } from "../../src/services/hooks/useToken";
 // import { newOrder } from "../../src/services/hooks/useOrders";
 import { getTenant } from "../../src/services/hooks/useTenant";
+import { useTenantStore } from "../../src/store/TenantStore";
 
 const Checkout = (data: Props) => {
   const formatter = useFormatter();
   const router = useRouter();
 
-  const { user, setToken, setUser } = useAuthContext();
-  const { tenant, setTenant, shippingAddress, shippingPrice } = useAppContext();
+  // const { user, setToken, setUser } = useAuthContext();
+  // const { tenant, setTenant, shippingAddress, shippingPrice } = useAppContext();
+  const [tenant, user, setTenant, setUser, setToken, shippingAddress, shippingPrice] = useTenantStore((state) => [
+    state.tenant,
+    state.user,
+    state.setTenant,
+    state.setUser,
+    state.setToken,
+    state.shippingAddress,
+    state.shippingPrice,
+  ]);
 
   useEffect(() => {
     setTenant(data.tenant);

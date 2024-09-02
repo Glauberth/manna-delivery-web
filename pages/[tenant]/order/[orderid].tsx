@@ -3,8 +3,8 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useAppContext } from "../../../contexts/app";
-import { useAuthContext } from "../../../contexts/auth";
+// import { useAppContext } from "../../../contexts/app";
+// import { useAuthContext } from "../../../contexts/auth";
 import { useFormatter } from "../../../libs/useFormatter";
 import { ButtonWithIcon } from "../../../src/components/ButtonWithIcon";
 import { CartProductItem } from "../../../src/components/CartProductItem";
@@ -17,10 +17,19 @@ import { Order } from "../../../src/types/Order";
 import { autorizeToken } from "../../../src/services/hooks/useToken";
 import { getTenant } from "../../../src/services/hooks/useTenant";
 import { getOneOrder } from "../../../src/services/hooks/useOrders";
+import { useTenantStore } from "../../../src/store/TenantStore";
 
 const OrderID = (data: Props) => {
-  const { user, setToken, setUser } = useAuthContext();
-  const { tenant, setTenant } = useAppContext();
+  // const { user, setToken, setUser } = useAuthContext();
+  // const { tenant, setTenant } = useAppContext();
+
+  const [tenant, setTenant, user, setUser, setToken] = useTenantStore((state) => [
+    state.tenant,
+    state.setTenant,
+    state.user,
+    state.setUser,
+    state.setToken,
+  ]);
 
   useEffect(() => {
     setTenant(data.tenant);
