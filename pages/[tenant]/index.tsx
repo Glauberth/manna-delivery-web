@@ -2,7 +2,7 @@ import { getCookie } from "cookies-next";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import { useAppContext } from "../../contexts/app";
+// import { useAppContext } from "../../contexts/app";
 import { useAuthContext } from "../../contexts/auth";
 import ProductItem from "../../src/components/ProductItem";
 import SearchInput from "../../src/components/SearchInput";
@@ -22,6 +22,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import Skeleton from "../../src/components/Skeleton/Skeleton";
 import GrupoSlider from "../../src/components/GrupoSlider";
+import { useTenantStore } from "../../src/store/TenantStore";
 
 // import Banner from "../../src/components/Banner";
 // import { queryClient } from "../../services/queryClient";
@@ -45,7 +46,8 @@ const Home = (data: Props) => {
     isFetching: isFetchingGrupos,
   } = useGrupos(data.tenant.slug);
 
-  const { tenant, setTenant } = useAppContext();
+  const [tenant, setTenant] = useTenantStore((state) => [data.tenant, state.setTenant]);
+  // const { tenant, setTenant } = useAppContext();
   const { user, setToken, setUser } = useAuthContext();
   const [dados, setDados] = useState<Product[] | undefined>(produtosQuery);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -98,6 +100,7 @@ const Home = (data: Props) => {
 
   useEffect(() => {
     setTenant(data.tenant);
+    console.log({ tenant });
     setToken(data.token);
     if (data.user) setUser(data.user);
   }, []);
@@ -151,10 +154,6 @@ const Home = (data: Props) => {
               </div>
             )}
           </div>
-
-          {/* 
-                Não será exibido o icone do menu para o SR inverno, pois ele é só catalogo...
-                */}
           {data.tenant.isCatalog == false && (
             <div className={styles.headerTopRight}>
               <div className={styles.menuButtom} onClick={() => setSidebarOpen(true)}>
@@ -200,12 +199,12 @@ const Home = (data: Props) => {
             <>
               <GrupoSlider data={grupos} />
               <div className={styles.grid2}>
-                {grupos.map((item, index) => (
-                  <div key={index}>
+                {grupos.map((itemGrupo) => (
+                  <div key={itemGrupo.CODGRUPO}>
                     <div className={styles.categoryName} style={{ backgroundColor: tenant?.mainColor }}>
-                      {item.NOMEGRUPOAPP}
+                      {itemGrupo.NOMEGRUPOAPP}
                     </div>
-                    {getProducts(item.NOME).map((item, index) => item && <ProductItem key={index} data={item} />)}
+                    {getProducts(itemGrupo.NOME).map((item) => item && <ProductItem key={item.CODPRODUTO} data={item} />)}
                   </div>
                 ))}
               </div>
