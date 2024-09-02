@@ -8,21 +8,38 @@ import GoogleAnalytics from "../src/components/GoogleAnalytics";
 import { QueryClientProvider } from "react-query";
 import { queryClient } from "../src/services/queryClient";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { ToastContainer, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Importa o CSS necessário
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <AuthContextProvider>
-      <AppContextProvider>
-        <NextNProgress color="#5c3f3f" startPosition={0.3} stopDelayMs={200} height={3} showOnShallow={true} />
-        {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS && process.env.NEXT_PUBLIC_AMBIENTE == "production" ? (
-          <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
-        ) : null}
-        <QueryClientProvider client={queryClient}>
-          <Component {...pageProps} />
-          <ReactQueryDevtools />
-        </QueryClientProvider>
-      </AppContextProvider>
-    </AuthContextProvider>
+    <>
+      <AuthContextProvider>
+        <AppContextProvider>
+          <NextNProgress color="#5c3f3f" startPosition={0.3} stopDelayMs={200} height={3} showOnShallow={true} />
+          {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS && process.env.NEXT_PUBLIC_AMBIENTE == "production" ? (
+            <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
+          ) : null}
+          <QueryClientProvider client={queryClient}>
+            <Component {...pageProps} />
+            <ToastContainer
+              position="top-center"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="colored"
+              transition={Bounce}
+            />
+            <ReactQueryDevtools />
+          </QueryClientProvider>
+        </AppContextProvider>
+      </AuthContextProvider>
+    </>
   );
 }
 
