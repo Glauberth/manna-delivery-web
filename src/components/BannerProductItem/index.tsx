@@ -3,8 +3,9 @@ import { ReactElement, useState } from "react";
 import styles from "./styles.module.css";
 import NextImage from "next/image";
 import { Product } from "../../types/Products";
-import { useAppContext } from "../../../contexts/app";
+// import { useAppContext } from "../../../contexts/app";
 import { useFormatter } from "../../../libs/useFormatter";
+import { useTenantStore } from "../../store/TenantStore";
 
 type Props = {
   data: Product;
@@ -43,7 +44,8 @@ const Image = ({ src, alt, fallback }: ProductImg) => {
 };
 
 export default function BannerProductItem({ data }: Props) {
-  const { tenant } = useAppContext();
+  // const { tenant } = useAppContext();
+  const [tenant] = useTenantStore((state) => [state.tenant]);
 
   const formatter = useFormatter();
   // console.log(data.image);
