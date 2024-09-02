@@ -13,19 +13,17 @@ import styles from "../../../styles/Product-id.module.css";
 import { useProduct } from "../../../src/services/hooks/useProduto";
 import { getTenant } from "../../../src/services/hooks/useTenant";
 // import { CartProductItem } from "../../../src/components/CartProductItem";
-import { ComboItem } from "../../../src/components/ComboItem";
 import { Combo, COMBOGRUPO, ComboVendas } from "../../../src/types/Combo";
 import ProductImage from "../../../src/components/ProductItem/ProductImagem";
 import Skeleton from "../../../src/components/Skeleton/Skeleton";
 // import { IDetectedBarcode, IScannerProps, Scanner } from "@yudiel/react-qr-scanner";
-import { Bounce, toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { addOrderProduct } from "../../../src/services/hooks/useOrders";
 import Swal from "sweetalert2";
 import { Modal, Box, Button as ButtonMaterial, TextField, Fade } from "@mui/material";
 import { parseCookies } from "nookies";
 import { LoadingButton } from "@mui/lab";
 import { ComboGrupo } from "../../../src/components/ComboGrupo";
+import useToast from "../../../libs/useToast";
 
 const style = {
   position: "absolute",
@@ -47,6 +45,8 @@ const Products = (data: Props) => {
     isLoading: isLoadingProduto,
     isFetching: isFetchingProduto,
   } = useProduct(data.tenant.slug, data.productID);
+
+  const { showToast } = useToast();
 
   const [obsItem, setObsItem] = useState("");
   const [cameraIsOpen, setCameraIsOpen] = useState(false);
@@ -98,20 +98,9 @@ const Products = (data: Props) => {
       const combosObrigatoriosNotSelecteds = result.find((item) => item.isOk == false);
 
       if (combosObrigatoriosNotSelecteds) {
-        toast.error(`${combosObrigatoriosNotSelecteds.grupoCombo} -> É preciso escolher todos os itens obrigatórios...`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-          transition: Bounce,
-        });
+        showToast(`${combosObrigatoriosNotSelecteds.grupoCombo} -> É preciso escolher todos os itens obrigatórios...`, "error");
 
-        //Para a aplicação aqui...
-        return;
+        return; //Para a aplicação aqui...
       }
     }
 
@@ -169,30 +158,10 @@ const Products = (data: Props) => {
                 path: "/",
               });
 
-              toast.success(`Item adicionado com sucesso!`, {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-                transition: Bounce,
-              });
+              showToast(`Item adicionado com sucesso!`, "success");
             })
             .catch((err) => {
-              toast.error(`Erro ao Lançar item: ${(err as Error).message}`, {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-                transition: Bounce,
-              });
+              showToast(`Erro ao Lançar item: ${(err as Error).message}`, "error");
             })
             .finally(() => {
               setOpenModalMesaObs(false);
@@ -204,34 +173,14 @@ const Products = (data: Props) => {
 
   async function handleAddProdutoMesaComanda() {
     if (!comandaPulseira) {
-      toast.error(`Digite uma Comanda/Pulseira válida!`, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        transition: Bounce,
-      });
+      showToast(`Digite uma Comanda/Pulseira válida!`, "error");
       inputRefComandaPulseira.current && inputRefComandaPulseira.current.focus();
 
       return;
     }
 
     if (nomeCliente.length < 3) {
-      toast.error(`Digite seu Nome!`, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        transition: Bounce,
-      });
+      showToast(`Digite seu Nome!`, "error");
       inputRefNomeCliente.current && inputRefNomeCliente.current.focus();
 
       return;
@@ -250,7 +199,6 @@ const Products = (data: Props) => {
       };
     });
 
-    const timerToClose = 5000;
     await addOrderProduct(data.tenant.slug, {
       codBarra: produtoQuery!.CODBARRA,
       codProduto: produtoQuery!.CODPRODUTO,
@@ -272,30 +220,10 @@ const Products = (data: Props) => {
           path: "/",
         });
 
-        toast.success(`Item adicionado na Comanda Nº: ${comandaPulseira}, Obs: Mesa ${cookieMesaObs} `, {
-          position: "top-center",
-          autoClose: timerToClose,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-          transition: Bounce,
-        });
+        showToast(`Item adicionado na Comanda Nº: ${comandaPulseira}, Obs: Mesa ${cookieMesaObs} `, "success");
       })
       .catch((err) => {
-        toast.error(`Erro ao Lançar item: ${(err as Error).message}`, {
-          position: "top-center",
-          autoClose: timerToClose,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-          transition: Bounce,
-        });
+        showToast(`Erro ao Lançar item: ${(err as Error).message}`, "error");
       })
       .finally(() => {
         setOpenModalMesaObs(false);
@@ -446,22 +374,6 @@ const Products = (data: Props) => {
 
   return (
     <div className={styles.container}>
-      <>
-        <ToastContainer
-          position="top-center"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="colored"
-          transition={Bounce}
-        />
-      </>
-
       {cameraIsOpen ? (
         <>
           {/* <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -583,7 +495,7 @@ const Products = (data: Props) => {
 
                     <div style={{ width: "100%", marginLeft: "10px" }}>
                       <Button
-                        disabled={cookieMesaObs ? data.tenant.isCatalog : true}
+                        disabled={data.tenant.isCatalog ? true : cookieMesaObs ? false : true}
                         color={data.tenant.mainColor}
                         label={`Adicionar`}
                         preco={formatter.formatPrice(totalPriceProduct)}
