@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { ReactElement, useState } from "react";
-import { useAppContext } from "../../../contexts/app";
+// import { useAppContext } from "../../../contexts/app";
 import { useFormatter } from "../../../libs/useFormatter";
 import { Product } from "../../types/Products";
 import styles from "./styles.module.css";
 import NextImage from "next/image";
+import { useTenantStore } from "../../store/TenantStore";
 
 type Props = {
   data: Product;
@@ -43,7 +44,8 @@ const Image = ({ src, alt, fallback }: ProductImg) => {
 };
 
 export default function ProductItem({ data }: Props) {
-  const { tenant } = useAppContext();
+  // const { tenant } = useAppContext();
+  const [tenant] = useTenantStore((state) => [state.tenant]);
 
   const formatter = useFormatter();
 
