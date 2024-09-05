@@ -10,6 +10,7 @@ const dataAtual = new Date().toLocaleDateString("pt-Br", {
 });
 
 console.log(`${dataAtual} ${process.env.NEXT_PUBLIC_AMBIENTE}`);
+console.log(`${dataAtual} ${process.env.NEXT_PUBLIC_URL_API_PRODUCTION}`);
 
 export const api = axios.create({
   baseURL:
