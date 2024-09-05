@@ -24,9 +24,6 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <h1 style={{ textAlign: "center" }}>Clientes</h1>
-      </div>
       <main className={styles.main}>
         {data &&
           data.map((item, index) => {
