@@ -11,9 +11,8 @@ const dateConfig: Intl.DateTimeFormatOptions = {
   second: "2-digit",
 };
 export async function getTenant(tenantSlug: string): Promise<Tenant> {
-  console.log(`requisitou Api Tenants ${tenantSlug}`);
-
   const dataAtual = new Date().toLocaleDateString("pt-Br", dateConfig);
+  console.log(`${dataAtual} requisitou Api Tenants ${tenantSlug}`);
 
   const tenant: Tenant = await api
     .get(`/tenants/mannatec_clientes`)
