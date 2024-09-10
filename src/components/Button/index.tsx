@@ -22,7 +22,7 @@ export const Button = ({ color, label, onClick, fill, disabled, preco }: Props) 
         justifyContent: "space-between",
       }}
     >
-      <div>{label}</div>
+      <div style={{ textAlign: "center", alignItems: "center" }}>{label}</div>
       {preco && <div>{preco}</div>}
     </div>
   );

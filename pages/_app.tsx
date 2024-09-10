@@ -14,7 +14,7 @@ import "react-toastify/dist/ReactToastify.css"; // Importa o CSS necessário
 import { useTenantStore } from "../src/store/TenantStore";
 
 //Aqui serve pra ficar escutando as mudanças no state do zustand
-process.env.NEXT_PUBLIC_AMBIENTE == "development" && useTenantStore.subscribe((state) => console.log(state));
+process.env.NEXT_PUBLIC_AMBIENTE == "development" && useTenantStore.subscribe((state) => console.log({ ApenasModoDev: state }));
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

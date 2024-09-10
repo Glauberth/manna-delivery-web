@@ -25,6 +25,7 @@ import { LoadingButton } from "@mui/lab";
 import { ComboGrupo } from "../../../src/components/ComboGrupo";
 import useToast from "../../../libs/useToast";
 import { useTenantStore } from "../../../src/store/TenantStore";
+import { useRouter } from "next/navigation";
 
 const style = {
   position: "absolute",
@@ -49,6 +50,7 @@ const Products = (data: Props) => {
 
   const { showToast } = useToast();
 
+  const router = useRouter();
   const [tenant, setTenant] = useTenantStore((state) => [state.tenant, state.setTenant]);
   // const { tenant, setTenant } = useAppContext();
   const [obsItem, setObsItem] = useState("");
@@ -59,7 +61,7 @@ const Products = (data: Props) => {
   const [openModalMesaObs, setOpenModalMesaObs] = useState(false);
   const [comandaPulseira, setComandaPulseira] = useState("");
   const [mesaObs, setMesaObs] = useState("");
-  const [mesa, setMesa] = useState("");
+  // const [mesa, setMesa] = useState("");
   const [nomeCliente, setNomeCliente] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -159,7 +161,6 @@ const Products = (data: Props) => {
                 maxAge: 60 * 60 * 24 * 1,
                 path: "/",
               });
-
               showToast(`Item adicionado com sucesso!`, "success");
             })
             .catch((err) => {
@@ -223,6 +224,7 @@ const Products = (data: Props) => {
         });
 
         showToast(`Item adicionado na Comanda Nº: ${comandaPulseira}, Obs: Mesa ${cookieMesaObs} `, "success");
+        router.push(`/${data.tenant.slug}/cart`);
       })
       .catch((err) => {
         showToast(`Erro ao Lançar item: ${(err as Error).message}`, "error");

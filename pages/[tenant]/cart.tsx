@@ -132,16 +132,16 @@ const Cart = (data: Props) => {
         />
       </div>
 
-      {/* <div className={styles.resumeButton} style={{ marginBottom: "15px" }}>
+      <div className={styles.resumeButton} style={{ marginBottom: "15px", display: "flex", justifyContent: "center" }}>
         <Button
           color={data.tenant.mainColor}
-          label="< Adicionar mais Itens"
+          label="Adicionar mais Itens"
           onClick={() => {
             router.push(`/${data.tenant.slug}`);
           }}
           fill
         />
-      </div> */}
+      </div>
 
       {data.order?.Vendadetalhe_temp && (
         <div className={styles.productsList}>
