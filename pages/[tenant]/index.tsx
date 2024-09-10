@@ -263,8 +263,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const { tenant: tenantSlug } = context?.params || { tenant: "" };
+  const { tenant: tenantSlug } = context.params!;
 
+  console.log({ tenantSlug });
   const tenant = await getTenant(tenantSlug as string);
 
   if (!tenant.name) {
