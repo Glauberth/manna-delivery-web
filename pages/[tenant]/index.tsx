@@ -279,6 +279,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: { tenant },
-    revalidate: 60 * 5, //segunds
+    revalidate: 60 * 999999, //segunds
   };
 };
