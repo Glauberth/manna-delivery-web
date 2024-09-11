@@ -1,6 +1,5 @@
 import { getCookie } from "cookies-next";
-import { cookies } from "next/headers";
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 // import { useAppContext } from "../../contexts/app";
@@ -15,7 +14,7 @@ import { User } from "../../src/types/User";
 import { useProducts } from "../../src/services/hooks/useProduto";
 import { useGrupos } from "../../src/services/hooks/useGrupo";
 import { autorizeToken } from "../../src/services/hooks/useToken";
-import { getAllTenant, getTenant } from "../../src/services/hooks/useTenant";
+import { getTenant } from "../../src/services/hooks/useTenant";
 import styles from "../../styles/Home.module.css";
 import NoItemsIcon from "./../../public/assets/noitems.svg";
 import NextImage from "next/image";
@@ -24,7 +23,6 @@ import { useRouter } from "next/router";
 import Skeleton from "../../src/components/Skeleton/Skeleton";
 import GrupoSlider from "../../src/components/GrupoSlider";
 import { useTenantStore } from "../../src/store/TenantStore";
-import { parseCookies } from "nookies";
 
 // import Banner from "../../src/components/Banner";
 // import { queryClient } from "../../services/queryClient";
@@ -55,11 +53,12 @@ const Home = (data: Props) => {
     state.setUser,
     state.setToken,
   ]);
+  // const { tenant, setTenant } = useAppContext();
 
-  const { "manna.mesaobs": cookieMesaObs } = parseCookies();
-  const { "manna.codvenda": cookieVenda } = parseCookies();
+  // const { user, setToken, setUser } = useAuthContext();
   const [dados, setDados] = useState<Product[] | undefined>(produtosQuery);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
   const [grupos, setGrupos] = useState<Group[] | undefined>(gruposQuery);
   const [products, setProducts] = useState<Product[] | undefined>(produtosQuery);
 
@@ -107,15 +106,9 @@ const Home = (data: Props) => {
   }, [searchText]);
 
   useEffect(() => {
-    const { token: cookieToken } = parseCookies();
-
-    autorizeToken(cookieToken as string).then((res) => {
-      const user = res;
-      if (user) setUser(user);
-    });
-
     setTenant(data.tenant);
-    cookieToken ? setToken(cookieToken) : setToken("");
+    setToken(data.token);
+    if (data.user) setUser(data.user);
   }, []);
 
   useEffect(() => {
@@ -155,15 +148,15 @@ const Home = (data: Props) => {
               O que deseja pra hoje <strong> {user?.name.toUpperCase()}</strong>?
             </div>
 
-            {cookieMesaObs && (
+            {data.mesaObs && (
               <div className={styles.headerSubTitle} style={{ marginTop: "5px" }}>
-                <strong> Obs: Mesa #{cookieMesaObs}</strong>
+                <strong> Obs: Mesa #{data.mesaObs}</strong>
               </div>
             )}
 
-            {cookieVenda && (
+            {data.codVenda && (
               <div className={styles.headerSubTitle} style={{ marginTop: "5px" }}>
-                <strong> Nº Venda: #{cookieVenda}</strong>
+                <strong> Nº Venda: #{data.codVenda}</strong>
               </div>
             )}
           </div>
@@ -245,27 +238,17 @@ export default Home;
 
 type Props = {
   tenant: Tenant;
+  // products: Product[];
+  //grupos: Group[];
+  token: string;
+  user: User | null;
+  mesaObs: string | null;
+  codVenda: string | null;
 };
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  // Suponha que você tenha uma função para buscar todos os slugs de tenants
-  const tenants = await getAllTenant(); // Função para pegar todos os tenants
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { tenant: tenantSlug } = context.query;
 
-  //Eu pego todos os tenants que existem para a pagina [tenant]
-  const paths = tenants.map((tenant: any) => ({
-    params: { tenant: tenant.slug }, // o parâmetro 'tenant' no caminho dinâmico
-  }));
-
-  return {
-    paths, // Retorna os caminhos que serão pré-gerados
-    fallback: "blocking", // Permite gerar páginas dinamicamente em tempo de execução
-  };
-};
-
-export const getStaticProps: GetStaticProps = async (context) => {
-  const { tenant: tenantSlug } = context.params!;
-
-  console.log({ tenantSlug });
   const tenant = await getTenant(tenantSlug as string);
 
   if (!tenant.name) {
@@ -277,8 +260,20 @@ export const getStaticProps: GetStaticProps = async (context) => {
     };
   }
 
+  //GET LOGGED USER
+  //const token = context.req.cookies.token; //Também posso usar assim pra pegar o cookie
+
+  let token = getCookie("token", context);
+  if (token === undefined) {
+    token = null;
+  }
+
+  const mesaObs = getCookie("manna.mesaobs", context);
+  const cookieVenda = getCookie("manna.codvenda", context);
+  const user = await autorizeToken(token as string);
+
   return {
-    props: { tenant },
-    revalidate: 60 * 999999, //segunds
+    //props: { tenant, products, grupos, user, token },
+    props: { tenant, user, token, mesaObs: mesaObs ? mesaObs?.toString() : "", codVenda: cookieVenda ? cookieVenda : null },
   };
 };
