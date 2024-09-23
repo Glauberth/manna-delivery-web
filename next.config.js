@@ -18,7 +18,7 @@ const nextConfig = {
         protocol: "https",
         hostname: "www.mannatech.com.br",
         // port: "",
-        pathname: "/files/**",
+        pathname: "/**",
       },
     ],
     imageSizes: [16, 32, 48, 64, 96],
