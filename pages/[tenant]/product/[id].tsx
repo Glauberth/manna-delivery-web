@@ -151,7 +151,7 @@ const Products = (data: Props) => {
             codProduto: produtoQuery!.CODPRODUTO,
             codUsuario: 1,
             precoVenda: produtoQuery?.PRECOPROMO ? produtoQuery.PRECOPROMO : produtoQuery!.PRECOVENDA,
-            quantidade: 1,
+            quantidade: qtCount,
             OBS: obsItem,
             ...(comboVendas && { combovendas: comboVendas }),
           })
@@ -208,7 +208,7 @@ const Products = (data: Props) => {
       codUsuario: 1,
       mesa: Number(comandaPulseira),
       precoVenda: produtoQuery?.PRECOPROMO ? produtoQuery.PRECOPROMO : produtoQuery!.PRECOVENDA,
-      quantidade: 1,
+      quantidade: qtCount,
       OBS: `${obsItem} Mesa: ${cookieMesaObs} ${nomeCliente && `Cliente: ${nomeCliente}`}`,
       ...(comboVendas && { combovendas: comboVendas }),
     })
