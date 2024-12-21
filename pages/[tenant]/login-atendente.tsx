@@ -1,3 +1,5 @@
+"use client";
+
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
@@ -13,9 +15,8 @@ import styles from "../../styles/Login.module.css";
 import { getTenant } from "../../src/services/hooks/useTenant";
 import { useTenantStore } from "../../src/store/TenantStore";
 
-const Login = (data: Props) => {
+const LoginAtendente = (data: Props) => {
   //   const { setToken, setUser } = useAuthContext();
-
   //   const { tenant, setTenant } = useAppContext();
 
   const [tenant, setTenant, user, setUser, setToken] = useTenantStore((state) => [
@@ -74,7 +75,7 @@ const Login = (data: Props) => {
 
       <div className={styles.formArea}>
         <div className={styles.inputArea}>
-          <InputField color={data.tenant.mainColor} placeholder="Digite seu E-mail" value={email} onChange={setEmail} />
+          <InputField color={data.tenant.mainColor} placeholder="Digite seu usuário" value={email} onChange={setEmail} />
         </div>
 
         <div className={styles.inputArea}>
@@ -108,7 +109,7 @@ const Login = (data: Props) => {
   );
 };
 
-export default Login;
+export default LoginAtendente;
 
 type Props = {
   tenant: Tenant;
@@ -117,13 +118,14 @@ type Props = {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug } = context.query;
 
+  console.log(tenantSlug);
   //GET Tenant
   const tenant = await getTenant(tenantSlug as string);
 
   if (!tenant) {
     return {
       redirect: {
-        destination: "https://www.mannatech.com.br",
+        destination: "https://delivery.mannatech.com.br",
         permanent: false,
       },
     };
