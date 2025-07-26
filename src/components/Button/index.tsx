@@ -12,6 +12,7 @@ type Props = {
 export const Button = ({ color, label, onClick, fill, disabled, preco }: Props) => {
   return (
     <div
+      id="buttona"
       className={styles.container}
       onClick={!disabled ? onClick : () => {}}
       style={{
@@ -20,6 +21,7 @@ export const Button = ({ color, label, onClick, fill, disabled, preco }: Props) 
         backgroundColor: fill ? color : "#FFF",
         opacity: disabled ? 0.4 : 1,
         justifyContent: "space-between",
+        textAlign: "center",
       }}
     >
       <div style={{ textAlign: "center", alignItems: "center" }}>{label}</div>

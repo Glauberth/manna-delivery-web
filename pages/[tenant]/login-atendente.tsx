@@ -2,7 +2,7 @@
 
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import Link from "next/link";
+import NextImage from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 // import { useAppContext } from "../../contexts/app";
@@ -42,7 +42,7 @@ const LoginAtendente = (data: Props) => {
       name: "Glauberth",
       email: "glauberth.sampaio@hotmail.com",
     });
-    console.log("teste");
+    console.log({ email, password });
     // router.push(`/${data.tenant.slug}`);
   }
 
@@ -60,7 +60,27 @@ const LoginAtendente = (data: Props) => {
 
       <Header color={data.tenant.mainColor as string} backHref={`/${data.tenant.slug}`} />
 
-      <div className={styles.header}>{data.tenant.name}</div>
+      {data.tenant.logo && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <NextImage width={150} height={150} src={data.tenant.logo} alt="logo" />
+        </div>
+      )}
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginBottom: "20px",
+          fontWeight: "bold",
+        }}
+      >
+        {data.tenant.name}
+      </div>
 
       <div
         className={styles.subtitle}
@@ -75,7 +95,13 @@ const LoginAtendente = (data: Props) => {
 
       <div className={styles.formArea}>
         <div className={styles.inputArea}>
-          <InputField color={data.tenant.mainColor} placeholder="Digite seu usuário" value={email} onChange={setEmail} />
+          <InputField
+            //
+            color={data.tenant.mainColor}
+            placeholder="Digite seu usuário"
+            value={email}
+            onChange={setEmail}
+          />
         </div>
 
         <div className={styles.inputArea}>
@@ -93,18 +119,7 @@ const LoginAtendente = (data: Props) => {
         </div>
       </div>
 
-      <div className={styles.forgetArea} style={{ borderBottomColor: data.tenant.mainColor }}>
-        Esqueceu sua senha?
-        <Link href={`/${data.tenant.slug}/forget`}>
-          <div style={{ color: data.tenant.mainColor }}> Clique aqui </div>
-        </Link>
-      </div>
-
       <div className={styles.line}></div>
-
-      <div className={styles.signupArea}>
-        <Button color={data.tenant.mainColor} label="Quero me Cadastrar" onClick={handleSignUp} />
-      </div>
     </div>
   );
 };

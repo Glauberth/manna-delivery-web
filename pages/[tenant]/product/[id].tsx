@@ -175,7 +175,7 @@ const Products = (data: Props) => {
   }
 
   async function handleAddProdutoMesaComanda() {
-    if (!comandaPulseira) {
+    if (!comandaPulseira || comandaPulseira == "0" || Number(comandaPulseira) < 1) {
       showToast(`Digite uma Comanda/Pulseira válida!`, "error");
       inputRefComandaPulseira.current && inputRefComandaPulseira.current.focus();
 
@@ -370,10 +370,20 @@ const Products = (data: Props) => {
 
   const handleComandaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     // Função para permitir apenas números no campo de texto
-    const value = event.target.value;
+
+    console.log("Iniciou");
+
+    const value = event.target.value.toString();
+    console.log("Valor digitado:", value);
+
     if (/^\d*$/.test(value)) {
       setComandaPulseira(value);
+      console.log("chegou no teste");
+    } else {
+      console.log("Valor rejeitado:", value);
     }
+
+    console.log("fim");
   };
 
   return (
@@ -534,6 +544,7 @@ const Products = (data: Props) => {
                 inputRef={inputRefComandaPulseira}
                 type="text"
                 onChange={handleComandaChange}
+                //onLoad={handleComandaChange}
                 label="Informe a Comanda/Pulseira "
                 fullWidth
                 margin="normal"
