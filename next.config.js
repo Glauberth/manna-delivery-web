@@ -20,6 +20,12 @@ const nextConfig = {
         // port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "www.mannatech.com.br",
+        // port: "",
+        pathname: "/**",
+      },
     ],
     imageSizes: [16, 32, 48, 64, 96],
     minimumCacheTTL: 60 * 5, // tempo em segundos. 5 minutos

@@ -36,7 +36,11 @@ const Image = ({ src, alt, fallback }: ProductImg) => {
         height={100}
         placeholder="blur"
         blurDataURL="/assets/img/sem-foto.png"
-
+        style={{
+          // objectFit: "contain",
+          borderRadius: "15px",
+        }}
+        // sizes="50px"
         // sizes="(max-width: 100px) 100vw"
       />
     </>
@@ -54,45 +58,49 @@ export default function BannerProductItem({ data }: Props) {
 
   return (
     <Link href={`/${tenant?.slug}/product/${data.CODPRODUTO}`}>
-      <a id={"l" + data.CODGRUPO.toString()}>
-        <div className={styles.container}>
-          <div className={styles.info}>
-            <div className={styles.catName}>{data.NOME}</div>
-            <div className={styles.name}>{data.DESCRICAO.length < 20 ? data.DESCRICAO : `${data.DESCRICAO.slice(0, 20)}...`}</div>
-            <div className={styles.description}>{data.OBSERVACAO && `${data.OBSERVACAO?.slice(0, 20)}...`}</div>
-            <div style={{ display: "flex", gap: 5, alignItems: "flex-end" }}>
-              {data.PRECOPROMO && (
-                <div className={styles.price} style={{ color: tenant?.mainColor }}>
-                  {formatter.formatPrice(data.PRECOPROMO)}
-                </div>
-              )}
-              <div
-                className={styles.price}
-                style={{
-                  color: data.PRECOPROMO ? "#7171718f" : tenant?.mainColor,
-                  textDecoration: data.PRECOPROMO ? "line-through" : "none",
-                  fontSize: data.PRECOPROMO && 12,
-                }}
-              >
-                {formatter.formatPrice(data.PRECOVENDA)}
+      {/* <a id={"l" + data.CODGRUPO.toString()}> */}
+
+      <div
+        className={styles.productImage}
+        style={{
+          opacity: data.URLIMAGE == "/assets/img/sem-foto.png" ? "0.2" : "1",
+          padding: "10px",
+          maxWidth: "100%",
+          height: "100px",
+          margin: "auto",
+        }}
+      >
+        <Image
+          src={data.URLIMAGE ? data.URLIMAGE : "/assets/img/sem-foto.png"}
+          alt="imagemproduto"
+          fallback={<span>img não existe</span>}
+        />
+      </div>
+      <div className={styles.container}>
+        <div className={styles.info}>
+          {/* <div className={styles.catName}>{data.NOME}</div> */}
+          <div className={styles.name}>{data.DESCRICAO.length < 20 ? data.DESCRICAO : `${data.DESCRICAO.slice(0, 20)}...`}</div>
+          {/* <div className={styles.description}>{data.OBSERVACAO && `${data.OBSERVACAO?.slice(0, 20)}...`}</div> */}
+          <div style={{ display: "flex", gap: 5, alignItems: "flex-end" }}>
+            {data.PRECOPROMO && (
+              <div className={styles.price} style={{ color: tenant?.mainColor }}>
+                {formatter.formatPrice(data.PRECOPROMO)}
               </div>
+            )}
+            <div
+              className={styles.price}
+              style={{
+                color: data.PRECOPROMO ? "#7171718f" : tenant?.mainColor,
+                textDecoration: data.PRECOPROMO ? "line-through" : "none",
+                fontSize: data.PRECOPROMO && 12,
+              }}
+            >
+              {formatter.formatPrice(data.PRECOVENDA)}
             </div>
           </div>
-          <div
-            className={styles.productImage}
-            style={{
-              opacity: data.URLIMAGE == "/assets/img/sem-foto.png" ? "0.2" : "1",
-            }}
-          >
-            <Image
-              src={data.URLIMAGE ? data.URLIMAGE : "/assets/img/sem-foto.png"}
-              //base64={data.foto!}
-              alt="imagemproduto"
-              fallback={<span>img não existe</span>}
-            />
-          </div>
         </div>
-      </a>
+      </div>
+      {/* </a> */}
     </Link>
   );
 }

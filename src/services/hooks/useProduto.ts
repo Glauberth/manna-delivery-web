@@ -70,6 +70,39 @@ export async function getOneProduct(tenantSlug: string, idProduct: number): Prom
   return result;
 }
 
+export async function getProductsDestaque(tenantSlug: string): Promise<Product[]> {
+  const dataAtual = new Date().toLocaleDateString("pt-Br", dateConfig);
+
+  let prods: Product[] = [];
+
+  const produtos: Product[] = await api
+    .get(`/products/destaque/${tenantSlug}`)
+    .then((res) => {
+      try {
+        const product: Product[] = res.data.map((item: Product) => {
+          return {
+            ...item,
+            URLIMAGE: item.URLIMAGE ? item.URLIMAGE : "/assets/img/sem-foto.png",
+          };
+        });
+
+        return product;
+      } catch (error) {
+        console.log(`${dataAtual} Erro no map do getProdutos Products by Manná:  ${(error as Error).message}`);
+      }
+
+      return prods;
+    })
+    .catch((error) => {
+      console.log(` ${dataAtual} - ${tenantSlug} - Erro Get Products by Manná: ${(error as Error).message}`);
+      return [];
+    });
+
+  console.log("Produtos em destaque: ", produtos);
+
+  return produtos ? produtos : [];
+}
+
 export function useProducts(tenantSlug: string) {
   return useQuery(["produtos", 1], () => getProdutos(tenantSlug), {
     staleTime: 1000 * 30,
@@ -78,6 +111,12 @@ export function useProducts(tenantSlug: string) {
 
 export function useProduct(tenantSlug: string, idProduct: number) {
   return useQuery(["produto", idProduct], () => getOneProduct(tenantSlug, idProduct), {
+    staleTime: 1000 * 30,
+  });
+}
+
+export function useProductsDestaque(tenantSlug: string) {
+  return useQuery(["produtosDestaque", tenantSlug], () => getProductsDestaque(tenantSlug), {
     staleTime: 1000 * 30,
   });
 }
