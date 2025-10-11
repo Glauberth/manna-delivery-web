@@ -11,7 +11,7 @@ import { Group } from "../../src/types/Group";
 import { Product } from "../../src/types/Products";
 import { Tenant } from "../../src/types/Tenent";
 import { User } from "../../src/types/User";
-import { useProducts } from "../../src/services/hooks/useProduto";
+import { useProducts, useProductsDestaque } from "../../src/services/hooks/useProduto";
 import { useGrupos } from "../../src/services/hooks/useGrupo";
 import { autorizeToken } from "../../src/services/hooks/useToken";
 import { getTenant } from "../../src/services/hooks/useTenant";
@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 import Skeleton from "../../src/components/Skeleton/Skeleton";
 import GrupoSlider from "../../src/components/GrupoSlider";
 import { useTenantStore } from "../../src/store/TenantStore";
+import Banner from "../../src/components/Banner";
 
 // import Banner from "../../src/components/Banner";
 // import { queryClient } from "../../services/queryClient";
@@ -38,6 +39,13 @@ const Home = (data: Props) => {
     isLoading: isLoadingProdutos,
     isFetching: isFetchingProdutos,
   } = useProducts(data.tenant.slug);
+
+  const {
+    data: produtosDestaqueQuery,
+    error: ErrorProdutosDestaque,
+    isLoading: isLoadingProdutosDestaque,
+    isFetching: isFetchingProdutosDestaque,
+  } = useProductsDestaque(data.tenant.slug);
 
   const {
     data: gruposQuery,
@@ -176,7 +184,9 @@ const Home = (data: Props) => {
           <SearchInput onSearch={handleSearch} />
         </div>
       </header>
-      {/* <Banner data={falta carregar os produtos em oferta aqui...} /> */}
+
+      {produtosDestaqueQuery && produtosDestaqueQuery.length > 0 && <Banner data={produtosDestaqueQuery} />}
+
       {searchText && (
         <>
           <div className={styles.searchText}>
