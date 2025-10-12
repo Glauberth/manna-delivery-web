@@ -98,8 +98,6 @@ export async function getProductsDestaque(tenantSlug: string): Promise<Product[]
       return [];
     });
 
-  console.log("Produtos em destaque: ", produtos);
-
   return produtos ? produtos : [];
 }
 

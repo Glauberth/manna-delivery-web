@@ -37,8 +37,7 @@ const Image = ({ src, alt, fallback }: ProductImg) => {
         placeholder="blur"
         blurDataURL="/assets/img/sem-foto.png"
         style={{
-          // objectFit: "contain",
-          borderRadius: "15px",
+          objectFit: "contain",
         }}
         // sizes="50px"
         // sizes="(max-width: 100px) 100vw"
@@ -52,9 +51,6 @@ export default function BannerProductItem({ data }: Props) {
   const [tenant] = useTenantStore((state) => [state.tenant]);
 
   const formatter = useFormatter();
-  // console.log(data.image);
-  // const isimg = useUtils();
-  // isimg.isImg(data.image);
 
   return (
     <Link href={`/${tenant?.slug}/product/${data.CODPRODUTO}`}>
