@@ -1,6 +1,6 @@
 import { Group } from "../../types/Group";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper";
+import { Autoplay, Pagination } from "swiper";
 import styles from "./styles.module.css";
 import "swiper/css";
 import "swiper/css/effect-fade";
@@ -19,8 +19,12 @@ export default function GrupoSlider({ data }: Props) {
           delay: 2500,
           disableOnInteraction: true,
         }}
-        modules={[Autoplay]}
+        pagination={{
+          clickable: true,
+        }}
+        modules={[Autoplay, Pagination]}
         className={styles.swiper}
+        style={{ height: 80 }}
       >
         {data.map((item, index) => (
           <SwiperSlide key={index} className={styles.slide}>

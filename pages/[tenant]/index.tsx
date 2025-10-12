@@ -111,7 +111,7 @@ const Home = (data: Props) => {
     }
 
     setFilteredProducts(newFilteredProducts);
-  }, [searchText]);
+  }, [searchText, produtosQuery]);
 
   useEffect(() => {
     setTenant(data.tenant);
@@ -134,7 +134,7 @@ const Home = (data: Props) => {
       </Head>
       <header className={styles.header} style={{ backgroundColor: data.tenant.secondColor }}>
         <div>
-          <p className={styles.obsHeader} style={{ color: data.tenant.mainColor }}>
+          <p className={styles.obsHeader} style={{ color: data.tenant.mainColor, paddingBottom: "10px", textAlign: "center" }}>
             {data.tenant.obs}
           </p>
         </div>
