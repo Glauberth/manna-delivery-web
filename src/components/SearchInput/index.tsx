@@ -31,7 +31,7 @@ export default function SearchInput({ onSearch }: Props) {
 
       <input
         type="text"
-        placeholder="Digte para pesquisar"
+        placeholder="Digite para pesquisar"
         className={styles.input}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}

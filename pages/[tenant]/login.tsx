@@ -39,22 +39,23 @@ const Login = (data: Props) => {
     setToken("1234");
     setUser({
       name: "Glauberth",
-      email: "glauberth.sampaio@hotmail.com",
+      email: email,
     });
-    console.log("teste");
-    // router.push(`/${data.tenant.slug}`);
+    // console.log("teste");
+    router.push(`/${data.tenant.slug}`);
   }
 
   function handleSignUp() {
+    console.log("handleSignUp");
     router.push(`/${data.tenant.slug}/signup`);
   }
 
   return (
     <div className={styles.container}>
       <Head>
-        {/* esse Head é do Next mesmo, ai ele muda essas coisas de acordo com pag  */}
-        <title> Login | {data.tenant.name} </title>
-        {/* <link rel="icon" href={data.tenant.logo} /> */}
+        {/* <title>  */}
+        Login | {data.tenant.name}
+        {/* </title> */}
       </Head>
 
       <Header color={data.tenant.mainColor as string} backHref={`/${data.tenant.slug}`} />

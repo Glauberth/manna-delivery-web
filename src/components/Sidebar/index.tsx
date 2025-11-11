@@ -40,13 +40,7 @@ export const Sidebar = ({ tenant, open, onClose }: Props) => {
             )}
 
             {!user && (
-              <Button
-                disabled
-                color={tenant.mainColor}
-                label="Fazer Login"
-                onClick={() => router.push(`/${tenant.slug}/login`)}
-                fill
-              />
+              <Button color={tenant.mainColor} label="Fazer Login" onClick={() => router.push(`/${tenant.slug}/login`)} fill />
             )}
           </div>
 

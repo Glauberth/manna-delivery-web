@@ -1,7 +1,7 @@
 import { getCookie } from "cookies-next";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 // import { useAppContext } from "../../contexts/app";
 // import { useAuthContext } from "../../contexts/auth";
 import ProductItem from "../../src/components/ProductItem";
@@ -24,6 +24,8 @@ import Skeleton from "../../src/components/Skeleton/Skeleton";
 import GrupoSlider from "../../src/components/GrupoSlider";
 import { useTenantStore } from "../../src/store/TenantStore";
 import Banner from "../../src/components/Banner";
+import { useQueryClient } from "react-query";
+import { removeProductImage, updateProduct, uploadProductImage } from "../../src/services/hooks/useProduto";
 
 // import Banner from "../../src/components/Banner";
 // import { queryClient } from "../../services/queryClient";
@@ -61,6 +63,8 @@ const Home = (data: Props) => {
     state.setUser,
     state.setToken,
   ]);
+
+  console.log("user", user);
   // const { tenant, setTenant } = useAppContext();
 
   // const { user, setToken, setUser } = useAuthContext();
@@ -69,6 +73,10 @@ const Home = (data: Props) => {
 
   const [grupos, setGrupos] = useState<Group[] | undefined>(gruposQuery);
   const [products, setProducts] = useState<Product[] | undefined>(produtosQuery);
+  const [uploadingProductId, setUploadingProductId] = useState<number | null>(null);
+  const [selectedProductId, setSelectedProductId] = useState<number | null>(null);
+  const inputFileRef = useRef<HTMLInputElement>(null);
+  const queryClient = useQueryClient();
 
   function getProducts(category: string) {
     const prodCategory = products ? products.filter((res) => res.NOME == category) : [];
@@ -127,8 +135,49 @@ const Home = (data: Props) => {
     gruposQuery && setGrupos(gruposQuery);
   }, [gruposQuery]);
 
+  function handleOpenUpload(productId: number) {
+    setSelectedProductId(productId);
+    inputFileRef.current?.click();
+  }
+
+  async function handleFileSelected(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (!file || !selectedProductId) return;
+    try {
+      setUploadingProductId(selectedProductId);
+      const publicUrl = await uploadProductImage(file);
+      await updateProduct(data.tenant.slug, selectedProductId, publicUrl);
+      await Promise.all([
+        queryClient.invalidateQueries(["produtos", 1]),
+        queryClient.invalidateQueries(["produto", selectedProductId]),
+      ]);
+    } finally {
+      setUploadingProductId(null);
+      setSelectedProductId(null);
+      if (inputFileRef.current) inputFileRef.current.value = "";
+    }
+  }
+
+  async function handleRemoveImage(productId: number) {
+    try {
+      setUploadingProductId(productId);
+      await removeProductImage(data.tenant.slug, productId);
+      await Promise.all([queryClient.invalidateQueries(["produtos", 1]), queryClient.invalidateQueries(["produto", productId])]);
+    } finally {
+      setUploadingProductId(null);
+    }
+  }
+
   return (
     <div className={styles.container}>
+      <input
+        ref={inputFileRef}
+        type="file"
+        accept="image/*"
+        // capture="environment"
+        style={{ display: "none" }}
+        onChange={handleFileSelected}
+      />
       <Head>
         <title>{`Produtos | ${data.tenant.name}`}</title>
       </Head>
@@ -196,7 +245,14 @@ const Home = (data: Props) => {
           {filteredProducts.length > 0 && (
             <div className={styles.grid2}>
               {filteredProducts.map((item, index) => (
-                <ProductItem key={index} data={item} />
+                <ProductItem
+                  key={index}
+                  data={item}
+                  showImageActions={tenant.slug == "manna_glauberth"}
+                  onUploadImage={() => handleOpenUpload(item.CODPRODUTO)}
+                  onRemoveImage={() => handleRemoveImage(item.CODPRODUTO)}
+                  imageActionLoading={uploadingProductId === item.CODPRODUTO}
+                />
               ))}
             </div>
           )}
@@ -220,7 +276,20 @@ const Home = (data: Props) => {
                     <div className={styles.categoryName} style={{ backgroundColor: tenant?.mainColor }}>
                       {itemGrupo.NOMEGRUPOAPP}
                     </div>
-                    {getProducts(itemGrupo.NOME).map((item) => item && <ProductItem key={item.CODPRODUTO} data={item} />)}
+                    {getProducts(itemGrupo.NOME).map(
+                      (item) =>
+                        item && (
+                          <div key={item.CODPRODUTO}>
+                            <ProductItem
+                              data={item}
+                              showImageActions={tenant.slug == "manna_glauberth"}
+                              onUploadImage={() => handleOpenUpload(item.CODPRODUTO)}
+                              onRemoveImage={() => handleRemoveImage(item.CODPRODUTO)}
+                              imageActionLoading={uploadingProductId === item.CODPRODUTO}
+                            />
+                          </div>
+                        )
+                    )}
                   </div>
                 ))}
               </div>

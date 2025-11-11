@@ -70,6 +70,51 @@ export async function getOneProduct(tenantSlug: string, idProduct: number): Prom
   return result;
 }
 
+export async function updateProduct(tenantSlug: string, idProduct: number, urlImage: string): Promise<Product | null> {
+  console.log("requisitou Api Produto");
+  console.log(tenantSlug, idProduct, urlImage);
+  const dataAtual = new Date().toLocaleDateString("pt-Br", dateConfig);
+
+  const result: Product | null = await api
+    .put<Product>(`/products/${tenantSlug}/${idProduct}`, { urlImage })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      console.log(` ${dataAtual} - ${tenantSlug} - Erro ao Gravar a Url da Imagem do Produto:  ${(error as Error).message}`);
+      return null;
+    });
+
+  return result;
+}
+
+// Upload externo da imagem para o servidor público e retorna a URL pública
+export async function uploadProductImage(file: File): Promise<string> {
+  const formData = new FormData();
+  formData.append("doc", file);
+
+  const response = await fetch("https://fileupload.mannatech.com.br/upload", {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error(`Falha no upload (${response.status})`);
+  }
+
+  const json = (await response.json()) as { fileName?: string };
+  if (!json?.fileName) {
+    throw new Error("Resposta inválida do servidor de upload");
+  }
+
+  return `https://fileupload.mannatech.com.br/files/${json.fileName}`;
+}
+
+// Remove a imagem (persiste string vazia)
+export async function removeProductImage(tenantSlug: string, idProduct: number): Promise<Product | null> {
+  return await updateProduct(tenantSlug, idProduct, "");
+}
+
 export async function getProductsDestaque(tenantSlug: string): Promise<Product[]> {
   const dataAtual = new Date().toLocaleDateString("pt-Br", dateConfig);
 

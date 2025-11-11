@@ -79,6 +79,8 @@ const Products = (data: Props) => {
     buttonsStyling: true,
   });
 
+  // Removido: upload/remoção de imagem nesta página; funcionalidade centralizada na listagem
+
   function handleAction() {
     const combosGruposObrigatorios = produtoQuery?.COMBO?.filter((comboGrupo) => comboGrupo.obrigatorio == 1);
 
