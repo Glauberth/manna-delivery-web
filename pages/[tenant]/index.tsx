@@ -64,6 +64,8 @@ const Home = (data: Props) => {
     state.setToken,
   ]);
 
+  const adminEmails = ["jandess1@hotmail.com", "glauberth.sampaio@hotmail.com"];
+  const isAdminUser = !!user && adminEmails.includes(user.email);
   console.log("user", user);
   // const { tenant, setTenant } = useAppContext();
 
@@ -248,7 +250,7 @@ const Home = (data: Props) => {
                 <ProductItem
                   key={index}
                   data={item}
-                  showImageActions={tenant.slug == "manna_glauberth"}
+                  showImageActions={isAdminUser}
                   onUploadImage={() => handleOpenUpload(item.CODPRODUTO)}
                   onRemoveImage={() => handleRemoveImage(item.CODPRODUTO)}
                   imageActionLoading={uploadingProductId === item.CODPRODUTO}
@@ -282,7 +284,7 @@ const Home = (data: Props) => {
                           <div key={item.CODPRODUTO}>
                             <ProductItem
                               data={item}
-                              showImageActions={tenant.slug == "manna_glauberth"}
+                              showImageActions={isAdminUser}
                               onUploadImage={() => handleOpenUpload(item.CODPRODUTO)}
                               onRemoveImage={() => handleRemoveImage(item.CODPRODUTO)}
                               imageActionLoading={uploadingProductId === item.CODPRODUTO}
