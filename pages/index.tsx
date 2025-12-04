@@ -9,7 +9,8 @@ import { useRouter } from "next/navigation";
 const Home: NextPage = () => {
   const { data, error, isLoading, isFetching } = useTenants();
   const router = useRouter();
-  console.log("Renderizou o Index.tsx");
+  const env = process.env.NEXT_PUBLIC_AMBIENTE;
+  console.log("env", env);
   async function handleClickImage(tenantSlug: string) {
     await queryClient.invalidateQueries("grupos");
     await queryClient.invalidateQueries("produtos");
@@ -27,6 +28,19 @@ const Home: NextPage = () => {
       <main className={styles.main}>
         {data &&
           data.map((item, index) => {
+            //Profissional
+            const isDev = env !== "development";
+            const isBlockSlug = ["manna_glauberth", "teste"].includes(item.slug);
+
+            if (isDev && isBlockSlug) {
+              return null; // não mostra
+            }
+
+            //Amador
+            // if (env !== "development" && (item.slug === "manna_glauberth" || item.slug === "teste")) {
+            //   return null; // não mostra
+            // }
+
             return (
               <div key={index}>
                 <NextImage
