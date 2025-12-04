@@ -29,10 +29,10 @@ const Home: NextPage = () => {
         {data &&
           data.map((item, index) => {
             //Profissional
-            const isDev = env !== "development";
+            const isProd = env !== "development";
             const isBlockSlug = ["manna_glauberth", "teste"].includes(item.slug);
 
-            if (isDev && isBlockSlug) {
+            if (isProd && isBlockSlug) {
               return null; // não mostra
             }
 
