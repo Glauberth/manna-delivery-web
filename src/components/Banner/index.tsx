@@ -32,7 +32,7 @@ export default function Banner({ data }: Props) {
           clickable: true,
         }}
         modules={[Autoplay, Pagination]}
-        style={{ height: 260 }}
+        style={{ height: 300 }}
       >
         {data &&
           data.length > 0 &&

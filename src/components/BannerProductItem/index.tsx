@@ -60,10 +60,12 @@ export default function BannerProductItem({ data }: Props) {
         className={styles.productImage}
         style={{
           opacity: data.URLIMAGE == "/assets/img/sem-foto.png" ? "0.2" : "1",
-          padding: "10px",
-          maxWidth: "100%",
-          height: "100px",
+          padding: "5px",
+          height: "150px",
+          width: "150px",
           margin: "auto",
+          // overflow: "hidden",
+          borderRadius: "50px",
         }}
       >
         <Image
