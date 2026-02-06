@@ -27,22 +27,23 @@ const Image = ({ src, alt, fallback }: ProductImg) => {
   return error ? (
     fallback
   ) : (
-    <>
+    <div className={styles.imageMask}>
       <NextImage
         src={src}
         alt={alt}
         onError={onError}
-        width={100}
-        height={100}
+        fill
+        sizes="100px"
         placeholder="blur"
         blurDataURL="/assets/img/sem-foto.png"
+        className={styles.image}
         style={{
-          objectFit: "contain",
+          objectFit: "cover",
         }}
         // sizes="50px"
         // sizes="(max-width: 100px) 100vw"
       />
-    </>
+    </div>
   );
 };
 
@@ -60,12 +61,12 @@ export default function BannerProductItem({ data }: Props) {
         className={styles.productImage}
         style={{
           opacity: data.URLIMAGE == "/assets/img/sem-foto.png" ? "0.2" : "1",
-          padding: "5px",
-          height: "150px",
-          width: "150px",
-          margin: "auto",
+          // padding: "5px",
+          // height: "100px",
+          // width: "100px",
+          // margin: "auto",
           // overflow: "hidden",
-          borderRadius: "50px",
+          // borderRadius: "15px",
         }}
       >
         <Image

@@ -7,7 +7,7 @@
   border-radius: 8px;
   overflow: hidden;
   margin-bottom: 8px;
-  height: 70px;
+  height: 60px;
 }
 
 .head {
@@ -38,17 +38,36 @@
 }
 
 .productImage {
-  margin-right: 10px;
+  padding: 5px;
+  /* margin-right: 10px; */
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
-  width: 14rem;
+  margin: auto;
+  /* width: 14rem; */
+  border-radius: 15px;
+  overflow: hidden;
 }
 
 .productImage img {
   border-radius: 15px;
   object-fit: cover;
   object-position: center;
+}
+
+.imageMask {
+  width: 150px;
+  height: 150px;
+  border-radius: 15px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.image {
+  border-radius: 15px;
 }
 
 .info .catName {
