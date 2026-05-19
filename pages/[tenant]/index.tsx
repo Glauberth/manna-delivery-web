@@ -290,7 +290,7 @@ const Home = (data: Props) => {
                               imageActionLoading={uploadingProductId === item.CODPRODUTO}
                             />
                           </div>
-                        )
+                        ),
                     )}
                   </div>
                 ))}
@@ -329,6 +329,15 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug } = context.query;
+
+  if (typeof tenantSlug === "string" && (tenantSlug.endsWith(".php") || tenantSlug.includes("."))) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
 
   const tenant = await getTenant(tenantSlug as string);
 
